@@ -1,0 +1,391 @@
+<?php
+/**
+ * @file
+ * Convert clio CSV to row-based CSV
+ */
+
+include('src/array_column.php');
+ 
+// TODO install file to create countries and indicators
+
+
+// The maximum value from a CSV allowed in the database.
+define('CLIO_MAX_VALUE', 32000);
+define('CLIO_DELIMITER', ',');
+
+/**
+ * Implements hook_menu().
+ */
+function clio_convert_menu() {
+  // Add tab to resource.
+  $items['node/%node/clioconvert'] = array(
+    'title' => 'Convert',
+    'page callback' => 'clio_convert_convert',
+    'page arguments' => array(1),
+    // Only if field_clio_format = xls
+    'access callback' => 'clio_convert_convert_access',
+    'access arguments' => array(1),
+    'weight' => '18',
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+
+/**
+ * Access callback for convert tab. (OF feeds_access gebruiken?)
+ * Show tab only on uploaded xsl, xlsx or csv files.
+ */
+// TODO if (clio-format) and (not yet converted) and (convert permission)
+function clio_convert_convert_access($node) {
+  if ($file = dkan_datastore_file_field($node)) { //die werkt ook bij gelinkte files
+    if (in_array($file->filemime, 
+          array('text/csv', 
+                'application/vnd.ms-excel', 
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+               ))) {
+      return node_access('view', $node);
+    }
+  }
+  return FALSE;
+}
+
+
+/**
+ * Determines status of datastore attached to resource node. samenvoegen met _access?
+ */
+function clio_convert_status($node) {
+  if ($file = dkan_datastore_file_field($node)) { //die werkt ook bij gelinkte files
+    if ($file->filemime == 'text/csv') {
+      if (dkan_datastore_records($node->nid)) {
+        return DKAN_DATASTORE_EXISTS;
+      }
+      else {
+        return DKAN_DATASTORE_FILE_EXISTS;
+      }
+    }
+    else {
+      return DKAN_DATASTORE_WRONG_TYPE;
+    }
+  }
+  return FALSE;
+}
+
+
+/**
+ * Convert and create a new resource.
+ */
+function clio_convert_convert($node) {
+
+//TODO error handling.
+
+  // Get the file.
+  $file = dkan_datastore_file_field($node);
+  $filepath = drupal_realpath($file->uri);
+  if ($file->filemime == 'text/csv') {
+    $data = clio_convert_read_csv($filepath);
+  }
+  else {
+    // We already checked whether it's excel
+    $data = clio_convert_read_excel($filepath);
+  }
+
+  // Convert to rows.
+  if (!empty($data) && ($newfile = clio_convert_to_row_based($data))) {
+    // Add new resource, based on existing one.
+    $nid = clio_convert_create_resource($node, $newfile);
+
+    // Display new resource.
+    drupal_set_message(t('The file is converted.'));
+    drupal_goto('node/'. $nid);
+  }
+  else {
+    // Return to original resource, allowing error messages.
+    drupal_set_message(t('The file could not be converted.'), 'error');
+    drupal_goto('node/'. $node->nid);
+  }
+}
+
+
+/**
+ * Convert to row-based CSV.
+ */
+function clio_convert_to_row_based($data) {
+  global $user;
+  // TODO if count($data) > ...
+  // TODO check output strings
+
+  if (!($indicator = clio_convert_get_indicator($data))) {
+    return;
+  }
+
+  if (!($unit = clio_convert_get_unit($data))) {
+    return;
+  }
+
+  if (!($years = clio_convert_get_years($data))) {
+    return;
+  }
+
+/*
+  if (!clio_convert_validate_countries($data)) {
+    return;
+  }
+*/
+  
+  // First create a temporary file.
+  $tempdir = file_directory_temp();
+  $newfilename = drupal_tempnam($tempdir, 'clio');
+
+  // Write the header with field names.
+  $filehandle = fopen($newfilename, 'w+');
+  $enclosure = '"';
+  $fields = array('indicator', 'unit', 'countrycode', 'year', 'value');
+  fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+
+  // Write the values[countrycode] = array[2..]
+  // $values = array();
+  foreach ($data as $row) {
+    if (isset($row) && ($row[0] != '')) {
+      $countrycode = $row[0];
+      $countryname = $row[1];
+      $values = array_slice($row, 2);
+      foreach ($years as $key => $year) {
+        // TODO wat als aantal years niet overeenkomt met aantal values?
+        $value = trim($values[$key]);
+        if (($value > CLIO_MAX_VALUE) or (preg_match('/hyperinflation/i', $value))) {
+          // or in_array($value, $array)?
+          $value = CLIO_MAX_VALUE;
+        }
+        $fields = array($indicator, $unit, $countrycode, $year, $value);
+        fputcsv($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+      }
+    }
+  }
+  
+  // Create a file object from temp file.
+  $filename = drupal_basename($newfilename);
+  $file = new stdClass();
+  $file->fid = NULL;
+  $file->uri = 'temporary://'. $filename;
+  $file->filename = $filename;
+  $file->filemime = 'text/csv';
+  $file->uid = $user->uid;
+  $file->status = FILE_STATUS_PERMANENT;
+  // Move to public.
+  $destination = 'public://'. $filename .'.csv';
+  $file_object = file_move($file, $destination, FILE_EXISTS_RENAME);
+
+  if (!empty($file_object)) {
+//    drupal_set_message(t('Saved CSV file to destination %destination', array('%destination' => $filename)));
+  }
+  else {
+    drupal_set_message(t('Failed to save CSV file'), 'error');
+    return;
+  }
+
+  return $file_object;
+}
+
+
+function clio_convert_get_indicator(&$data) {
+  // First cell on first line should contain indicator name.
+  $row = array_shift($data);
+  if (empty($row[0])) {
+    drupal_set_message(t('No indicator found.'), 'error');
+    return;
+  }
+  else {
+    $indicator = trim($row[0]);
+  }
+  // Is indicator a valid term?
+  // TODO lowercase?
+  if (!($indicator_tid = _get_term_from_name($indicator, 'indicators'))) {
+    drupal_set_message(t('Indicator not found: @indicator.', array('@indicator' => $indicator)), 'error');
+    return;
+  }
+  // TODO Is indicator the same as the one from the linked dataset?
+  return $indicator;
+}
+
+
+function clio_convert_get_unit(&$data) {
+  // First cell on second line should contain unit.
+  $row = array_shift($data);
+  if (is_null($row)) {
+    // TODO Is empty allowed?
+    drupal_set_message(t('No unit found.'), 'error');
+    return;
+  }
+  else {
+    $unit = trim($row[0]); 
+    // TODO evt. haakjes eraf?
+    // $unit = preg_replace('/^\(?(.+)\)?$/', '$1', $unit);
+  }
+  return $unit;
+}
+
+
+function clio_convert_get_years(&$data) {
+
+  // After zero or more empty lines: a header with years.
+  // Code;Continent, Region, Country;1500;1501;1502;1503;...
+  $row = NULL;
+  while (is_null($row) || ($row[0] == '')) {
+    $row = array_shift($data);
+  }
+  if (!(preg_match('/Code/i', $row[0]))) {
+    drupal_set_message(t('No code column found.'), 'error');
+    return;
+  }
+  if (!(preg_match('/Continent, Region, Country/i', $row[1]))) {
+    drupal_set_message(t('No country column found.'), 'error');
+    return;
+  }
+
+  $years = array_slice($row, 2);
+  // Are the years within range?
+  $possible_years = range(1500, date('Y'));
+  foreach ($years as $year) {
+    if (!(in_array($year, $possible_years))) {
+      drupal_set_message(t('Incorrect year: @year', array('@year' => $year)), 'error');
+      return;
+    }
+  }
+  return $years;
+}
+
+
+function clio_convert_validate_countries($data) {
+  $countries_vocab = taxonomy_vocabulary_machine_name_load('countries');
+  $countries_tree = taxonomy_get_tree($countries_vocab->vid, 0, NULL, TRUE);
+  $countries = array();
+  foreach ($countries_tree as $country) {
+    if (!empty($country->field_country_id)) {
+      $country_id = $country->field_country_id['und'][0]['value']; //und?
+      $country_code = !empty($country->field_country_code) ? $country->field_country_code['und'][0]['value'] : '';
+      $countries[$country_id] = array($country->name, $country->tid, $country_code);
+    }
+  }
+  
+  $countrycodes = array_column($data, 0);
+  $countrynames = array_column($data, 1);
+
+  foreach ($countrycodes as $key => $code) {
+    $name = $countrynames[$key];
+    if (!array_key_exists($code, $countries)) {
+      drupal_set_message(t('Incorrect country code: @code (@name).', array('@code' => $code, '@name' => $name)), 'error');
+      return FALSE;    
+    }
+    $realname = $countries[$code][0];
+    if ($name != $realname) {
+      drupal_set_message(t('Country name mismatch for code @code: found @name, should be @realname.', array('@code' => $code, '@name' => $name, '@realname' => $realname)), 'warning');
+    }  
+  }
+  return TRUE;
+}
+
+
+
+/*
+ *
+ */
+function clio_convert_create_resource($node, $file) {
+  $language = $node->language;
+  // Create a new resource.
+  $newnode = new stdClass();
+  $newnode->type = 'resource';
+  $newnode->language = $language;
+  // Assign defaults for node object
+  node_object_prepare($newnode); 
+  // Replace title and file
+  $newnode->title = $node->title .' (generic)';
+  // Tag with csv
+  $tid = _get_term_from_name('csv', 'format');
+  $newnode->field_format[$language][0]['tid'] = $tid; 
+  $newnode->field_dataset_ref[$language][0]['target_id'] = $node->field_dataset_ref[$language][0]['target_id'];
+  // TODO more? og? recline?
+  $newnode->field_upload[$language][0] = (array)$file;
+  node_save($newnode);
+  // TODO check success
+  $nid = $newnode->nid;
+  return $nid;
+}
+
+
+/*
+ * Read CSV file.
+ */
+function clio_convert_read_csv($csvfile, $delimiter = ',', $enclosure = '"') {
+  $filehandle = fopen($csvfile, 'r');
+  $rows = array();
+  while (!feof($filehandle) ) {
+	  $rows[] = fgetcsv($filehandle, 0, $delimiter, $enclosure);
+  }
+  fclose($filehandle);
+  return $rows;
+}
+
+/*
+ * Read Excel file.
+ */
+function clio_convert_read_excel($filename) {
+  module_load_include('inc', 'phpexcel');
+
+  $result = phpexcel_import($filename, FALSE, FALSE, array('setReadDataOnly' => array(TRUE)));
+  // $cells->setIterateOnlyExistingCells(TRUE); ?
+  if (is_array($result)) {
+    return $result[0];
+  }
+  // TODO On errors this should return empty array
+  else {
+    drupal_set_message(t("Error converting file: ") . $result, 'error');
+  }
+
+}
+
+/**
+* Return values instead of formulas.
+*
+*/
+function clio_convert_phpexcel_import($op, &$data, $phpexcel, $options, $column = NULL, $row = NULL) {
+  switch ($op) {
+    case 'post cell':
+      if (($column > 1) && ($row > 1)) {
+        try {
+          // TODO Reference to other files doesn't work. Resulting value is #REF!
+          $data = $phpexcel->getCalculatedValue();
+        } catch (Exception $e) {
+          // TODO Break after first error
+          drupal_set_message(t("Error converting cell: ") . $e->getMessage(), 'error');
+        }
+      }
+      break;
+  }
+}
+
+/**
+* Helper function to dynamically get the tid from the term_name
+*
+* @param $term_name Term name
+* @param $vocabulary_name Name of the vocabulary to search the term in
+*
+* @return Term id of the found term or else FALSE
+*/
+function _get_term_from_name($term_name, $vocabulary_name) {
+  if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_name)) {
+
+    // $csv = taxonomy_get_term_by_name($name, $vocabulary->vid);
+    // $tid = array_shift($result['taxonomy_term'])->tid;
+
+    $tree = taxonomy_get_tree($vocabulary->vid);
+    foreach ($tree as $term) {
+      if ($term->name == $term_name) {
+        return $term->tid;
+      }
+    }
+  }
+  return FALSE;
+}
+
+
