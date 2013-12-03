@@ -4,14 +4,21 @@
  * Convert clio CSV to row-based CSV
  */
 
+
+/**
+ * Implementation of function array_column() for PHP versions < 5.5.
+ */
 include('src/array_column.php');
  
-// TODO install file to create countries and indicators
+// TODO install file to create countries and indicators, 
+// or check for existence of these vocabularies.
 
 
 // The maximum value from a CSV allowed in the database.
 define('CLIO_MAX_VALUE', 32000);
+// CSV delimiter.
 define('CLIO_DELIMITER', ',');
+
 
 /**
  * Implements hook_menu().
@@ -22,7 +29,6 @@ function clio_convert_menu() {
     'title' => 'Convert',
     'page callback' => 'clio_convert_convert',
     'page arguments' => array(1),
-    // Only if field_clio_format = xls
     'access callback' => 'clio_convert_convert_access',
     'access arguments' => array(1),
     'weight' => '18',
@@ -33,12 +39,12 @@ function clio_convert_menu() {
 
 
 /**
- * Access callback for convert tab. (OF feeds_access gebruiken?)
+ * Access callback for convert tab.
  * Show tab only on uploaded xsl, xlsx or csv files.
  */
 // TODO if (clio-format) and (not yet converted) and (convert permission)
 function clio_convert_convert_access($node) {
-  if ($file = dkan_datastore_file_field($node)) { //die werkt ook bij gelinkte files
+  if ($file = dkan_datastore_file_field($node)) { //TODO will also show linked files
     if (in_array($file->filemime, 
           array('text/csv', 
                 'application/vnd.ms-excel', 
@@ -52,10 +58,10 @@ function clio_convert_convert_access($node) {
 
 
 /**
- * Determines status of datastore attached to resource node. samenvoegen met _access?
+ * Determines status of datastore attached to resource node. TODO combine with _access?
  */
 function clio_convert_status($node) {
-  if ($file = dkan_datastore_file_field($node)) { //die werkt ook bij gelinkte files
+  if ($file = dkan_datastore_file_field($node)) {
     if ($file->filemime == 'text/csv') {
       if (dkan_datastore_records($node->nid)) {
         return DKAN_DATASTORE_EXISTS;
@@ -113,7 +119,7 @@ function clio_convert_convert($node) {
 function clio_convert_to_row_based($data) {
   global $user;
   // TODO if count($data) > ...
-  // TODO check output strings
+  // TODO clean output strings
 
   if (!($indicator = clio_convert_get_indicator($data))) {
     return;
@@ -151,7 +157,7 @@ function clio_convert_to_row_based($data) {
       $countryname = $row[1];
       $values = array_slice($row, 2);
       foreach ($years as $key => $year) {
-        // TODO wat als aantal years niet overeenkomt met aantal values?
+        // TODO what if #years does not match #values?
         $value = trim($values[$key]);
         if (($value > CLIO_MAX_VALUE) or (preg_match('/hyperinflation/i', $value))) {
           // or in_array($value, $array)?
@@ -163,7 +169,7 @@ function clio_convert_to_row_based($data) {
     }
   }
   
-  // Create a file object from temp file.
+  // Create a file object from temporary file.
   $filename = drupal_basename($newfilename);
   $file = new stdClass();
   $file->fid = NULL;
@@ -188,6 +194,9 @@ function clio_convert_to_row_based($data) {
 }
 
 
+/**
+ * Validate indicator and remove from data array.
+ */
 function clio_convert_get_indicator(&$data) {
   // First cell on first line should contain indicator name.
   $row = array_shift($data);
@@ -209,6 +218,9 @@ function clio_convert_get_indicator(&$data) {
 }
 
 
+/**
+ * Validate unit and remove from data array.
+ */
 function clio_convert_get_unit(&$data) {
   // First cell on second line should contain unit.
   $row = array_shift($data);
@@ -219,17 +231,20 @@ function clio_convert_get_unit(&$data) {
   }
   else {
     $unit = trim($row[0]); 
-    // TODO evt. haakjes eraf?
+    // TODO Remove parentheses?
     // $unit = preg_replace('/^\(?(.+)\)?$/', '$1', $unit);
   }
   return $unit;
 }
 
 
+/**
+ * Validate years and remove from data array.
+ */
 function clio_convert_get_years(&$data) {
 
-  // After zero or more empty lines: a header with years.
-  // Code;Continent, Region, Country;1500;1501;1502;1503;...
+  // After zero or more empty lines a header with years, along this format:
+  // "Code","Continent, Region, Country",1500,1501,1502,1503,...
   $row = NULL;
   while (is_null($row) || ($row[0] == '')) {
     $row = array_shift($data);
@@ -256,6 +271,9 @@ function clio_convert_get_years(&$data) {
 }
 
 
+/**
+ * Validate country codes and names in data array.
+ */
 function clio_convert_validate_countries($data) {
   $countries_vocab = taxonomy_vocabulary_machine_name_load('countries');
   $countries_tree = taxonomy_get_tree($countries_vocab->vid, 0, NULL, TRUE);
@@ -288,7 +306,7 @@ function clio_convert_validate_countries($data) {
 
 
 /*
- *
+ * Create a new resource, cloning the existing one.
  */
 function clio_convert_create_resource($node, $file) {
   $language = $node->language;
@@ -304,7 +322,7 @@ function clio_convert_create_resource($node, $file) {
   $tid = _get_term_from_name('csv', 'format');
   $newnode->field_format[$language][0]['tid'] = $tid; 
   $newnode->field_dataset_ref[$language][0]['target_id'] = $node->field_dataset_ref[$language][0]['target_id'];
-  // TODO more? og? recline?
+  // TODO Copy more fields? og? recline?
   $newnode->field_upload[$language][0] = (array)$file;
   node_save($newnode);
   // TODO check success
@@ -326,6 +344,7 @@ function clio_convert_read_csv($csvfile, $delimiter = ',', $enclosure = '"') {
   return $rows;
 }
 
+
 /*
  * Read Excel file.
  */
@@ -337,12 +356,13 @@ function clio_convert_read_excel($filename) {
   if (is_array($result)) {
     return $result[0];
   }
-  // TODO On errors this should return empty array
+  // TODO On errors this should return an empty array.
   else {
     drupal_set_message(t("Error converting file: ") . $result, 'error');
   }
 
 }
+
 
 /**
 * Return values instead of formulas.
@@ -363,6 +383,7 @@ function clio_convert_phpexcel_import($op, &$data, $phpexcel, $options, $column 
       break;
   }
 }
+
 
 /**
 * Helper function to dynamically get the tid from the term_name
