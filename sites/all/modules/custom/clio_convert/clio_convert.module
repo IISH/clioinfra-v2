@@ -10,9 +10,6 @@
  */
 include('src/array_column.php');
  
-// TODO install file to create countries and indicators, 
-// or check for existence of these vocabularies.
-
 
 // The maximum value from a CSV allowed in the database.
 define('CLIO_MAX_VALUE', 32000);
@@ -39,12 +36,24 @@ function clio_convert_menu() {
 
 
 /**
- * Access callback for convert tab.
- * Show tab only on uploaded xsl, xlsx or csv files.
+ * Implements hook_permission().
  */
-// TODO if (clio-format) and (not yet converted) and (convert permission)
+function clio_convert_permission() {
+  return array(
+    'convert clio to csv' => array(
+      'title' => t('Convert Clio Infra formatted file to row-based CSV'),
+    ),
+  );
+}
+
+
+/**
+ * Access callback for convert tab.
+ * Show tab only on uploaded (or linked) xsl, xlsx or csv files.
+ */
+// TODO if (clio-format) and (not yet converted: link to row-based CSV is empty)
 function clio_convert_convert_access($node) {
-  if ($file = dkan_datastore_file_field($node)) { //TODO will also show linked files
+  if (user_access('convert clio to csv') && ($file = dkan_datastore_file_field($node))) { 
     if (in_array($file->filemime, 
           array('text/csv', 
                 'application/vnd.ms-excel', 
@@ -58,8 +67,9 @@ function clio_convert_convert_access($node) {
 
 
 /**
- * Determines status of datastore attached to resource node. TODO combine with _access?
+ * Determines status of datastore attached to resource node. 
  */
+// TODO Not yet converted for convert. Combine with _access?
 function clio_convert_status($node) {
   if ($file = dkan_datastore_file_field($node)) {
     if ($file->filemime == 'text/csv') {
@@ -83,7 +93,17 @@ function clio_convert_status($node) {
  */
 function clio_convert_convert($node) {
 
-//TODO error handling.
+// TODO Better error handling.
+
+  // Get the indicator from the linked dataset.
+  $indicator_tid = 0;
+  if (!empty($node->field_dataset_ref)) {
+    $dataset_nid = $node->field_dataset_ref['und'][0]['value'];
+    $dataset = node_load($dataset_nid);
+    if (!empty($dataset->field_indicator)) {
+      $indicator_tid = $dataset->field_indicator['und'][0]['value'];
+    }
+  }
 
   // Get the file.
   $file = dkan_datastore_file_field($node);
@@ -97,10 +117,12 @@ function clio_convert_convert($node) {
   }
 
   // Convert to rows.
-  if (!empty($data) && ($newfile = clio_convert_to_row_based($data))) {
+  if (!empty($data) && ($newfile = clio_convert_to_row_based($data, $indicator_tid)) {
     // Add new resource, based on existing one.
     $nid = clio_convert_create_resource($node, $newfile);
 
+    // TODO if in datastore then reset status; remove from store?
+    
     // Display new resource.
     drupal_set_message(t('The file is converted.'));
     drupal_goto('node/'. $nid);
@@ -116,28 +138,22 @@ function clio_convert_convert($node) {
 /**
  * Convert to row-based CSV.
  */
-function clio_convert_to_row_based($data) {
+function clio_convert_to_row_based($data, $tid) {
   global $user;
-  // TODO if count($data) > ...
-  // TODO clean output strings
+  // TODO Clean output strings.
 
-  if (!($indicator = clio_convert_get_indicator($data))) {
+  if (!($indicator = clio_convert_get_indicator($data, $tid))) {
     return;
   }
-
   if (!($unit = clio_convert_get_unit($data))) {
     return;
   }
-
   if (!($years = clio_convert_get_years($data))) {
     return;
   }
-
-/*
   if (!clio_convert_validate_countries($data)) {
     return;
   }
-*/
   
   // First create a temporary file.
   $tempdir = file_directory_temp();
@@ -197,7 +213,7 @@ function clio_convert_to_row_based($data) {
 /**
  * Validate indicator and remove from data array.
  */
-function clio_convert_get_indicator(&$data) {
+function clio_convert_get_indicator(&$data, $tid) {
   // First cell on first line should contain indicator name.
   $row = array_shift($data);
   if (empty($row[0])) {
@@ -208,12 +224,16 @@ function clio_convert_get_indicator(&$data) {
     $indicator = trim($row[0]);
   }
   // Is indicator a valid term?
-  // TODO lowercase?
-  if (!($indicator_tid = _get_term_from_name($indicator, 'indicators'))) {
+  $term = taxonomy_get_term_by_name($indicator, 'indicators');
+  if (empty($term)) {
     drupal_set_message(t('Indicator not found: @indicator.', array('@indicator' => $indicator)), 'error');
     return;
   }
-  // TODO Is indicator the same as the one from the linked dataset?
+  // Is indicator the same as the one from the linked dataset?
+  if ($term->tid != $tid) {
+    drupal_set_message(t('Indicator does not match dataset (@indicator1 vs @indicator2).', array('@indicator1' => $indicator, '@indicator2' => $term->name)), 'error');
+    return;
+  }
   return $indicator;
 }
 
@@ -231,8 +251,8 @@ function clio_convert_get_unit(&$data) {
   }
   else {
     $unit = trim($row[0]); 
-    // TODO Remove parentheses?
-    // $unit = preg_replace('/^\(?(.+)\)?$/', '$1', $unit);
+    // Remove parentheses
+    $unit = preg_replace('/^\(?(.+)\)?$/', '$1', $unit);
   }
   return $unit;
 }
@@ -279,6 +299,7 @@ function clio_convert_validate_countries($data) {
   $countries_tree = taxonomy_get_tree($countries_vocab->vid, 0, NULL, TRUE);
   $countries = array();
   foreach ($countries_tree as $country) {
+    // TODO Vocabulary 'countries' surely exists. We cannot be sure fields 'id' and 'code' exist.
     if (!empty($country->field_country_id)) {
       $country_id = $country->field_country_id['und'][0]['value']; //und?
       $country_code = !empty($country->field_country_code) ? $country->field_country_code['und'][0]['value'] : '';
@@ -294,10 +315,10 @@ function clio_convert_validate_countries($data) {
     if (!array_key_exists($code, $countries)) {
       drupal_set_message(t('Incorrect country code: @code (@name).', array('@code' => $code, '@name' => $name)), 'error');
       return FALSE;    
-    }
-    $realname = $countries[$code][0];
-    if ($name != $realname) {
-      drupal_set_message(t('Country name mismatch for code @code: found @name, should be @realname.', array('@code' => $code, '@name' => $name, '@realname' => $realname)), 'warning');
+     }
+    $countryname = $countries[$code][0];
+    if ($name != $countryname) {
+      drupal_set_message(t('Country name mismatch for code @code: found @name, should be @countryname.', array('@code' => $code, '@name' => $name, '@countryname' => $countryname)), 'warning');
     }  
   }
   return TRUE;
@@ -365,8 +386,7 @@ function clio_convert_read_excel($filename) {
 
 
 /**
-* Return values instead of formulas.
-*
+* Tell PHPExcel to return values instead of formulas.
 */
 function clio_convert_phpexcel_import($op, &$data, $phpexcel, $options, $column = NULL, $row = NULL) {
   switch ($op) {
