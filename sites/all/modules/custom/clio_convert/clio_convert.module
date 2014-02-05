@@ -98,10 +98,11 @@ function clio_convert_convert($node) {
   // Get the indicator from the linked dataset.
   $indicator_tid = 0;
   if (!empty($node->field_dataset_ref)) {
-    $dataset_nid = $node->field_dataset_ref['und'][0]['value'];
+    $dataset_nid = $node->field_dataset_ref['und'][0]['target_id'];
     $dataset = node_load($dataset_nid);
-    if (!empty($dataset->field_indicator)) {
-      $indicator_tid = $dataset->field_indicator['und'][0]['value'];
+    // TODO Rename to field_indicator
+    if (!empty($dataset->field_indicators)) {
+      $indicator_tid = $dataset->field_indicators['und'][0]['tid'];
     }
   }
 
@@ -117,7 +118,7 @@ function clio_convert_convert($node) {
   }
 
   // Convert to rows.
-  if (!empty($data) && ($newfile = clio_convert_to_row_based($data, $indicator_tid)) {
+  if (!empty($data) && ($newfile = clio_convert_to_row_based($data, $indicator_tid))) {
     // Add new resource, based on existing one.
     $nid = clio_convert_create_resource($node, $newfile);
 
@@ -214,6 +215,12 @@ function clio_convert_to_row_based($data, $tid) {
  * Validate indicator and remove from data array.
  */
 function clio_convert_get_indicator(&$data, $tid) {
+  // TODO Make field required and remove this.
+  if (empty($tid)) {
+    drupal_set_message(t('The dataset has no indicator.'), 'error');
+    return;
+  }
+
   // First cell on first line should contain indicator name.
   $row = array_shift($data);
   if (empty($row[0])) {
@@ -224,12 +231,18 @@ function clio_convert_get_indicator(&$data, $tid) {
     $indicator = trim($row[0]);
   }
   // Is indicator a valid term?
-  $term = taxonomy_get_term_by_name($indicator, 'indicators');
-  if (empty($term)) {
+  $terms = taxonomy_get_term_by_name($indicator, 'indicators');
+  if (empty($terms)) {
     drupal_set_message(t('Indicator not found: @indicator.', array('@indicator' => $indicator)), 'error');
     return;
   }
+  if (count($terms) > 1) {
+    drupal_set_message(t('Indicatorname not unique: @indicator.', array('@indicator' => $indicator)), 'error');
+    return;
+  }
+
   // Is indicator the same as the one from the linked dataset?
+  $term = array_shift($terms);
   if ($term->tid != $tid) {
     drupal_set_message(t('Indicator does not match dataset (@indicator1 vs @indicator2).', array('@indicator1' => $indicator, '@indicator2' => $term->name)), 'error');
     return;
@@ -252,7 +265,7 @@ function clio_convert_get_unit(&$data) {
   else {
     $unit = trim($row[0]); 
     // Remove parentheses
-    $unit = preg_replace('/^\(?(.+)\)?$/', '$1', $unit);
+    $unit = preg_replace('/^\((.+)\)$/', '$1', $unit);
   }
   return $unit;
 }
@@ -312,14 +325,19 @@ function clio_convert_validate_countries($data) {
 
   foreach ($countrycodes as $key => $code) {
     $name = $countrynames[$key];
-    if (!array_key_exists($code, $countries)) {
-      drupal_set_message(t('Incorrect country code: @code (@name).', array('@code' => $code, '@name' => $name)), 'error');
-      return FALSE;    
-     }
-    $countryname = $countries[$code][0];
-    if ($name != $countryname) {
-      drupal_set_message(t('Country name mismatch for code @code: found @name, should be @countryname.', array('@code' => $code, '@name' => $name, '@countryname' => $countryname)), 'warning');
-    }  
+    // Skip empty lines.
+    if (!(empty($code) and empty($name))) {
+      // TODO Country names and codes may change over time. Allow for old names? Warning instead of error?
+      // See http://unstats.un.org/unsd/methods/m49/m49alpha.htm
+      if (!array_key_exists($code, $countries)) {
+        drupal_set_message(t('Incorrect country code: @code (@name).', array('@code' => $code, '@name' => $name)), 'error');
+        return FALSE;
+       }
+      $countryname = $countries[$code][0];
+      if ($name != $countryname) {
+        drupal_set_message(t('Country name mismatch for code @code: found @name, should be @countryname.', array('@code' => $code, '@name' => $name, '@countryname' => $countryname)), 'warning');
+      }  
+    }
   }
   return TRUE;
 }

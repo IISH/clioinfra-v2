@@ -75,27 +75,27 @@ function clio_convert_install() {
     taxonomy_vocabulary_save($vocabulary);
     
     field_create_field(array(
-      'field_name' => 'country_id',
+      'field_name' => 'field_country_id',
       'type' => 'number_integer',
       'entity_types' => array('taxonomy_term'),
     ));
 
     field_create_field(array(
-      'field_name' => 'country_code',
+      'field_name' => 'field_country_code',
       'type' => 'text',
       'entity_types' => array('taxonomy_term'),
     ));
 
     field_create_field(array(
-      'field_name' => 'country_status',
+      'field_name' => 'field_country_status',
       'type' => 'number_integer',
       'entity_types' => array('taxonomy_term'),
     ));
 
     field_create_instance(array(
-      'field_name' => 'country_id',
+      'field_name' => 'field_country_id',
       'entity_type' => 'taxonomy_term',
-      'bundle' => 'country',
+      'bundle' => 'countries',
       'label' => "Country ID",
       'description' => t('The numerical ID.'),
       'widget' => array(
@@ -104,9 +104,9 @@ function clio_convert_install() {
     ));
     
     field_create_instance(array(
-      'field_name' => 'country_code',
+      'field_name' => 'field_country_code',
       'entity_type' => 'taxonomy_term',
-      'bundle' => 'country',
+      'bundle' => 'countries',
       'label' => "Country Code",
       'description' => t('The three-letter code.'),
       'widget' => array(
@@ -115,9 +115,9 @@ function clio_convert_install() {
     ));
     
     field_create_instance(array(
-      'field_name' => 'country_status',
+      'field_name' => 'field_country_status',
       'entity_type' => 'taxonomy_term',
-      'bundle' => 'country',
+      'bundle' => 'countries',
       'label' => "Country Status",
       'description' => t('...'),
       'widget' => array(
@@ -130,5 +130,17 @@ function clio_convert_install() {
 
   // TODO Resource fields: link naar row-based CSV
 
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ */
+function clio_convert_uninstall() {
+  $vocabularies = array('indicators','countries');
+  foreach ($vocabularies as $vocabulary) {
+    field_attach_delete_bundle('taxonomy_term', $vocabulary);
+  }
+  // Vocabularies themselves are not deleted.
 }
 
