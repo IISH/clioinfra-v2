@@ -13,7 +13,7 @@ projects[clio][type] = module
 projects[clio][subdir] = custom
 projects[clio][version] = 1.x
 projects[clio][download][type] = git
-projects[clio][download][url] = git@github.com:IISH/clioinfra-v2.git
+projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
 projects[clio][download][branch] = master
 
 ; Clio required modules
