@@ -43,48 +43,48 @@ projects[clio_statplanet][type] = module
 ; Clio required modules
 
 projects[better_exposed_filters][subdir] = contrib 
-projects[better_exposed_filters][version] = 7.x-3.0-beta4
+projects[better_exposed_filters][version] = 3.0-beta4
 projects[dkan_dataset][subdir] = contrib 
-projects[dkan_dataset][version] = 7.x-1.0-rc1
+projects[dkan_dataset][version] = 1.0-rc1
 projects[dkan_datastore][subdir] = contrib 
-projects[dkan_datastore][version] = 7.x-1.0-beta1
+projects[dkan_datastore][version] = 1.0-beta1
 projects[phpexcel][subdir] = contrib 
-projects[phpexcel][version] = 7.x-3.7
+projects[phpexcel][version] = 3.7
 projects[swfembed][subdir] = contrib 
-projects[swfembed][version] = 7.x-1.4
+projects[swfembed][version] = 1.4
 projects[term_reference_tree][subdir] = contrib 
-projects[term_reference_tree][version] = 7.x-1.10
+projects[term_reference_tree][version] = 1.10
 projects[uuid_features][subdir] = contrib 
-projects[uuid_features][version] = 7.x-1.0-alpha4
+projects[uuid_features][version] = 1.0-alpha4
 projects[views_expost][subdir] = contrib 
-projects[views_expost][version] = 7.x-1.1
+projects[views_expost][version] = 1.1
 projects[views_tree][subdir] = contrib 
-projects[views_tree][version] = 7.x-2.0
+projects[views_tree][version] = 2.0
 
 ; Clio site
 
 projects[ctools_automodal][subdir] = contrib 
-projects[ctools_automodal][version] = 7.x-1.1
+projects[ctools_automodal][version] = 1.1
 projects[features_extra][subdir] = contrib 
-projects[features_extra][version] = 7.x-1.0-beta1
+projects[features_extra][version] = 1.0-beta1
 projects[fontyourface][subdir] = contrib 
-projects[fontyourface][version] = 7.x-2.8
+projects[fontyourface][version] = 2.8
 projects[google_analytics][subdir] = contrib 
-projects[google_analytics][version] = 7.x-1.4
+projects[google_analytics][version] = 1.4
 projects[login_destination][subdir] = contrib 
-projects[login_destination][version] = 7.x-1.1
+projects[login_destination][version] = 1.1
 projects[menu_block][subdir] = contrib 
-projects[menu_block][version] = 7.x-2.3
+projects[menu_block][version] = 2.3
 projects[menu_trail_by_path][subdir] = contrib 
-projects[menu_trail_by_path][version] = 7.x-2.0
+projects[menu_trail_by_path][version] = 2.0
 projects[pathauto][subdir] = contrib 
-projects[pathauto][version] = 7.x-1.2
+projects[pathauto][version] = 1.2
 projects[transliteration][subdir] = contrib 
-projects[transliteration][version] = 7.x-3.2
+projects[transliteration][version] = 3.2
 projects[views_slideshow][subdir] = contrib 
-projects[views_slideshow][version] = 7.x-3.1
+projects[views_slideshow][version] = 3.1
 projects[wysiwyg][subdir] = contrib 
-projects[wysiwyg][version] = 7.x-2.2
+projects[wysiwyg][version] = 2.2
 
 ; Themes
 
