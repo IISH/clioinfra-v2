@@ -1,0 +1,147 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the clio_convert module.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ */
+function clio_convert_install() {
+
+  // Create a vocabulary named "Indicators", enabled for the 'dataset' content type.
+  if (!taxonomy_vocabulary_machine_name_load('indicators')) {
+
+    $description = t('Indicators.');
+    $vocabulary = (object) array(
+      'name' => t('Indicators'),
+      'description' => $description,
+      'machine_name' => 'indicators',
+      'hierarchy' => 1,
+    );
+    taxonomy_vocabulary_save($vocabulary);
+
+    $field = array(
+      'field_name' => 'field_' . $vocabulary->machine_name,
+      'type' => 'taxonomy_term_reference',
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => $vocabulary->machine_name,
+            'parent' => 0,
+            // TODO No topics, allow only child terms.
+          ),
+        ),
+      ),
+    );
+    field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'field_' . $vocabulary->machine_name,
+      'entity_type' => 'node',
+      'label' => 'Indicator',
+      'bundle' => 'dataset',
+      'description' => $description,
+      'required' => TRUE,
+      'widget' => array(
+//        'type' => 'taxonomy_autocomplete',
+        'type' => 'options_select',
+        'weight' => -4,
+      ),
+      'display' => array(
+        'default' => array(
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 10,
+        ),
+        'teaser' => array(
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 10,
+        ),
+      ),
+    );
+    field_create_instance($instance);
+
+  }
+
+  // Create a vocabulary named "Countries", with fields ID, Code and Status.
+  if (!taxonomy_vocabulary_machine_name_load('countries')) {
+
+    $description = t('Countries.');
+    $vocabulary = (object) array(
+      'name' => t('Countries'),
+      'description' => $description,
+      'machine_name' => 'countries',
+    );
+    taxonomy_vocabulary_save($vocabulary);
+    
+    field_create_field(array(
+      'field_name' => 'field_country_id',
+      'type' => 'number_integer',
+      'entity_types' => array('taxonomy_term'),
+    ));
+
+    field_create_field(array(
+      'field_name' => 'field_country_code',
+      'type' => 'text',
+      'entity_types' => array('taxonomy_term'),
+    ));
+
+    field_create_field(array(
+      'field_name' => 'field_country_status',
+      'type' => 'number_integer',
+      'entity_types' => array('taxonomy_term'),
+    ));
+
+    field_create_instance(array(
+      'field_name' => 'field_country_id',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'countries',
+      'label' => "Country ID",
+      'description' => t('The numerical ID.'),
+      'widget' => array(
+        'type' => 'text_textfield',
+      ),
+    ));
+    
+    field_create_instance(array(
+      'field_name' => 'field_country_code',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'countries',
+      'label' => "Country Code",
+      'description' => t('The three-letter code.'),
+      'widget' => array(
+        'type' => 'text_textfield',
+      ),
+    ));
+    
+    field_create_instance(array(
+      'field_name' => 'field_country_status',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'countries',
+      'label' => "Country Status",
+      'description' => t('...'),
+      'widget' => array(
+        'type' => 'text_textfield',
+      ),
+    ));
+    
+  }
+
+
+  // TODO Resource fields: link naar row-based CSV
+
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ */
+function clio_convert_uninstall() {
+  $vocabularies = array('indicators','countries');
+  foreach ($vocabularies as $vocabulary) {
+    field_attach_delete_bundle('taxonomy_term', $vocabulary);
+  }
+  // Vocabularies themselves are not deleted.
+}
+

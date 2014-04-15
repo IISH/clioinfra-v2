@@ -1,0 +1,47 @@
+<?php
+
+/*
+ * Stap 0
+ * Vocabularies, vocabulary term values en content-types.
+ *
+ * In install-file.
+ * Feature clio_indicators_and_countries bevat vocabularies,
+ * clio_datapoint_and_data_views bevat o.a. content-type datapoint
+ */
+
+// Clio Infra will show data from 1500 to this year.
+define('CLIO_MAX_YEAR', 2013);
+
+/**
+ * Implements hook_menu().
+ *
+ * Creates a 'Clio Infra' section on the administration page for Clio
+ * modules to use for their configuration and settings.
+ */
+function clio_base_menu() {
+  $items['home'] = array(
+    'title' => 'Clio Infra',
+    'page callback' => 'clio_home',
+    'access arguments' => array('access content'),
+  );
+  $items['admin/config/clio'] = array(
+    'title' => 'Clio Infra',
+    'description' => 'Settings for Clio Infra modules.',
+    'position' => 'left',
+    'weight' => -10,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  return $items;
+}
+
+
+/*
+ * A completely empty home page, suitable to add blocks.
+ */
+function clio_home() {
+  return '';
+}
+

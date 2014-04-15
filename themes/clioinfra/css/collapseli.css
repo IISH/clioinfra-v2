@@ -1,0 +1,21 @@
+/**
+ * Collapsible lists.
+ *
+ * @see collapseli.js
+ */
+html.js li.collapsed {
+  border-bottom-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  height: 1.5em;
+}
+html.js li.collapsed ul {
+  display: none;
+}
+li.collapsible {
+  position: relative;
+}
+li.collapsible div {
+  display: block;
+}
+

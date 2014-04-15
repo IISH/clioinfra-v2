@@ -1,0 +1,383 @@
+<?php
+
+/*
+ * settings in admin/config/clio/statplanet:
+ *    settings.csv contains list of all country names (for display in country selector)
+ *    set vocabulary for topics/indicators
+ *    set noflash text
+ *    zip or csv
+ *    one data file or per topic
+ * create csv files in statplanet format
+ * point to all topic#.csv files
+ * use libraries
+ * 
+ * TODO use hook from clio_convert to set refresh when dataset file changes.
+ *
+ * Careful: Statplanet will look for a file data.csv or data.zip by default!
+ * Careful: Use DOS line endings.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function clio_statplanet_menu() {
+  $items['visualize'] = array(
+    'title' => 'Visualize',
+    'page callback' => 'clio_statplanet_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+  );
+  $items['admin/config/clio/visualize'] = array(
+    'title' => 'Statplanet',
+    'description' => t('Configure Statplanet for Clio Infra'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clio_statplanet_config_form'),
+    'access arguments' => array('administer site configuration'), // something else
+  );
+  return $items;
+}
+
+
+// TODO Add: vocabulary for categories/indicators, flash base path, settings(.csv)
+function clio_statplanet_config_form($form, &$form_state) {
+  $form = array();
+  $form['refresh'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Refresh'),
+  );
+  $form['refresh']['refresh_files'] = array(
+    '#type' => 'submit',
+    '#value' => t('Refresh Statplanet files'),
+    '#submit' => array('clio_statplanet_refresh_submit'),
+  );
+  $form['size'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Size'),
+  );
+  $form['size']['clio_statplanet_width'] = array(
+    '#type'  => 'textfield',
+    '#title' => t('Width'),
+    '#size' => 4,
+    '#description' => t('The width of the flash canvas.'),
+    '#default_value' => variable_get('clio_statplanet_width', 940),
+  );
+  $form['size']['clio_statplanet_height'] = array(
+    '#type'  => 'textfield',
+    '#title' => t('Height'),
+    '#size' => 4,
+    '#description' => t('The height of the flash canvas.'),
+    '#default_value' => variable_get('clio_statplanet_height', 640),
+  );
+  $form['clio_statplanet_path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subdirectory'),
+    '#default_value' => variable_get('clio_statplanet_path', ''),
+    '#maxlength' => 255,
+    '#description' => t('A subdirectory of the public file directory where Statplanet files will be stored.'),
+    '#after_build' => array('clio_statplanet_check_directory'),
+  );
+  return system_settings_form($form);
+}
+
+
+function clio_statplanet_refresh_submit(&$form_state) {
+  $bla = clio_statplanet_create_topic_files();
+  // To which page?
+  variable_set('clio_statplanet_refresh', FALSE);
+  drupal_set_message(t('Statplanet files refreshed.'));
+}
+
+
+/**
+ * Checks the existence of the directory specified in $form_element.
+ *
+ * @param $form_element
+ *   The form element containing the name of the directory to check.
+ * TODO check ook ctools met ctools subdir.
+ */
+function clio_statplanet_check_directory($form_element) {
+  $directory = $form_element['#value'];
+  if (strlen($directory) == 0) {
+    return $form_element;
+  }
+  $directory = variable_get('file_public_path', conf_path() . '/files') . '/' . $directory;
+
+  if (!is_dir($directory) && !drupal_mkdir($directory, NULL, TRUE)) {
+    // If the directory does not exists and cannot be created.
+    form_set_error($form_element['#parents'][0], t('The directory %directory does not exist and could not be created.', array('%directory' => $directory)));
+    watchdog('file system', 'The directory %directory does not exist and could not be created.', array('%directory' => $directory), WATCHDOG_ERROR);
+  }
+  return $form_element;
+}
+
+
+/*
+ * Check if Statplanet flash files are present.
+ */
+function clio_statplanet_check_statplanet() {
+  $subdir = variable_get('clio_statplanet_path', '');
+  $directory = variable_get('file_public_path', conf_path() . '/files');
+  if ($subdir) {
+    $directory .=  '/' . $subdir;
+  }
+  $path = drupal_get_path('module', 'clio_statplanet') . '/map';
+
+  if (!is_file($path . '/StatPlanet.swf') || !is_file($path . '/content.swf')) {
+    drupal_set_message(t('The Statplanet files are not present.'), 'error');
+    return;
+  }
+  // The file content.swf needs to reside in the flash base directory.
+  else if (!is_file($directory . '/content.swf') && !copy($path . '/content.swf', $directory . '/content.swf')) {
+    drupal_set_message(t('The Statplanet file could not be copied.'), 'error');
+    return;
+  }
+  return TRUE;
+}
+
+
+function clio_statplanet_page() {
+
+  if (!clio_statplanet_check_statplanet()) {
+    return;
+  }
+
+// print_r(clio_statplanet_create_category_files()); exit;
+
+  /*
+  if (variable_get('clio_statplanet_refresh', TRUE)) {
+    $files = clio_statplanet_create_topic_files();
+    // Now what?
+    // Do we need to register or recreate the data file as well?
+    variable_set('clio_statplanet_refresh', FALSE);
+  }
+  */
+  
+  $statpath = '/' . drupal_get_path('module', 'clio_statplanet') . '/map';
+  $datapath = '/'. variable_get('file_public_path', conf_path() . '/files');
+  $subdir = variable_get('clio_statplanet_path', '');
+  if ($subdir) {
+    $datapath .= '/' . $subdir;  
+  }
+
+  $data = $statpath . '/alldata0.csv';
+//  $data = clio_statplanet_create_data_file();
+  $noflash = '<a href="http://www.adobe.com/go/getflash">
+   				<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+   			</a>
+   			<p>This page requires Flash Player version 9.0.45 or higher.</p>';
+  $swf = new SWFObject($statpath . '/StatPlanet.swf');
+  $swf->param('allowFullScreen', 'true')
+      ->param('type','movie')
+      ->param('quality','high')
+      ->param('bgcolor','#ffffff')
+      ->param('play','true')
+      ->param('loop','true')
+      ->param('wmode','window')
+      ->param('scale','showall')
+      ->param('menu','true')
+      ->param('devicefont','false')
+      ->param('salign','')
+      ->param('allowscriptaccess','sameDomain')
+      ->param('base', $statpath)
+      ->flashVar('settings', $statpath . '/settings.csv')
+      ->flashVar('data', $data)
+      // ->flashVar('location', $indicator) // open at indicator
+      ->height(640)
+      ->width(940)
+      ->noFlash($noflash)
+      ->minimumVersion('9.0.45');
+  return theme('swfembed_embed', array('swf' => $swf));
+}
+
+
+/*
+ * Dynamically create data (or CSV file) with links to category files. This should work in Statplanet Plus 3.1 and higher.
+ * TODO cache this
+ */
+function clio_statplanet_create_data_file() {
+  $topics_vocab = taxonomy_vocabulary_machine_name_load('indicators');
+  $topics = taxonomy_get_tree($topics_vocab->vid, 0, 1, TRUE);
+  $countries = array_keys(clio_statplanet_get_country_codes());
+  $separator = ",";
+//  $rowseparator = "\n";
+  $rowseparator = ";";
+  $extension = "zip";
+  $datafiles  = "#". $separator . $rowseparator;
+  $datafiles .= "CATEGORY". $separator ."YEAR". $separator ."INDICATOR". $separator ."FILE"; // TODO More columns?
+  foreach ($countries as $code) {
+    $datafiles .= $separator . $code;
+  }
+  $i = 1;
+  foreach ($topics as $topic) {
+//    $filename = 'alldata' . $topic->tid . "." . $extension;
+    $filename = 'alldata' . $i . "." . $extension;
+    $i++;
+    $datafiles .= $rowseparator;
+//    $datafiles .= '"' . $topic->name . '"' . $separator . CLIO_MAX_YEAR . $separator . $separator . '"' . $filename . '"';
+    $datafiles .= $topic->name . $separator . CLIO_MAX_YEAR . $separator . $separator . $filename;
+    foreach (taxonomy_get_children($topic->tid) as $indicator) {
+//      $datafiles .= $rowseparator . $separator . $separator . '"' . $indicator->name . '"' . $separator . "#";
+      $datafiles .= $rowseparator . $separator . $separator . $indicator->name . $separator . "#";
+    }
+  }
+  return $datafiles;
+}
+
+
+/* 
+ * Create the category files, one topic per file. Zip 'em.
+ *
+ * @param $topics
+ *   An array of topic tids.
+ * @return
+ *   An array of paths to the zipped CSV files.
+ *
+ * TODO cache this
+ */
+function clio_statplanet_create_category_files($topics = NULL) {
+  global $user;
+  if (!$topics) {
+    $topics_vocab = taxonomy_vocabulary_machine_name_load('indicators');
+    $topics = taxonomy_get_tree($topics_vocab->vid, 0, 1, TRUE);
+  }
+  $countries = clio_statplanet_get_country_codes();
+  // TODO Save years in database?
+  $years = range(1500, CLIO_MAX_YEAR);
+  rsort($years);
+  $tempdir = file_directory_temp();
+  $enclosure = '"';
+  $files = array();
+  foreach ($topics as $topic) {
+  
+    $newfilename = drupal_tempnam($tempdir, 'stat');
+    $filehandle = fopen($newfilename, 'w+');
+    // Header
+    $fields = array_merge(array("CATEGORY", "YEAR", "INDICATOR"), array_keys($countries));
+    fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+
+    foreach (taxonomy_get_children($topic->tid) as $indicator) {
+      $values[$indicator->tid] = clio_statplanet_get_values($indicator->tid);
+    }
+    
+    $firstline = TRUE;
+    foreach ($years as $year) {
+      if ($firstline) {
+        $fields = array($topic->name, $year); // No empty cells needed?
+        $firstline = FALSE;
+      }
+      else {
+        $fields = array('', $year);
+      }
+      fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+      foreach (taxonomy_get_children($topic->tid) as $indicator) {
+        $fields = array('', '', $indicator->name);
+        foreach ($countries as $countrycode => $countryid) {
+          if (isset($values[$indicator->tid][$year][$countryid])) {
+            array_push($fields, $values[$indicator->tid][$year][$countryid]);
+          }
+          else {
+            array_push($fields, '');
+          }
+        }
+        fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+      }
+    }
+
+    // Create a file object from temp file.
+    // TODO Use subdir.
+    $filename = drupal_basename($newfilename);
+    $file = new stdClass();
+    $file->uri = 'temporary://'. $filename;
+    $file->filename = $filename;
+    $file->filemime = 'text/csv';
+    $file->uid = $user->uid;
+    $file->status = FILE_STATUS_PERMANENT;
+    // TODO Hier klopt niets van: file_move gaat zo niet goed.
+    // Move to public.
+    $file = file_save($file);
+    $filename2 = 'alldata'. $topic->tid .'.csv';
+    $destination = 'public://' . $filename2;
+    $file_object = file_move($file, $destination, FILE_EXISTS_REPLACE);
+    $file_object->filename = $filename2;
+
+    if (!empty($file_object)) {
+//      drupal_set_message(t('Saved CSV file to destination %destination', array('%destination' => $filename)));
+    }
+    else {
+      drupal_set_message(t('Failed to save CSV file'), 'error');
+    }
+
+    $files[] = $file_object;
+  }
+
+  $zipfiles = array();
+  foreach ($files as $csvfile) {
+    $csvfilename = preg_replace('/csv$/', 'zip', $csvfile->filename);
+    $zipfiles[] = clio_search_create_zip(array(drupal_realpath($csvfile->uri)), $csvfilename);
+  }
+  return $zipfiles;
+}
+
+
+function clio_statplanet_get_values($indicatortid, $years = array(), $countries = array()) {
+  $datasetnid = clio_search_get_dataset($indicatortid);
+  if ($datasetnid) {
+    $resourcenid = clio_search_get_resource($datasetnid);
+    if ($resourcenid) {
+      $data  = clio_search_db_query($resourcenid, $years, $countries);
+      if ($datarow = $data->fetchAssoc()) {
+        $values = array();
+        // Get unit from first row.
+        // $unit = (isset($datarow['unit'])) ? $datarow['unit'] : NULL;
+        do {
+          if (isset($datarow['value'])) {
+            $values[$datarow['year']][$datarow['countrycode']] = $datarow['value'];
+          }
+        } while ($datarow = $data->fetchAssoc());
+        return $values;
+      }
+    }
+  }
+}
+
+
+function clio_statplanet_get_country_codes() {
+  $countries_vocab = taxonomy_vocabulary_machine_name_load('countries');
+  $countries = taxonomy_get_tree($countries_vocab->vid, 0, NULL, TRUE);
+  $codes = array();
+  foreach ($countries as $country) {
+    if (!empty($country->field_country_code) && !empty($country->field_country_id)) {
+      $codes[$country->field_country_code['und'][0]['value']] = $country->field_country_id['und'][0]['value'];
+    }
+  }
+  ksort($codes);
+  return $codes;
+}
+
+
+/*
+ * Get a list of all topics with indicators, table names and Statplanet files.
+ */
+function clio_statplanet_get_categories() {
+  $categories = array();
+  $vocab = taxonomy_vocabulary_machine_name_load('indicators');
+  $topics = taxonomy_get_tree($vocab->vid, 0, 1);
+  foreach ($topics as $topic) {
+    $categories[$topic->tid]['name'] = $topic->name;
+    $categories[$topic->tid]['refresh'] = TRUE;
+    $children = taxonomy_get_children($topic->tid);
+    foreach ($children as $child) {
+      // $categories[$topic->tid]['indicators'][$child->tid] = $child->name;
+      $datasetnid = clio_search_get_dataset($child->tid);
+      if ($datasetnid) {
+        $resourcenid = clio_search_get_resource($datasetnid);
+        if ($resourcenid) {
+          // TODO Check if database table exists 
+          $tablename = 'feeds_datastore_dkan_file_' . $resourcenid;
+          $categories[$topic->tid]['indicators'][$child->tid] = array($tablename, $child->name);
+        }
+      }
+    }
+  }
+}
+

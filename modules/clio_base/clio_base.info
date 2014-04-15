@@ -1,0 +1,6 @@
+name = Clio Base
+description = Base module for Clio Infra, defining fields, views and vocabularies
+core = 7.x
+package = Clio Infra
+version = 7.x-1.0
+
