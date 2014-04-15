@@ -66,10 +66,10 @@ projects[wysiwyg][version] = 2.2
 
 projects[zen][version] = 5.1
 
-projects[clioinfra][type] = theme
-projects[clioinfra][download][type] = git
-projects[clioinfra][download][url] = git@github.com:IISH/drupal-theme-clioinfra.git
-projects[clioinfra][download][branch] = master
+projects[clioinfra][type] = "theme"
+projects[clioinfra][download][type] = "git"
+projects[clioinfra][download][url] = "git://github.com/IISH/drupal-theme-clioinfra.git"
+projects[clioinfra][download][branch] = "master"
 
 
 ; Libraries
