@@ -1,9 +1,0 @@
-name = Clio Infra Statplanet
-description = Visualize Clio Infra datasets using the Statplanet flash application.
-core = 7.x
-package = Clio Infra
-version = 7.x-1.0
-dependencies[] = clio_base
-dependencies[] = clio_search
-dependencies[] = swfembed
-

@@ -9,37 +9,12 @@ projects[drupal][version] = 7.26
 
 ; Clio custom modules
 
-projects[clio_base][subdir] = custom
-projects[clio_base][download][type] = git
-projects[clio_base][download][version] = 1.x
-projects[clio_base][download][url] = git://github.com/IISH/clioinfra-v2.git
-projects[clio_base][download][branch] = master
-projects[clio_base][download][subtree] = modules/clio_base
-projects[clio_base][type] = module
-
-projects[clio_convert][subdir] = custom
-projects[clio_convert][download][type] = git
-projects[clio_convert][download][version] = 1.x
-projects[clio_convert][download][url] = git://github.com/IISH/clioinfra-v2.git
-projects[clio_convert][download][branch] = master
-projects[clio_convert][download][subtree] = modules/clio_convert
-projects[clio_convert][type] = module
-
-projects[clio_search][subdir] = custom
-projects[clio_search][download][type] = git
-projects[clio_search][download][version] = 1.x
-projects[clio_search][download][url] = git://github.com/IISH/clioinfra-v2.git
-projects[clio_search][download][branch] = master
-projects[clio_search][download][subtree] = modules/clio_search
-projects[clio_search][type] = module
-
-projects[clio_statplanet][subdir] = custom
-projects[clio_statplanet][download][type] = git
-projects[clio_statplanet][download][version] = 1.x
-projects[clio_statplanet][download][url] = git://github.com/IISH/clioinfra-v2.git
-projects[clio_statplanet][download][branch] = master
-projects[clio_statplanet][download][subtree] = modules/clio_statplanet
-projects[clio_statplanet][type] = module
+projects[clio][type] = module
+projects[clio][subdir] = custom
+projects[clio][download][type] = git
+projects[clio][download][version] = 1.x
+projects[clio][download][url] = git@github.com:IISH/clioinfra-v2.git
+projects[clio][download][branch] = master
 
 ; Clio required modules
 
@@ -91,12 +66,11 @@ projects[wysiwyg][version] = 2.2
 
 projects[zen][version] = 5.1
 
+projects[clioinfra][type] = theme
 projects[clioinfra][download][type] = git
 projects[clioinfra][download][version] = 1.x
-projects[clioinfra][download][url] = git://github.com/IISH/clioinfra-v2.git
+projects[clioinfra][download][url] = git@github.com:IISH/drupal_theme_clioinfra.git
 projects[clioinfra][download][branch] = master
-projects[clioinfra][download][subtree] = themes/clioinfra
-projects[clioinfra][type] = theme
 
 
 ; Libraries
@@ -106,10 +80,10 @@ libraries[phpexcel][download][type] = file
 libraries[phpexcel][download][url] = http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=phpexcel&DownloadId=809026&FileTime=130382506283700000&Build=20885
 libraries[phpexcel][directory_name] = PHPExcel
 
-libraries[pclzip][type] = libraries
-libraries[pclzip][download][type] = file
-libraries[pclzip][download][url] = http://www.phpconcept.net/download.php?file=pclzip-2-8-2.zip
-libraries[pclzip][directory_name] = pclzip
+;libraries[pclzip][type] = libraries
+;libraries[pclzip][download][type] = file
+;libraries[pclzip][download][url] = http://www.phpconcept.net/download.php?file=pclzip-2-8-2.zip
+;libraries[pclzip][directory_name] = pclzip
 
 libraries[jquery.cycle][type] = libraries
 libraries[jquery.cycle][download][type] = git

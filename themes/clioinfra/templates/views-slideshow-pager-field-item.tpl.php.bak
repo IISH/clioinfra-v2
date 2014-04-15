@@ -1,3 +1,0 @@
-<span id="views-slideshow-pager-field-item-<?php print $variables['location']; ?>_<?php print $variables['vss_id']; ?>_<?php print $variables['count']; ?>" class="<?php print $classes; ?>">
-<img src="/sites/all/themes/clioinfra/images/pager.png">
-</span>

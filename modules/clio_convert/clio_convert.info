@@ -1,8 +1,0 @@
-name = Clio Infra Convert
-description = Converts CSV in Clio Infra format to row-based format.
-core = 7.x
-package = Clio Infra
-version = 7.x-1.0
-dependencies[] = clio_base
-dependencies[] = dkan_datastore
-dependencies[] = phpexcel
