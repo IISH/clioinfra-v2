@@ -20,7 +20,7 @@ if [ -z "$version" ] ; then
 fi
 
 environment=$3
-if [ -z "$environment"] ; then
+if [ -z "$environment" ] ; then
 	environment="production"
 	echo "Default environment ${environment}"
 fi
