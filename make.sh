@@ -15,11 +15,17 @@ fi
 
 version=$2
 if [ -z "$version" ] ; then
-	echo "Default version 1.0"
 	version="1.0"
+	echo "Default version ${version}"
 fi
 
-makefile=$instance.make
+environment=$3
+if [ -z "$environment"] ; then
+	environment="production"
+	echo "Default environment ${environment}"
+fi
+
+makefile=$instance.$environment.make
 revision=$(git rev-parse HEAD)
 target=target/$instance-$version
 expect=$target.tar.gz
