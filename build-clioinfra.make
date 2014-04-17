@@ -13,7 +13,7 @@ projects[clio][type] = module
 projects[clio][subdir] = custom
 projects[clio][version] = 1.x
 projects[clio][download][type] = git
-projects[clio][download][url] = git@github.com:IISH/clioinfra-v2.git
+projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
 projects[clio][download][branch] = master
 
 ; Clio required modules
@@ -66,10 +66,10 @@ projects[wysiwyg][version] = 2.2
 
 projects[zen][version] = 5.1
 
-projects[clioinfra][type] = theme
-projects[clioinfra][download][type] = git
-projects[clioinfra][download][url] = git@github.com:IISH/drupal-theme-clioinfra.git
-projects[clioinfra][download][branch] = master
+projects[clioinfra][type] = "theme"
+projects[clioinfra][download][type] = "git"
+projects[clioinfra][download][url] = "git://github.com/IISH/drupal-theme-clioinfra.git"
+projects[clioinfra][download][branch] = "master"
 
 
 ; Libraries
