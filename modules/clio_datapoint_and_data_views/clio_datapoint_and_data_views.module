@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Clio datapoint and data views feature.
+ */
+
+include_once 'clio_datapoint_and_data_views.features.inc';

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Clio indicators and countries views feature.
+ */
+
+include_once 'clio_indicators_and_countries_views.features.inc';
