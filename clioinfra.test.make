@@ -15,7 +15,7 @@ projects[clio][version] = 7.x-1.0
 projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
 projects[clio][download][branch] = test
- 
+
 ; Clio required modules
 
 projects[better_exposed_filters][subdir] = contrib 
@@ -61,6 +61,17 @@ projects[views_slideshow][subdir] = contrib
 projects[views_slideshow][version] = 3.1
 projects[wysiwyg][subdir] = contrib 
 projects[wysiwyg][version] = 2.2
+
+
+; Clio site content
+
+projects[clio_site][type] = module
+projects[clio_site][subdir] = features
+projects[clio_site][version] = 1.x
+projects[clio_site][download][type] = git
+projects[clio_site][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
+projects[clio_site][download][branch] = master
+
 
 ; Themes
 
