@@ -26,14 +26,21 @@ define('CLIO_DELIMITER', ',');
  */
 function clio_convert_menu() {
   // Add tab to resource.
-  $items['node/%node/clioconvert'] = array(
+  $items['node/%node/clio'] = array(
     'title' => 'Convert',
-    'page callback' => 'clio_convert_convert',
+    'page callback' => 'clio_convert_page',
     'page arguments' => array(1),
     'access callback' => 'clio_convert_convert_access',
     'access arguments' => array(1),
     'weight' => '18',
     'type' => MENU_LOCAL_TASK,
+  );
+  $items['node/%node/clio/convert'] = array(
+    'title' => 'Convert',
+    'page callback' => 'clio_convert_convert',
+    'page arguments' => array(1),
+    'access callback' => 'clio_convert_convert_access',
+    'access arguments' => array(1),
   );
   return $items;
 }
@@ -91,6 +98,15 @@ function clio_convert_status($node) {
   return FALSE;
 }
 
+
+/*
+ * TODO Check input
+ * TODO Theme page
+ *
+ */
+function clio_convert_page($node) {
+  return l(t('Convert'), 'node/' . $node->nid . '/clio/convert');
+}
 
 /**
  * Convert and create a new resource.
@@ -388,7 +404,7 @@ function clio_convert_create_resource($node, $file) {
   // Replace title and file
   $newnode->title = $node->title .' (generic)';
   // Tag with csv
-  $tid = _get_term_from_name('csv', 'format');
+  $tid = clio_convert_tag_csv('csv', 'format');
   $newnode->field_format[$language][0]['tid'] = $tid; 
   $newnode->field_dataset_ref[$language][0]['target_id'] = $node->field_dataset_ref[$language][0]['target_id'];
   // TODO Copy more fields? og? recline?
@@ -454,14 +470,17 @@ function clio_convert_phpexcel_import($op, &$data, $phpexcel, $options, $column 
 
 
 /**
-* Helper function to dynamically get the tid from the term_name
-*
-* @param $term_name Term name
-* @param $vocabulary_name Name of the vocabulary to search the term in
-*
-* @return Term id of the found term or else FALSE
-*/
-function _get_term_from_name($term_name, $vocabulary_name) {
+ * Helper function to dynamically get the tid from the term_name
+ * or add the term
+ *
+ * @param $term_name 
+ *   Term name
+ * @param $vocabulary_name 
+ *   Name of the vocabulary to search the term in
+ *
+ * @return Term id of the found or newly added term
+ */
+function clio_convert_tag_csv($term_name, $vocabulary_name) {
   if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_name)) {
 
     // $csv = taxonomy_get_term_by_name($name, $vocabulary->vid);
@@ -473,6 +492,11 @@ function _get_term_from_name($term_name, $vocabulary_name) {
         return $term->tid;
       }
     }
+    $term = new stdClass();
+    $term->name = $term_name;
+    $term->vid = $vocabulary->vid;
+    taxonomy_term_save($term);
+    return $term->tid;
   }
   return FALSE;
 }
