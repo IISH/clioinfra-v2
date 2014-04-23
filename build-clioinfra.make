@@ -62,17 +62,6 @@ projects[views_slideshow][version] = 3.1
 projects[wysiwyg][subdir] = contrib 
 projects[wysiwyg][version] = 2.2
 
-
-; Clio site content
-
-projects[clio_site][type] = module
-projects[clio_site][subdir] = features
-projects[clio_site][version] = 1.x
-projects[clio_site][download][type] = git
-projects[clio_site][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
-projects[clio_site][download][branch] = master
-
-
 ; Themes
 
 projects[zen][version] = 5.1
@@ -99,5 +88,10 @@ libraries[jquery.cycle][type] = libraries
 libraries[jquery.cycle][download][type] = git
 libraries[jquery.cycle][download][url] = https://github.com/malsup/cycle.git
 libraries[jquery.cycle][directory_name] = jquery.cycle
+
+
+; overwrite
+
+projects[schema][subdir] = contrib
 
 

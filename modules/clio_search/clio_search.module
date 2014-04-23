@@ -1,10 +1,10 @@
 <?php
 
+// TODO all files unmanaged, in tmp, except zip.
+// TODO clean up zip files.
+
 /*
  * Views to query the stored datasets.
- * TODO save views data, countries, indicators.
- * TODO all files unmanaged, in tmp, except zip.
- * TODO clean up zip files.
  */
 function clio_search_views_default_views() {
   $views = array();
@@ -293,12 +293,13 @@ function clio_search_download() {
   // Create temporary files for the result set. pathnames? uri's? fids?
   // Managed or unmanaged?
   $datasets = array();
+  // TODO drupal_mkdir($randomname), and use indicatornames as filenames;
   foreach ($indicators as $indicatortid) {
     $datasetnid = clio_search_get_dataset($indicatortid);
     if ($datasetnid) {
       $resourcenid = clio_search_get_resource($datasetnid);
       if ($resourcenid) {
-        // TODO Are we sure the database table exists? 
+        // TODO Are we sure the database table exists?
         $uri  = clio_search_create_result_file($resourcenid);
         if ($uri) {
           $files[] = drupal_realpath($uri);
@@ -431,7 +432,7 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
 
 
 /* 
- * Create zip archive.
+ * Create zip archive, managed, temporary
  *
  * @param $files
  *  An array of file paths.
@@ -460,13 +461,13 @@ function clio_search_create_zip($files, $filename = NULL) {
   $archive = new PclZip(drupal_realpath($file->uri));
   $archive->add($files, PCLZIP_OPT_REMOVE_ALL_PATH);
 
+  // TODO error check: what if file does not exist?
   // TODO file replace should work.
   
-  // move to public
-  // TODO error check: wat als file niet bestaat?
-  // unmanaged  
-  // or?
-//  $filepath = file_unmanaged_save_data($zip , 'public://output.zip', FILE_EXISTS_REPLACE);   
+  // TODO move to public (/clio/zip), in case transfer won't work.
+  // TODO delete source files: file_unmanaged_delete_recursive($path)
+  // TODO unmanaged?
+  // $ = file_unmanaged_save_data($zip , 'public://output.zip', FILE_EXISTS_REPLACE);
   return $file;
 }
 
@@ -568,22 +569,24 @@ function clio_search_convert_to_rows($data, $resource) {
 }
 
 
-// Save as unmanaged, temporary.
+/*
+ * Save as CSV, unmanaged, temporary.
+ */
 function clio_search_convert_save_as_csv($data, $prefix = 'clio') {
   global $user;
   // Create a temporary file.
   $tempdir = file_directory_temp();
-  $newfilename = drupal_tempnam($tempdir, $prefix .'-');
-  if (rename($newfilename, $newfilename . '.csv')) {
-    $newfilename .= '.csv';
+  $filepath = drupal_tempnam($tempdir, $prefix .'-');
+  if (rename($filepath, $filepath . '.csv')) {
+    $filepath .= '.csv';
   }
-  $filehandle = fopen($newfilename, 'w+');
+  $filehandle = fopen($filepath, 'w+');
   $enclosure = '"';
   foreach ($data as $row) {
     fputcsv($filehandle, $row, CLIO_DELIMITER, $enclosure);
   }
   // Create a file object from temporary file.
-  $filename = drupal_basename($newfilename);
+  $filename = drupal_basename($filepath);
   $file = new stdClass();
   $file->fid = NULL;
   $file->uri = 'temporary://'. $filename;
@@ -604,7 +607,7 @@ function clio_search_convert_save_as_csv($data, $prefix = 'clio') {
 
 
 /*
- * Write Excel file.
+ * Save as Excel file, unmanaged, temporary.
  * TODO This takes 8 seconds per file!
  * TODO Use template?
  */
@@ -744,6 +747,7 @@ function clio_search_db_query($resourcenid, $years = array(), $countries = array
   $tablename = 'dkan_file_' . $resourcenid;
   $viewname  = 'feeds_datastore_' . $tablename;
 
+  // TODO add mapping to indicatortid and countrytid here, instead of in convert
   $query = db_select($viewname, 't')
     ->fields('t', array('indicator', 'unit', 'value', 'countrycode', 'year'));
   if ($items) {
