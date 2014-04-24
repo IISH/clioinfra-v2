@@ -12,6 +12,7 @@
  * use libraries
  * 
  * TODO use hook from clio_convert to set refresh when dataset file changes.
+ * TODO create directory public://clio/statplanet/
  *
  * Careful: Statplanet will look for a file data.csv or data.zip by default!
  * Careful: Use DOS line endings.
@@ -249,8 +250,8 @@ function clio_statplanet_create_category_files($topics = NULL) {
   $files = array();
   foreach ($topics as $topic) {
   
-    $newfilename = drupal_tempnam($tempdir, 'stat');
-    $filehandle = fopen($newfilename, 'w+');
+    $filepath = drupal_tempnam($tempdir, 'stat');
+    $filehandle = fopen($filepath, 'w+');
     // Header
     $fields = array_merge(array("CATEGORY", "YEAR", "INDICATOR"), array_keys($countries));
     fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
@@ -285,7 +286,7 @@ function clio_statplanet_create_category_files($topics = NULL) {
 
     // Create a file object from temp file.
     // TODO Use subdir.
-    $filename = drupal_basename($newfilename);
+    $filename = drupal_basename($filepath);
     $file = new stdClass();
     $file->uri = 'temporary://'. $filename;
     $file->filename = $filename;

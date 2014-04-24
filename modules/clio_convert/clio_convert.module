@@ -32,7 +32,7 @@ function clio_convert_menu() {
     'page arguments' => array(1),
     'access callback' => 'clio_convert_convert_access',
     'access arguments' => array(1),
-    'weight' => '18',
+    'weight' => '14', // Before datastore tab.
     'type' => MENU_LOCAL_TASK,
   );
   $items['node/%node/clio/convert'] = array(
@@ -100,7 +100,7 @@ function clio_convert_status($node) {
 
 
 /*
- * TODO Check input
+ * TODO Check arg input
  * TODO Theme page
  *
  */
@@ -120,9 +120,8 @@ function clio_convert_convert($node) {
   if (!empty($node->field_dataset_ref)) {
     $dataset_nid = $node->field_dataset_ref['und'][0]['target_id'];
     $dataset = node_load($dataset_nid);
-    // TODO Rename to field_indicator
-    if (!empty($dataset->field_indicators)) {
-      $indicator_tid = $dataset->field_indicators['und'][0]['tid'];
+    if (!empty($dataset->field_indicator)) {
+      $indicator_tid = $dataset->field_indicator['und'][0]['tid'];
     }
   }
 
@@ -186,10 +185,10 @@ function clio_convert_to_row_based($data, $indicator_tid) {
   
   // First create a temporary file.
   $tempdir = file_directory_temp();
-  $newfilename = drupal_tempnam($tempdir, 'clio');
+  $filepath = drupal_tempnam($tempdir, 'clio');
 
   // Write the header with field names.
-  $filehandle = fopen($newfilename, 'w+');
+  $filehandle = fopen($filepath, 'w+');
   $enclosure = '"';
   $fields = array('indicator', 'indicatortid', 'unit', 'countrycode', 'countrytid', 'year', 'value');
   fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
@@ -217,20 +216,21 @@ function clio_convert_to_row_based($data, $indicator_tid) {
     }
   }
   
-  // Create a file object from temporary file.
-  $filename = drupal_basename($newfilename);
-  $file = new stdClass();
-  $file->fid = NULL;
-  $file->uri = 'temporary://'. $filename;
-  $file->filename = $filename;
-  $file->filemime = 'text/csv';
-  $file->uid = $user->uid;
-  $file->status = FILE_STATUS_PERMANENT;
-  // Move to public.
-  $destination = 'public://'. $filename .'.csv';
-  // TODO This will f#ck up just like in clio_statplanet.
-  $file_object = file_move($file, $destination, FILE_EXISTS_RENAME);
+  // Move file to Clio data directory.
+  $filename = drupal_basename($filepath);
+  $destination = 'public://clio/data/'. $filename .'.csv';
+  if ($uri = file_unmanaged_move($filepath, $destination)) {
 
+    // Create a file object and save in database.
+    $file = new stdClass();
+    $file->fid = NULL;
+    $file->uri = $uri;
+    $file->filename = $filename;
+    $file->filemime = 'text/csv';
+    $file->uid = $user->uid;
+    $file->status = FILE_STATUS_PERMANENT;
+    $file_object = file_save($file);
+  }
   if (!empty($file_object)) {
     drupal_set_message(t('Saved CSV file as %destination', array('%destination' => $filename . '.csv')));
   }
@@ -247,7 +247,7 @@ function clio_convert_to_row_based($data, $indicator_tid) {
  * Validate indicator and remove from data array.
  */
 function clio_convert_get_indicator(&$data, $tid) {
-  // TODO Make field required and remove this.
+  // The field is required so this shouldn't be necessary.
   if (empty($tid)) {
     drupal_set_message(t('The dataset this resource belongs to has no indicator.'), 'error');
     return;
