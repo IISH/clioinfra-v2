@@ -64,12 +64,12 @@ projects[wysiwyg][version] = 2.2
 
 ; Clio site content
 
-projects[clio][type] = module
-projects[clio][subdir] = features
-projects[clio][version] = 1.x
-projects[clio][download][type] = git
-projects[clio][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
-projects[clio][download][branch] = master
+projects[clio_site][type] = module
+projects[clio_site][subdir] = features
+projects[clio_site][version] = 1.x
+projects[clio_site][download][type] = git
+projects[clio_site][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
+projects[clio_site][download][branch] = master
 
 ; Themes
 
