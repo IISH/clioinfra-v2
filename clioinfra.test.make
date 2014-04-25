@@ -11,7 +11,7 @@ projects[drupal][version] = 7.26
 
 projects[clio][type] = module
 projects[clio][subdir] = custom
-projects[clio][version] = 1.x
+projects[clio][version] = 7.x-1.0
 projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
 projects[clio][download][branch] = test
