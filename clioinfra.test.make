@@ -11,10 +11,10 @@ projects[drupal][version] = 7.26
 
 projects[clio][type] = module
 projects[clio][subdir] = custom
-projects[clio][version] = 7.x-1.0
+projects[clio][version] = 1.x
 projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
-projects[clio][download][branch] = test
+projects[clio][download][branch] = master
 
 ; Clio required modules
 
@@ -62,16 +62,14 @@ projects[views_slideshow][version] = 3.1
 projects[wysiwyg][subdir] = contrib 
 projects[wysiwyg][version] = 2.2
 
-
 ; Clio site content
 
-projects[clio_site][type] = module
-projects[clio_site][subdir] = features
-projects[clio_site][version] = 1.x
-projects[clio_site][download][type] = git
-projects[clio_site][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
-projects[clio_site][download][branch] = master
-
+projects[clio][type] = module
+projects[clio][subdir] = features
+projects[clio][version] = 1.x
+projects[clio][download][type] = git
+projects[clio][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
+projects[clio][download][branch] = master
 
 ; Themes
 
@@ -99,5 +97,10 @@ libraries[jquery.cycle][type] = libraries
 libraries[jquery.cycle][download][type] = git
 libraries[jquery.cycle][download][url] = https://github.com/malsup/cycle.git
 libraries[jquery.cycle][directory_name] = jquery.cycle
+
+
+; overwrite
+
+projects[schema][subdir] = contrib
 
 
