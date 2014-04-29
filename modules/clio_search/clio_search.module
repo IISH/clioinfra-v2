@@ -415,7 +415,7 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
     $file = clio_convert_save_as_xls($rows, $indicator);
   }
   else {
-    $file  = clio_search_convert_save_as_csv($rows, $indicator);
+    $file = clio_search_convert_save_as_csv($rows, $indicator);
   }
   return $file->uri;
 
@@ -437,7 +437,7 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
  * @param $files
  *  An array of file paths.
  * @return
- *  A path to a zip file.
+ *  A zip file object.
  */
 function clio_search_create_zip($files, $filename = NULL) {
   // This part from download module.
@@ -498,7 +498,7 @@ function clio_search_transfer($file) {
  */
 function clio_search_convert_to_clio($data, $resource, $empty_years = TRUE) {
   global $user;
-  $countries = clio_convert_get_countries();
+  $countries = clio_get_countries();
   $rows = array();
   
   // Scan all rows and create array keyed by country code
@@ -548,7 +548,7 @@ function clio_search_convert_to_clio($data, $resource, $empty_years = TRUE) {
 
 function clio_search_convert_to_rows($data, $resource) {
   global $user;
-  $countries = clio_convert_get_countries();
+  $countries = clio_get_countries();
 
   // Create header row with columns.
   $rows = array();
@@ -594,6 +594,7 @@ function clio_search_convert_save_as_csv($data, $prefix = 'clio') {
   $file->filemime = 'text/csv';
   $file->uid = $user->uid;
 
+  // TODO Without a save this check seems unnecessary.
   if (!empty($file)) {
 //    drupal_set_message(t('Saved CSV file to destination %destination', array('%destination' => $filename)));
   }
