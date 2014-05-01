@@ -442,14 +442,8 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
  *  A zip file object.
  */
 function clio_search_create_zip($files, $filename = NULL) {
-  // This part from download module.
-  $lib_path = libraries_get_path('pclzip');
-  if (!is_dir($lib_path)) {
-    // TODO $entity ???
-    $uri_info = entity_uri($entity_type, $entity);
-    drupal_goto($uri_info['path']);
-  }
-  require_once $lib_path . '/pclzip.lib.php';
+  $path = drupal_get_path('module', 'clio_search') . '/pclzip';
+  require_once $path . '/pclzip.lib.php';
   
   if (!($filename)) {
     $filename = drupal_tempnam('temporary://', 'data_');

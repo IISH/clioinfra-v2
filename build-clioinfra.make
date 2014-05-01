@@ -88,11 +88,6 @@ libraries[phpexcel][download][type] = file
 libraries[phpexcel][download][url] = http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=phpexcel&DownloadId=809026&FileTime=130382506283700000&Build=20885
 libraries[phpexcel][directory_name] = PHPExcel
 
-;libraries[pclzip][type] = libraries
-;libraries[pclzip][download][type] = file
-;libraries[pclzip][download][url] = http://www.phpconcept.net/download.php?file=pclzip-2-8-2.zip
-;libraries[pclzip][directory_name] = pclzip
-
 libraries[jquery.cycle][type] = libraries
 libraries[jquery.cycle][download][type] = git
 libraries[jquery.cycle][download][url] = https://github.com/malsup/cycle.git
