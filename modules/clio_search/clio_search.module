@@ -354,7 +354,7 @@ function clio_search_get_dataset($tid) {
  */
 function clio_search_get_resource($nid) {
   $node = node_load($nid);
-  if (isset($node->field_resources)) {
+  if (!(empty($node->field_resources))) {
     // The book children of the node. We need to find the generic file.
     foreach ($node->field_resources['und'] as $resource) {
       $r = node_load($resource['target_id']);
