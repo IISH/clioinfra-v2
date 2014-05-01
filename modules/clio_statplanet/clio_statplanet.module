@@ -1,21 +1,20 @@
 <?php
 
 /*
- * settings in admin/config/clio/statplanet:
+ * TODO settings in admin/config/clio/visualize:
  *    settings.csv contains list of all country names (for display in country selector)
  *    set vocabulary for topics/indicators
  *    set noflash text
  *    zip or csv
  *    one data file or per topic
- * create csv files in statplanet format
- * point to all topic#.csv files
- * use libraries
+ * TODO use libraries
  * 
  * TODO use hook from clio_convert to set refresh when dataset file changes.
  * TODO create directory public://clio/statplanet/
  *
  * Careful: Statplanet will look for a file data.csv or data.zip by default!
  * Careful: Use DOS line endings.
+ * Statplanet uses ISO ALPHA-3 codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
  */
 
 /**
@@ -53,7 +52,7 @@ function clio_statplanet_config_form($form, &$form_state) {
   );
   $form['size'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Size'),
+    '#title' => t('Canvas size'),
   );
   $form['size']['clio_statplanet_width'] = array(
     '#type'  => 'textfield',
@@ -72,9 +71,9 @@ function clio_statplanet_config_form($form, &$form_state) {
   $form['clio_statplanet_path'] = array(
     '#type' => 'textfield',
     '#title' => t('Subdirectory'),
-    '#default_value' => variable_get('clio_statplanet_path', ''),
+    '#default_value' => variable_get('clio_statplanet_path', 'statplanet'),
     '#maxlength' => 255,
-    '#description' => t('A subdirectory of the public file directory where Statplanet files will be stored.'),
+    '#description' => t('A subdirectory of the public file directory where Statplanet files will be stored.'), // which files?
     '#after_build' => array('clio_statplanet_check_directory'),
   );
   return system_settings_form($form);
@@ -82,10 +81,16 @@ function clio_statplanet_config_form($form, &$form_state) {
 
 
 function clio_statplanet_refresh_submit(&$form_state) {
-  $bla = clio_statplanet_create_topic_files();
-  // To which page?
+  $file = clio_statplanet_create_data_file(FALSE);
+  $filenames = drupal_basename($file);
+  // TODO Only the topics that have content.
+  $files = clio_statplanet_create_category_files();
+  foreach ($files as $file) {
+    $filenames .= '<br>' . drupal_basename($file);
+  }
   variable_set('clio_statplanet_refresh', FALSE);
   drupal_set_message(t('Statplanet files refreshed.'));
+  drupal_set_message($filenames);
 }
 
 
@@ -104,7 +109,6 @@ function clio_statplanet_check_directory($form_element) {
   $directory = variable_get('file_public_path', conf_path() . '/files') . '/' . $directory;
 
   if (!is_dir($directory) && !drupal_mkdir($directory, NULL, TRUE)) {
-    // If the directory does not exists and cannot be created.
     form_set_error($form_element['#parents'][0], t('The directory %directory does not exist and could not be created.', array('%directory' => $directory)));
     watchdog('file system', 'The directory %directory does not exist and could not be created.', array('%directory' => $directory), WATCHDOG_ERROR);
   }
@@ -116,56 +120,47 @@ function clio_statplanet_check_directory($form_element) {
  * Check if Statplanet flash files are present.
  */
 function clio_statplanet_check_statplanet() {
-  $subdir = variable_get('clio_statplanet_path', '');
-  $directory = variable_get('file_public_path', conf_path() . '/files');
-  if ($subdir) {
-    $directory .=  '/' . $subdir;
-  }
-  $path = drupal_get_path('module', 'clio_statplanet') . '/map';
+  $datadir = clio_statplanet_get_dir(FALSE);
+  $statdir = drupal_get_path('module', 'clio_statplanet') . '/map';
 
-  if (!is_file($path . '/StatPlanet.swf') || !is_file($path . '/content.swf')) {
-    drupal_set_message(t('The Statplanet files are not present.'), 'error');
+  if (!is_file($statdir . '/StatPlanet.swf') || !is_file($statdir . '/content.swf')) {
+    drupal_set_message(t('The Statplanet flash files are not present.'), 'error');
     return;
   }
-  // The file content.swf needs to reside in the flash base directory.
-  else if (!is_file($directory . '/content.swf') && !copy($path . '/content.swf', $directory . '/content.swf')) {
-    drupal_set_message(t('The Statplanet file could not be copied.'), 'error');
+  // The file content.swf needs to reside in the flash base directory, next to the data files.
+  else if (!is_file($datadir . '/content.swf') && !copy($statdir . '/content.swf', $datadir . '/content.swf')) {
+    drupal_set_message(t('The Statplanet flash file could not be copied.'), 'error');
     return;
   }
   return TRUE;
 }
 
 
-function clio_statplanet_page() {
-
+function clio_statplanet_page($inline = TRUE) {
   if (!clio_statplanet_check_statplanet()) {
-    return;
+    return '';
   }
+  $statpath = '/' . drupal_get_path('module', 'clio_statplanet') . '/map';
+  $datapath = '/' . clio_statplanet_get_dir(FALSE);
 
-// print_r(clio_statplanet_create_category_files()); exit;
-
-  /*
   if (variable_get('clio_statplanet_refresh', TRUE)) {
-    $files = clio_statplanet_create_topic_files();
+    $file = clio_statplanet_create_data_file(FALSE);
+    $files = clio_statplanet_create_category_files();
     // Now what?
-    // Do we need to register or recreate the data file as well?
     variable_set('clio_statplanet_refresh', FALSE);
   }
-  */
-  
-  $statpath = '/' . drupal_get_path('module', 'clio_statplanet') . '/map';
-  $datapath = '/'. variable_get('file_public_path', conf_path() . '/files');
-  $subdir = variable_get('clio_statplanet_path', '');
-  if ($subdir) {
-    $datapath .= '/' . $subdir;  
+  // TODO Make this a setting.
+  if ($inline) {
+    $data = clio_statplanet_create_data_file(TRUE);
   }
-
-  $data = $statpath . '/alldata0.csv';
-//  $data = clio_statplanet_create_data_file();
+  else {
+//    $data = 'alldata0.csv';
+    $data = 'data.csv';
+  }
   $noflash = '<a href="http://www.adobe.com/go/getflash">
-   				<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
-   			</a>
-   			<p>This page requires Flash Player version 9.0.45 or higher.</p>';
+  	<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+		</a>
+		<p>This page requires Flash Player version 9.0.45 or higher.</p>';
   $swf = new SWFObject($statpath . '/StatPlanet.swf');
   $swf->param('allowFullScreen', 'true')
       ->param('type','movie')
@@ -179,12 +174,12 @@ function clio_statplanet_page() {
       ->param('devicefont','false')
       ->param('salign','')
       ->param('allowscriptaccess','sameDomain')
-      ->param('base', $statpath)
+      ->param('base', $datapath)
       ->flashVar('settings', $statpath . '/settings.csv')
       ->flashVar('data', $data)
       // ->flashVar('location', $indicator) // open at indicator
-      ->height(640)
-      ->width(940)
+      ->height(variable_get('clio_statplanet_height', 640))
+      ->width(variable_get('clio_statplanet_width', 940))
       ->noFlash($noflash)
       ->minimumVersion('9.0.45');
   return theme('swfembed_embed', array('swf' => $swf));
@@ -194,34 +189,47 @@ function clio_statplanet_page() {
 /*
  * Dynamically create data (or CSV file) with links to category files. This should work in Statplanet Plus 3.1 and higher.
  * TODO cache this
+ *
+ * @return
+ *   A string (or path to CSV file) containing the categories and the names of the data files.
  */
-function clio_statplanet_create_data_file() {
+function clio_statplanet_create_data_file($inline = TRUE) {
   $topics_vocab = taxonomy_vocabulary_machine_name_load('indicators');
   $topics = taxonomy_get_tree($topics_vocab->vid, 0, 1, TRUE);
   $countries = array_keys(clio_statplanet_get_country_codes());
-  $separator = ",";
-//  $rowseparator = "\n";
-  $rowseparator = ";";
   $extension = "zip";
-  $datafiles  = "#". $separator . $rowseparator;
-  $datafiles .= "CATEGORY". $separator ."YEAR". $separator ."INDICATOR". $separator ."FILE"; // TODO More columns?
-  foreach ($countries as $code) {
-    $datafiles .= $separator . $code;
+  $separator = ",";
+  if ($inline) {
+    $rowseparator = ";";
+    $data = "#". $separator . $rowseparator;
   }
-  $i = 1;
+  else {
+    $rowseparator = "\r\n";
+    $data = '';
+  }
+  $data .= "CATEGORY". $separator ."YEAR". $separator ."INDICATOR". $separator ."SOURCE". $separator ."DESCRIPTION". $separator ."UNIT". $separator ."MAP". $separator ."GRAPH". $separator ."FILE". $separator ."OPTIONS". $separator ."TYPE";
+  foreach ($countries as $code) {
+    $data .= $separator . $code;
+  }
   foreach ($topics as $topic) {
-//    $filename = 'alldata' . $topic->tid . "." . $extension;
-    $filename = 'alldata' . $i . "." . $extension;
-    $i++;
-    $datafiles .= $rowseparator;
-//    $datafiles .= '"' . $topic->name . '"' . $separator . CLIO_MAX_YEAR . $separator . $separator . '"' . $filename . '"';
-    $datafiles .= $topic->name . $separator . CLIO_MAX_YEAR . $separator . $separator . $filename;
+    $topicname = preg_replace('/,/', '', $topic->name);
+    $filename = 'data' . $topic->tid . "." . $extension;
+    $data .= $rowseparator;
+//    $data .= '"' . $topic->name . '"' . $separator . CLIO_MAX_YEAR . $separator . $separator . '"' . $filename . '"';
+    $data .= $topicname . $separator . CLIO_MAX_YEAR . $separator . $separator . $separator . $separator . $separator . $separator . $separator . $filename . $separator . $separator;
     foreach (taxonomy_get_children($topic->tid) as $indicator) {
-//      $datafiles .= $rowseparator . $separator . $separator . '"' . $indicator->name . '"' . $separator . "#";
-      $datafiles .= $rowseparator . $separator . $separator . $indicator->name . $separator . "#";
+//      $data .= $rowseparator . $separator . $separator . '"' . $indicator->name . '"' . $separator . "#";
+      $data .= $rowseparator . $separator . $separator . $indicator->name . $separator . $separator . $separator . $separator . $separator . $separator . "#" . $separator . $separator ;
     }
   }
-  return $datafiles;
+  if ($inline) {
+    return $data;
+  }
+  else {
+    $destination = clio_statplanet_get_dir() . '/data.csv';
+    // TODO On error?
+    return file_unmanaged_save_data($data, $destination, FILE_EXISTS_REPLACE);
+  }
 }
 
 
@@ -230,13 +238,12 @@ function clio_statplanet_create_data_file() {
  *
  * @param $topics
  *   An array of topic tids.
- * @return
+   * @return
  *   An array of paths to the zipped CSV files.
- *
- * TODO cache this
  */
 function clio_statplanet_create_category_files($topics = NULL) {
   global $user;
+
   if (!$topics) {
     $topics_vocab = taxonomy_vocabulary_machine_name_load('indicators');
     $topics = taxonomy_get_tree($topics_vocab->vid, 0, 1, TRUE);
@@ -249,12 +256,15 @@ function clio_statplanet_create_category_files($topics = NULL) {
   $enclosure = '"';
   $files = array();
   foreach ($topics as $topic) {
-  
-    $filepath = drupal_tempnam($tempdir, 'stat');
+    // TODO Nicer name?
+    $filepath = drupal_tempnam($tempdir, 'stat') . '.csv';
     $filehandle = fopen($filepath, 'w+');
     // Header
-    $fields = array_merge(array("CATEGORY", "YEAR", "INDICATOR"), array_keys($countries));
+    $fields = array_merge(array("CATEGORY", "YEAR", "INDICATOR", "SOURCE", "DESCRIPTION", "UNIT", "MAP", "GRAPH", "FILE", "OPTIONS", "TYPE"), array_keys($countries));
     fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+    // Replace Unix by DOS line ending.
+    fseek($filehandle, -1, SEEK_CUR);
+    fwrite($filehandle, "\r\n"); 
 
     foreach (taxonomy_get_children($topic->tid) as $indicator) {
       $values[$indicator->tid] = clio_statplanet_get_values($indicator->tid);
@@ -263,7 +273,8 @@ function clio_statplanet_create_category_files($topics = NULL) {
     $firstline = TRUE;
     foreach ($years as $year) {
       if ($firstline) {
-        $fields = array($topic->name, $year); // No empty cells needed?
+        $topicname = preg_replace('/,/', '', $topic->name);
+        $fields = array($topicname, $year); // No empty cells needed?
         $firstline = FALSE;
       }
       else {
@@ -271,7 +282,7 @@ function clio_statplanet_create_category_files($topics = NULL) {
       }
       fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
       foreach (taxonomy_get_children($topic->tid) as $indicator) {
-        $fields = array('', '', $indicator->name);
+        $fields = array('', '', $indicator->name, '', '', '', '', '', '', '', '');
         foreach ($countries as $countrycode => $countryid) {
           if (isset($values[$indicator->tid][$year][$countryid])) {
             array_push($fields, $values[$indicator->tid][$year][$countryid]);
@@ -281,45 +292,35 @@ function clio_statplanet_create_category_files($topics = NULL) {
           }
         }
         fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+        fseek($filehandle, -1, SEEK_CUR);
+        fwrite($filehandle, "\r\n"); 
       }
     }
-
-    // Create a file object from temp file.
-    // TODO Use subdir.
-    $filename = drupal_basename($filepath);
-    $file = new stdClass();
-    $file->uri = 'temporary://'. $filename;
-    $file->filename = $filename;
-    $file->filemime = 'text/csv';
-    $file->uid = $user->uid;
-    $file->status = FILE_STATUS_PERMANENT;
-    // TODO Hier klopt niets van: file_move gaat zo niet goed.
-    // Move to public.
-    $file = file_save($file);
-    $filename2 = 'alldata'. $topic->tid .'.csv';
-    $destination = 'public://' . $filename2;
-    $file_object = file_move($file, $destination, FILE_EXISTS_REPLACE);
-    $file_object->filename = $filename2;
-
-    if (!empty($file_object)) {
-//      drupal_set_message(t('Saved CSV file to destination %destination', array('%destination' => $filename)));
-    }
-    else {
-      drupal_set_message(t('Failed to save CSV file'), 'error');
-    }
-
-    $files[] = $file_object;
+    $files[$topic->tid] = $filepath;
   }
 
+  $datadir = clio_statplanet_get_dir();
   $zipfiles = array();
-  foreach ($files as $csvfile) {
-    $csvfilename = preg_replace('/csv$/', 'zip', $csvfile->filename);
-    $zipfiles[] = clio_search_create_zip(array(drupal_realpath($csvfile->uri)), $csvfilename);
+  foreach ($files as $tid => $path) {
+    $zipfile = clio_search_create_zip(array($path));
+    $destination = $datadir . '/data' . $tid . '.zip';
+    // TODO managed?
+    // Move file from temp to public.
+    if ($uri = file_unmanaged_move($zipfile->uri, $destination, FILE_EXISTS_REPLACE)) {
+      $zipfiles[] = drupal_realpath($uri);
+    }
+    else {
+      drupal_set_message(t('Failed to save ZIP file'), 'error');
+      return;
+    }
   }
   return $zipfiles;
 }
 
 
+/*
+ *
+ */
 function clio_statplanet_get_values($indicatortid, $years = array(), $countries = array()) {
   $datasetnid = clio_search_get_dataset($indicatortid);
   if ($datasetnid) {
@@ -342,17 +343,30 @@ function clio_statplanet_get_values($indicatortid, $years = array(), $countries 
 }
 
 
+/*
+ * Get a list of all registered countries.
+ *
+ * @return
+ *   An array of alphabetical codes and numerical ids, sorted by country names.
+ */
 function clio_statplanet_get_country_codes() {
-  $countries_vocab = taxonomy_vocabulary_machine_name_load('countries');
-  $countries = taxonomy_get_tree($countries_vocab->vid, 0, NULL, TRUE);
+  $countries = clio_get_countries();
+  uasort($countries, 'clio_statplanet_cmp');
   $codes = array();
-  foreach ($countries as $country) {
-    if (!empty($country->field_country_code) && !empty($country->field_country_id)) {
-      $codes[$country->field_country_code['und'][0]['value']] = $country->field_country_id['und'][0]['value'];
+  foreach ($countries as $id => $country) {
+    if (!empty($country['code'])) {
+      $codes[$country['code']] = $id;
     }
   }
-  ksort($codes);
   return $codes;
+}
+
+
+/*
+ * Do a natural, case insensitive sort on country names.
+ */
+function clio_statplanet_cmp($a, $b) {
+  return strnatcasecmp($a['name'], $b['name']);
 }
 
 
@@ -380,5 +394,23 @@ function clio_statplanet_get_categories() {
       }
     }
   }
+}
+
+
+/*
+ * Get the directory where Statplanet data files are stored.
+ */
+function clio_statplanet_get_dir($uri = TRUE) {
+  $subdir = variable_get('clio_statplanet_path', 'statplanet');
+  if ($uri) {
+    $dir = 'public://' . $subdir;
+  }
+  else {
+    $dir = variable_get('file_public_path', conf_path() . '/files');
+    if ($subdir) {
+      $dir .= '/' . $subdir;
+    }
+  }
+  return $dir;
 }
 

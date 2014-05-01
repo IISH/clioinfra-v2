@@ -11,16 +11,6 @@
 include('src/array_column.php');
  
 
-// The maximum value from a CSV allowed in the database.
-define('CLIO_MAX_VALUE', 32000);
-// This will be replaced by the maximum value.
-define('CLIO_VALUE_REPLACE', 'hyperinflation');
-// CSV delimiter.
-define('CLIO_DELIMITER', ',');
-
-
-
-
 /**
  * Implements hook_menu().
  */
@@ -342,7 +332,7 @@ function clio_convert_get_years(&$data) {
  * TODO Mismatch: "code" in spreadsheet is "id" in term.
  */
 function clio_convert_validate_countries($data) {
-  $countries = clio_convert_get_countries();
+  $countries = clio_get_countries();
   $countryids = array_column($data, 0);
   $countrynames = array_column($data, 1);
 
@@ -361,29 +351,6 @@ function clio_convert_validate_countries($data) {
         // TODO This depends on character encoding, so e.g. Åland Islands in Latin-1 will mismatch.
         drupal_set_message(t('Country name mismatch for code @id: found @name, should be @countryname.', array('@id' => $id, '@name' => $name, '@countryname' => $countryname)), 'warning');
       }  
-    }
-  }
-  return $countries;
-}
-
-
-/*
- * Get a list of all countries known in the system.
- *
- * @return $countries
- *   An array keyed by country ID.
- * TODO rename, use of "get" is inconsistent
- */
-function clio_convert_get_countries() {
-  $countries_vocab = taxonomy_vocabulary_machine_name_load('countries');
-  $countries_tree = taxonomy_get_tree($countries_vocab->vid, 0, NULL, TRUE);
-  $countries = array();
-  foreach ($countries_tree as $country) {
-    // TODO Vocabulary 'countries' surely exists. We cannot be sure fields 'id' and 'code' exist.
-    if (!empty($country->field_country_id)) {
-      $country_id = $country->field_country_id['und'][0]['value'];
-      $country_code = !empty($country->field_country_code) ? $country->field_country_code['und'][0]['value'] : '';
-      $countries[$country_id] = array('name' => $country->name, 'tid' => $country->tid, 'code' => $country_code);
     }
   }
   return $countries;
