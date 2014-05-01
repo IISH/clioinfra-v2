@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the Clio Statplanet module.
+ */
+
+/**
+ * Use requirements to ensure that the Statplanet data directory can be created.
+ */
+function clio_statplanet_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    $requirements['clio_statplanet_dir'] = array(
+      'title' => t('Clio Statplanet data directory'),
+      'severity' => REQUIREMENT_OK,
+      'value' => t('Exists'),
+    );
+
+    $path = 'public://statplanet';
+    if (!file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
+      $requirements['clio_statplanet_dir']['description'] = t('The Clio Statplanet data directory, %path could not be created due to a misconfigured files directory. Please ensure that the files directory is correctly configured and that the webserver has permission to create directories.', array('%path' => file_uri_target($path)));
+      $requirements['clio_statplanet_dir']['severity'] = REQUIREMENT_ERROR;
+      $requirements['clio_statplanet_dir']['value'] = t('Unable to create');
+    }
+  }
+  return $requirements;
+}
+
+
