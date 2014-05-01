@@ -6,16 +6,18 @@
 /*
  * Views to query the stored datasets.
  */
+ /*
 function clio_search_views_default_views() {
   $views = array();
   $path = drupal_get_path('module', 'clio_search') . '/views';
-  $files = drupal_system_listing('.inc$', $path, 'name', 0);
+  $files = drupal_system_listing('/.*\.inc$/', $path, 'name', 0);
   foreach($files as $file) {
-    include_once $file->filename;
+    include_once $path . '/' . $file->filename;
     $views[$view->name] = $view;
   }
   return $views;
 } 
+*/
 
 /**
  * Implements hook_menu().
