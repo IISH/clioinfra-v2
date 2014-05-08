@@ -112,7 +112,8 @@ function clio_search_list($vocab) {
   switch ($vocab) {
     case 'countries':
       drupal_set_title('Countries');
-      $output = views_embed_view('countries', 'page');
+//      $output = views_embed_view('countries', 'page');
+      $output = clio_search_list_terms('countries');
       break;
     case 'topics':
       drupal_set_title('Topics');
@@ -124,6 +125,27 @@ function clio_search_list($vocab) {
       $output = views_embed_view('indicators', 'page');
       break;
   }
+  return $output;
+}
+
+
+/*
+ * TODO Use theme_list.
+ */
+function clio_search_list_terms($vocab_name) {
+  $term_list = clio_search_taxonomy_get_leaves($vocab_name);
+  $output = '<ul class="country-list">';
+  $char = 'A';
+  // Hmmm.
+  $output .= '<li class="startletter">' . $char . '</li><ul>';          
+  foreach ($term_list as $tid => $name) {
+    if (mb_substr($name, 0, 1) != $char) {
+      $char = mb_substr($name, 0, 1);
+      $output .= '</ul><li class="startletter">' . $char . '</li><ul>';          
+    }
+    $output .= '<li class="country"><a href="/datasets/select/country/' . $tid . '">' . $name . '</a></li>';
+  }
+  $output .= '</ul></ul>';
   return $output;
 }
 
@@ -150,19 +172,17 @@ function clio_search_select($vocab = 'combined', $tid = NULL) {
     case 'country':
       $title = ($term) ? $term->name : 'Select';
       drupal_set_title($title);
-      $output = views_embed_view('data', 'page_1');
+      $output = drupal_get_form('clio_search_select_form');
       break;
     case 'indicator':
       $title = ($term) ? $term->name : 'Select';
       drupal_set_title($title);
-      $output = views_embed_view('data', 'page_2');
+      $output = drupal_get_form('clio_search_select_form');
       break;
     case 'topic':
       $title = ($term) ? $term->name : 'Select';
       drupal_set_title($title);
-      // TODO Restrict filter to topic from argument. Use parent term relationship?
-      // TODO $topics = taxonomy_get_tree($vid, 0, 1);
-      $output = views_embed_view('data', 'page_3');
+      $output = drupal_get_form('clio_search_select_form');
       break;
     case 'combined':
     default:
@@ -171,6 +191,66 @@ function clio_search_select($vocab = 'combined', $tid = NULL) {
       break;
   }
   return $output;
+}
+
+
+function clio_search_select_form($form, &$form_state) {
+  $form['#action'] = url('datasets/searchresults');
+  $form['year'] = array (
+    '#tree' => TRUE,
+    '#title' => t('Time period'),
+  );
+  $form['year']['min'] = array (
+    '#type' => 'textfield',
+    '#title' => t('from'),
+    '#size' => 4,
+    '#default_value' => 1500,
+  );
+  $form['year']['max'] = array (
+    '#type' => 'textfield',
+    '#title' => t('to'),
+    '#size' => 4,
+    '#default_value' => CLIO_MAX_YEAR,
+  );
+
+  if (((arg(2) == 'country') || (arg(2) == 'indicator')) && (is_numeric(arg(3)))) {
+    $form[arg(2)] = array (
+         '#tree' => TRUE,
+    );
+    $form[arg(2)][] = array (
+         '#type' => 'hidden',
+         '#value' => arg(3),
+    );
+  }
+
+  if ((arg(2) == 'country') || (arg(2) == 'topic')) {
+    $parent = (arg(2) == 'topic') ? arg(3) : 0;
+  
+    $form['indicator'] = array(
+      '#type' => 'select',
+      '#title' => t('Indicators'),
+      '#options' => clio_search_taxonomy_get_leaves('indicators', $parent),
+      '#multiple' => TRUE,
+      '#size' => 14,
+    );
+  }
+
+  if ((arg(2) == 'indicator') || (arg(2) == 'topic')) {
+    $form['country'] = array(
+      '#type' => 'select',
+      '#title' => t('Countries'),
+      '#options' => clio_search_taxonomy_get_leaves('countries'),
+      '#multiple' => TRUE,
+      '#size' => 14,
+    );
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('OK'),
+  );
+
+  return $form;  
 }
 
 
@@ -769,4 +849,21 @@ function clio_search_db_query($resourcenid, $years = array(), $countries = array
   $result = $query->execute();
   return $result;
 }
+
+
+/*
+ *
+ */
+function clio_search_taxonomy_get_leaves($machine_name, $parent = 0) {
+  $v = taxonomy_vocabulary_machine_name_load($machine_name);
+  $terms = taxonomy_get_tree($v->vid, $parent);
+  foreach ($terms as $term) {
+    if (!(taxonomy_get_children($term->tid, $v->vid))) {
+      $options[$term->tid] = $term->name;
+    }
+  }
+  asort($options);
+  return $options;
+}
+
 
