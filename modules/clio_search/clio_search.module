@@ -6,16 +6,18 @@
 /*
  * Views to query the stored datasets.
  */
+ /*
 function clio_search_views_default_views() {
   $views = array();
   $path = drupal_get_path('module', 'clio_search') . '/views';
-  $files = drupal_system_listing('.inc$', $path, 'name', 0);
+  $files = drupal_system_listing('/.*\.inc$/', $path, 'name', 0);
   foreach($files as $file) {
-    include_once $file->filename;
+    include_once $path . '/' . $file->filename;
     $views[$view->name] = $view;
   }
   return $views;
 } 
+*/
 
 /**
  * Implements hook_menu().
@@ -110,7 +112,8 @@ function clio_search_list($vocab) {
   switch ($vocab) {
     case 'countries':
       drupal_set_title('Countries');
-      $output = views_embed_view('countries', 'page');
+//      $output = views_embed_view('countries', 'page');
+      $output = clio_search_list_terms('countries');
       break;
     case 'topics':
       drupal_set_title('Topics');
@@ -122,6 +125,27 @@ function clio_search_list($vocab) {
       $output = views_embed_view('indicators', 'page');
       break;
   }
+  return $output;
+}
+
+
+/*
+ * TODO Use theme_list.
+ */
+function clio_search_list_terms($vocab_name) {
+  $term_list = clio_search_taxonomy_get_leaves($vocab_name);
+  $output = '<ul class="country-list">';
+  $char = 'A';
+  // Hmmm.
+  $output .= '<li class="startletter">' . $char . '</li><ul>';          
+  foreach ($term_list as $tid => $name) {
+    if (mb_substr($name, 0, 1) != $char) {
+      $char = mb_substr($name, 0, 1);
+      $output .= '</ul><li class="startletter">' . $char . '</li><ul>';          
+    }
+    $output .= '<li class="country"><a href="/datasets/select/country/' . $tid . '">' . $name . '</a></li>';
+  }
+  $output .= '</ul></ul>';
   return $output;
 }
 
@@ -148,19 +172,17 @@ function clio_search_select($vocab = 'combined', $tid = NULL) {
     case 'country':
       $title = ($term) ? $term->name : 'Select';
       drupal_set_title($title);
-      $output = views_embed_view('data', 'page_1');
+      $output = drupal_get_form('clio_search_select_form');
       break;
     case 'indicator':
       $title = ($term) ? $term->name : 'Select';
       drupal_set_title($title);
-      $output = views_embed_view('data', 'page_2');
+      $output = drupal_get_form('clio_search_select_form');
       break;
     case 'topic':
       $title = ($term) ? $term->name : 'Select';
       drupal_set_title($title);
-      // TODO Restrict filter to topic from argument. Use parent term relationship?
-      // TODO $topics = taxonomy_get_tree($vid, 0, 1);
-      $output = views_embed_view('data', 'page_3');
+      $output = drupal_get_form('clio_search_select_form');
       break;
     case 'combined':
     default:
@@ -169,6 +191,66 @@ function clio_search_select($vocab = 'combined', $tid = NULL) {
       break;
   }
   return $output;
+}
+
+
+function clio_search_select_form($form, &$form_state) {
+  $form['#action'] = url('datasets/searchresults');
+  $form['year'] = array (
+    '#tree' => TRUE,
+    '#title' => t('Time period'),
+  );
+  $form['year']['min'] = array (
+    '#type' => 'textfield',
+    '#title' => t('from'),
+    '#size' => 4,
+    '#default_value' => 1500,
+  );
+  $form['year']['max'] = array (
+    '#type' => 'textfield',
+    '#title' => t('to'),
+    '#size' => 4,
+    '#default_value' => CLIO_MAX_YEAR,
+  );
+
+  if (((arg(2) == 'country') || (arg(2) == 'indicator')) && (is_numeric(arg(3)))) {
+    $form[arg(2)] = array (
+         '#tree' => TRUE,
+    );
+    $form[arg(2)][] = array (
+         '#type' => 'hidden',
+         '#value' => arg(3),
+    );
+  }
+
+  if ((arg(2) == 'country') || (arg(2) == 'topic')) {
+    $parent = (arg(2) == 'topic') ? arg(3) : 0;
+  
+    $form['indicator'] = array(
+      '#type' => 'select',
+      '#title' => t('Indicators'),
+      '#options' => clio_search_taxonomy_get_leaves('indicators', $parent),
+      '#multiple' => TRUE,
+      '#size' => 14,
+    );
+  }
+
+  if ((arg(2) == 'indicator') || (arg(2) == 'topic')) {
+    $form['country'] = array(
+      '#type' => 'select',
+      '#title' => t('Countries'),
+      '#options' => clio_search_taxonomy_get_leaves('countries'),
+      '#multiple' => TRUE,
+      '#size' => 14,
+    );
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('OK'),
+  );
+
+  return $form;  
 }
 
 
@@ -354,12 +436,14 @@ function clio_search_get_dataset($tid) {
  */
 function clio_search_get_resource($nid) {
   $node = node_load($nid);
-  // The book children of the node. We need to find the generic file.
-  foreach ($node->field_resources['und'] as $resource) {
-    $r = node_load($resource['target_id']);
-    // TODO Netter dan dit.
-    if (preg_match('/(generic)/', $r->title)) {
-      return $r->nid;
+  if (!(empty($node->field_resources))) {
+    // The book children of the node. We need to find the generic file.
+    foreach ($node->field_resources['und'] as $resource) {
+      $r = node_load($resource['target_id']);
+      // TODO This should be cleaner.
+      if (preg_match('/(generic)/', $r->title)) {
+        return $r->nid;
+      }
     }
   }
   /*  
@@ -415,7 +499,7 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
     $file = clio_convert_save_as_xls($rows, $indicator);
   }
   else {
-    $file  = clio_search_convert_save_as_csv($rows, $indicator);
+    $file = clio_search_convert_save_as_csv($rows, $indicator);
   }
   return $file->uri;
 
@@ -437,17 +521,11 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
  * @param $files
  *  An array of file paths.
  * @return
- *  A path to a zip file.
+ *  A zip file object.
  */
 function clio_search_create_zip($files, $filename = NULL) {
-  // This part from download module.
-  $lib_path = libraries_get_path('pclzip');
-  if (!is_dir($lib_path)) {
-    // TODO $entity ???
-    $uri_info = entity_uri($entity_type, $entity);
-    drupal_goto($uri_info['path']);
-  }
-  require_once $lib_path . '/pclzip.lib.php';
+  $path = drupal_get_path('module', 'clio_search') . '/pclzip';
+  require_once $path . '/pclzip.lib.php';
   
   if (!($filename)) {
     $filename = drupal_tempnam('temporary://', 'data_');
@@ -498,7 +576,7 @@ function clio_search_transfer($file) {
  */
 function clio_search_convert_to_clio($data, $resource, $empty_years = TRUE) {
   global $user;
-  $countries = clio_convert_get_countries();
+  $countries = clio_get_countries();
   $rows = array();
   
   // Scan all rows and create array keyed by country code
@@ -548,7 +626,7 @@ function clio_search_convert_to_clio($data, $resource, $empty_years = TRUE) {
 
 function clio_search_convert_to_rows($data, $resource) {
   global $user;
-  $countries = clio_convert_get_countries();
+  $countries = clio_get_countries();
 
   // Create header row with columns.
   $rows = array();
@@ -594,6 +672,7 @@ function clio_search_convert_save_as_csv($data, $prefix = 'clio') {
   $file->filemime = 'text/csv';
   $file->uid = $user->uid;
 
+  // TODO Without a save this check seems unnecessary.
   if (!empty($file)) {
 //    drupal_set_message(t('Saved CSV file to destination %destination', array('%destination' => $filename)));
   }
@@ -770,4 +849,21 @@ function clio_search_db_query($resourcenid, $years = array(), $countries = array
   $result = $query->execute();
   return $result;
 }
+
+
+/*
+ *
+ */
+function clio_search_taxonomy_get_leaves($machine_name, $parent = 0) {
+  $v = taxonomy_vocabulary_machine_name_load($machine_name);
+  $terms = taxonomy_get_tree($v->vid, $parent);
+  foreach ($terms as $term) {
+    if (!(taxonomy_get_children($term->tid, $v->vid))) {
+      $options[$term->tid] = $term->name;
+    }
+  }
+  asort($options);
+  return $options;
+}
+
 

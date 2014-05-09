@@ -11,6 +11,14 @@
 
 // Clio Infra will show data from 1500 to this year.
 define('CLIO_MAX_YEAR', 2013);
+// The maximum value from a CSV allowed in the database.
+define('CLIO_MAX_VALUE', 32000);
+// This will be replaced by the maximum value.
+define('CLIO_VALUE_REPLACE', 'hyperinflation');
+// CSV delimiter.
+define('CLIO_DELIMITER', ',');
+
+
 
 /**
  * Implements hook_menu().
@@ -43,5 +51,27 @@ function clio_menu() {
  */
 function clio_home() {
   return '';
+}
+
+
+/*
+ * Get a list of all countries known in the system.
+ *
+ * @return $countries
+ *   An array keyed by country ID (the numerical id).
+ * TODO cache
+ */
+function clio_get_countries() {
+  $countries_vocab = taxonomy_vocabulary_machine_name_load('countries');
+  $countries_tree = taxonomy_get_tree($countries_vocab->vid, 0, NULL, TRUE);
+  $countries = array();
+  foreach ($countries_tree as $country) {
+    if (!empty($country->field_country_id)) {
+      $country_id = $country->field_country_id['und'][0]['value'];
+      $country_code = !empty($country->field_country_code) ? $country->field_country_code['und'][0]['value'] : '';
+      $countries[$country_id] = array('name' => $country->name, 'tid' => $country->tid, 'code' => $country_code);
+    }
+  }
+  return $countries;
 }
 

@@ -34,6 +34,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bulgaria',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -62,6 +68,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/netherlands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -90,6 +102,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/liberia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -97,7 +115,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Lao People\'s Democratic Republic',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => '032600d9-9c61-49f7-b0b9-9c0982282f19',
     'vocabulary_machine_name' => 'countries',
@@ -108,8 +126,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'LAO',
+          'format' => NULL,
+          'safe_value' => 'LAO',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/lao-peoples-democratic-republic',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -121,6 +153,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 1,
     'uuid' => '03b41832-15c9-4d0b-908f-b6b2bc3ebb92',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/armed-conflicts-international',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'ca1ce3c7-b769-4630-956c-14c85950f263',
     ),
@@ -149,6 +187,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/timor-leste',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -156,7 +200,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'China, Macao Special Administrative Region',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 2,
     'uuid' => '04ffd851-ee9c-4ef6-befb-f2ee07dc6b48',
     'vocabulary_machine_name' => 'countries',
@@ -167,8 +211,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MAC',
+          'format' => NULL,
+          'safe_value' => 'MAC',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/china-macao-special-administrative-region',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -176,7 +234,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Democratic Republic of the Congo',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 5,
     'uuid' => '05f02717-ce93-4727-844c-8bfacc2b7e5c',
     'vocabulary_machine_name' => 'countries',
@@ -187,8 +245,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'COD',
+          'format' => NULL,
+          'safe_value' => 'COD',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/democratic-republic-congo',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -217,6 +289,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/uruguay',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -237,6 +315,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/caribbean',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '2fb3f46c-6a56-43eb-8b17-ac72debd1b5b',
     ),
@@ -265,6 +349,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/israel',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -293,6 +383,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/tonga',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -300,7 +396,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Czechoslovakia (until 1993)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 3,
     'uuid' => '082148c1-15cc-4c9c-be0c-2a1524b14220',
     'vocabulary_machine_name' => 'countries',
@@ -313,6 +409,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/czechoslovakia-until-1993',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -341,6 +443,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/algeria',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -369,6 +477,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/kenya',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -397,6 +511,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/luxembourg',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -425,6 +545,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/grenada',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -453,6 +579,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/mexico',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -481,6 +613,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cook-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -509,6 +647,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/ecuador',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -537,6 +681,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/madagascar',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -544,7 +694,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Curaçao',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 9,
     'uuid' => '0ec11f32-ac3e-4184-a072-0275aa3bfebc',
     'vocabulary_machine_name' => 'countries',
@@ -555,8 +705,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'CUW',
+          'format' => NULL,
+          'safe_value' => 'CUW',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/curaçao',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -577,6 +741,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/western-europe',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '166e96aa-bcf6-4dfe-92d6-24a42d9e334f',
     ),
@@ -597,6 +767,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/australia-and-new-zealand',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e142c681-c49e-41dd-8ace-8016247c8cbf',
     ),
@@ -604,7 +780,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Federal Republic of Germany (until 1990)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 2,
     'uuid' => '12b57d25-fd74-4067-a648-18cf7d889166',
     'vocabulary_machine_name' => 'countries',
@@ -617,6 +793,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/federal-republic-germany-until-1990',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -645,6 +827,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/samoa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -665,6 +853,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/europe',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Congo',
@@ -690,6 +884,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/congo',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -718,6 +918,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/honduras',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -746,6 +952,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/maldives',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -757,6 +969,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 5,
     'uuid' => '1898d2d6-ff66-43b3-ab2c-ba045f66da8e',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/pigs-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -785,6 +1003,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/kiribati',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
@@ -813,6 +1037,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/gambia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -824,6 +1054,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 12,
     'uuid' => '1bef61e4-ab06-40e7-a5a7-31f19cf18b90',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-number-pigs',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -852,6 +1088,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/oman',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -880,6 +1122,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/trinidad-and-tobago',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -887,7 +1135,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Guam',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 0,
     'uuid' => '1c70d31b-8ecc-40b8-8d5b-2ccc397ae5ec',
     'vocabulary_machine_name' => 'countries',
@@ -898,8 +1146,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'GUM',
+          'format' => NULL,
+          'safe_value' => 'GUM',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/guam',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
@@ -928,6 +1190,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/romania',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -948,6 +1216,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/south-eastern-asia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f148823e-438e-453f-a2e5-5b26ccd67e4a',
     ),
@@ -959,6 +1233,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 6,
     'uuid' => '1e1e55ab-1a83-4576-8291-0037bc29c61a',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/so2-emissions-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -987,6 +1267,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/rwanda',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -1015,6 +1301,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/uzbekistan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '52c127f7-e79c-428a-bb82-3082a2629c85',
     ),
@@ -1043,6 +1335,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/south-africa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e36e0b20-27f1-420a-baf3-a82a05910a00',
     ),
@@ -1071,6 +1369,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/equatorial-guinea',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -1099,6 +1403,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/georgia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -1127,6 +1437,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/poland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -1138,6 +1454,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 13,
     'uuid' => '235a1a01-c6c4-4273-a203-c4c7a3533b67',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-number-sheep',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -1166,6 +1488,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/niger',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -1194,6 +1522,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/united-states-america',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '5c1b466c-e870-4c1d-8b30-e8ee03993cfe',
     ),
@@ -1201,7 +1535,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Wallis and Futuna Islands',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 9,
     'uuid' => '24fef82c-38fd-4d44-8fd4-7a681303676d',
     'vocabulary_machine_name' => 'countries',
@@ -1212,8 +1546,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'WLF',
+          'format' => NULL,
+          'safe_value' => 'WLF',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/wallis-and-futuna-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -1242,6 +1590,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/argentina',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -1262,6 +1616,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/western-africa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '888f400f-a30c-43cc-892e-8a4e3fc7ca8e',
     ),
@@ -1290,6 +1650,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/tuvalu',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -1318,6 +1684,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/kyrgyzstan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '52c127f7-e79c-428a-bb82-3082a2629c85',
     ),
@@ -1346,6 +1718,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/united-kingdom-great-britain-and-northern-ireland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -1374,6 +1752,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/new-zealand',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '129199ba-f4e9-43eb-891b-5581a5baf206',
     ),
@@ -1402,6 +1786,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cameroon',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -1430,6 +1820,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sweden',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -1437,7 +1833,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Latin America and the Caribbean',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 1,
     'uuid' => '2fb3f46c-6a56-43eb-8b17-ac72debd1b5b',
     'vocabulary_machine_name' => 'countries',
@@ -1450,6 +1846,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/latin-america-and-caribbean',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a1230c66-4709-4e48-acd0-ad499d3d3061',
     ),
@@ -1457,7 +1859,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Sark',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 14,
     'uuid' => '2fb90103-bc10-4239-b067-90e651b11504',
     'vocabulary_machine_name' => 'countries',
@@ -1470,6 +1872,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sark',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -1498,6 +1906,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/panama',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -1526,6 +1940,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/monaco',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -1554,6 +1974,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/niue',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -1582,6 +2008,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/san-marino',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -1610,6 +2042,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/hungary',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -1617,7 +2055,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Pacific Islands (Trust Territory) (1947-1986)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 6,
     'uuid' => '36cca487-c13f-4e61-a8ee-d72cad8ccd36',
     'vocabulary_machine_name' => 'countries',
@@ -1630,6 +2068,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/pacific-islands-trust-territory-1947-1986',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
@@ -1650,6 +2094,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/polynesia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e142c681-c49e-41dd-8ace-8016247c8cbf',
     ),
@@ -1678,6 +2128,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/slovenia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -1706,6 +2162,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/vanuatu',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '407d59d0-a383-4d4b-8cad-9e2637edc416',
     ),
@@ -1726,6 +2188,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/southern-asia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f148823e-438e-453f-a2e5-5b26ccd67e4a',
     ),
@@ -1746,6 +2214,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/southern-europe',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '166e96aa-bcf6-4dfe-92d6-24a42d9e334f',
     ),
@@ -1753,7 +2227,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'United States Virgin Islands',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 28,
     'uuid' => '38b50129-76bb-42af-b21e-1fda8c7ef392',
     'vocabulary_machine_name' => 'countries',
@@ -1764,8 +2238,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'VIR',
+          'format' => NULL,
+          'safe_value' => 'VIR',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/united-states-virgin-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -1773,7 +2261,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Socialist Federal Republic of Yugoslavia (until 1992)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 16,
     'uuid' => '3948c1b3-0b79-43f8-956d-feb1796e7c4f',
     'vocabulary_machine_name' => 'countries',
@@ -1786,6 +2274,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/socialist-federal-republic-yugoslavia-until-1992',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -1814,6 +2308,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/peru',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -1842,6 +2342,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/dominican-republic',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -1853,6 +2359,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 2,
     'uuid' => '3a251cea-106f-4696-af89-85f0a894857d',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/infant-mortality',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd55d22b8-b5b7-4c82-851e-1b08dd1ce941',
     ),
@@ -1881,6 +2393,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/qatar',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -1909,6 +2427,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/paraguay',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -1916,7 +2440,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Ethiopia (until 1993)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => '3d58ff0f-4cb5-4bce-b79c-9649535a8c41',
     'vocabulary_machine_name' => 'countries',
@@ -1929,6 +2453,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/ethiopia-until-1993',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -1957,6 +2487,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/mongolia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -1985,6 +2521,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/malawi',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -2013,6 +2555,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/guatemala',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -2041,6 +2589,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/portugal',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -2061,6 +2615,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/melanesia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e142c681-c49e-41dd-8ace-8016247c8cbf',
     ),
@@ -2072,6 +2632,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 6,
     'uuid' => '42226113-307f-448b-9095-f365e7ed4b01',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/geography-environment-and-sustainability',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Zimbabwe',
@@ -2097,6 +2663,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/zimbabwe',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -2108,6 +2680,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 9,
     'uuid' => '429abef0-a958-4697-bbe8-ff39390e695d',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-cattle',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -2136,6 +2714,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/china',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -2164,6 +2748,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/chile',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -2192,6 +2782,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/micronesia-federated-states',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
@@ -2220,6 +2816,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/denmark',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -2248,6 +2850,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/lesotho',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e36e0b20-27f1-420a-baf3-a82a05910a00',
     ),
@@ -2255,7 +2863,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Occupied Palestinian Territory',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 11,
     'uuid' => '47397f4d-50ea-44db-8542-fa274ab0a857',
     'vocabulary_machine_name' => 'countries',
@@ -2266,8 +2874,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'PSE',
+          'format' => NULL,
+          'safe_value' => 'PSE',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/occupied-palestinian-territory',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -2296,6 +2918,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/philippines',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -2324,6 +2952,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/canada',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '5c1b466c-e870-4c1d-8b30-e8ee03993cfe',
     ),
@@ -2335,6 +2969,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => '484c41de-04fe-4eba-9274-5a797b7dccb9',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/female-life-expectancy-birth',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd144e915-85fa-4c7b-b85e-32998b5042b1',
     ),
@@ -2363,6 +3003,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/estonia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -2370,7 +3016,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Tibet',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 8,
     'uuid' => '48e1af94-ca49-45b0-ab2a-792fc94e4dc3',
     'vocabulary_machine_name' => 'countries',
@@ -2383,6 +3029,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/tibet',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -2390,7 +3042,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'French Polynesia',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 2,
     'uuid' => '498ff808-15f6-4392-946f-fd7abf1641dc',
     'vocabulary_machine_name' => 'countries',
@@ -2401,8 +3053,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'PYF',
+          'format' => NULL,
+          'safe_value' => 'PYF',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/french-polynesia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -2414,6 +3080,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 17,
     'uuid' => '4bf712d2-13b5-499b-80b4-f86c0c0af718',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-urban-population',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd144e915-85fa-4c7b-b85e-32998b5042b1',
       1 => '42226113-307f-448b-9095-f365e7ed4b01',
@@ -2443,6 +3115,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bermuda',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '5c1b466c-e870-4c1d-8b30-e8ee03993cfe',
     ),
@@ -2471,6 +3149,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/namibia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e36e0b20-27f1-420a-baf3-a82a05910a00',
     ),
@@ -2499,6 +3183,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/suriname',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -2527,6 +3217,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/tokelau',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -2534,7 +3230,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Yemen (until 1990)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 18,
     'uuid' => '4dde54e3-e50c-4dc7-a21f-147b898c2d9c',
     'vocabulary_machine_name' => 'countries',
@@ -2547,6 +3243,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/yemen-until-1990',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -2558,6 +3260,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => '4ea063f4-7178-479c-bd11-331068a13bc9',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/cattle-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd55d22b8-b5b7-4c82-851e-1b08dd1ce941',
       1 => '42226113-307f-448b-9095-f365e7ed4b01',
@@ -2566,7 +3274,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Sudan (North)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 5,
     'uuid' => '4ed18747-b2ac-4f18-9b7a-c16ab4e812a4',
     'vocabulary_machine_name' => 'countries',
@@ -2577,8 +3285,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'SDN',
+          'format' => NULL,
+          'safe_value' => 'SDN',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sudan-north',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -2586,7 +3308,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Cote d\'Ivoire',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 3,
     'uuid' => '4f9e4b6d-ac88-4b1d-8c82-c0d4eb98e567',
     'vocabulary_machine_name' => 'countries',
@@ -2597,8 +3319,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'CIV',
+          'format' => NULL,
+          'safe_value' => 'CIV',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cote-divoire',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -2627,6 +3363,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/solomon-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '407d59d0-a383-4d4b-8cad-9e2637edc416',
     ),
@@ -2655,6 +3397,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/finland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -2662,7 +3410,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Kosovo',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 8,
     'uuid' => '51aff354-01a4-418e-899f-e482064bb58e',
     'vocabulary_machine_name' => 'countries',
@@ -2675,6 +3423,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/kosovo',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -2686,6 +3440,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 8,
     'uuid' => '51d8a89c-8475-4d1b-bbe9-63aa2bb9c0cc',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-co2-emissions',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -2714,6 +3474,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/guinea-bissau',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -2734,6 +3500,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/central-asia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f148823e-438e-453f-a2e5-5b26ccd67e4a',
     ),
@@ -2762,6 +3534,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/croatia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -2773,6 +3551,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 15,
     'uuid' => '56302841-1459-422f-87bf-91b41ac2a85a',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-population',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd144e915-85fa-4c7b-b85e-32998b5042b1',
       1 => '42226113-307f-448b-9095-f365e7ed4b01',
@@ -2802,6 +3586,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/brunei-darussalam',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -2830,6 +3620,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bangladesh',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -2858,6 +3654,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/lithuania',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -2886,6 +3688,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/serbia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -2914,6 +3722,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sierra-leone',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -2942,6 +3756,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/turks-and-caicos-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -2970,6 +3790,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/jordan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -2998,6 +3824,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/jersey',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -3026,6 +3858,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/ukraine',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -3054,6 +3892,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/egypt',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -3074,6 +3918,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/northern-america',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a1230c66-4709-4e48-acd0-ad499d3d3061',
     ),
@@ -3102,6 +3952,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/andorra',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -3130,6 +3986,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/belarus',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -3158,6 +4020,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/norway',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -3186,6 +4054,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/spain',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -3214,6 +4088,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/tunisia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -3221,7 +4101,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Saint Martin (French part)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 23,
     'uuid' => '5e0840f4-b19d-4ed8-aff2-98800feee231',
     'vocabulary_machine_name' => 'countries',
@@ -3232,8 +4112,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MAF',
+          'format' => NULL,
+          'safe_value' => 'MAF',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saint-martin-french-part',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -3241,7 +4135,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Taiwan',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 7,
     'uuid' => '5e2340ba-88aa-438a-9282-4a738337b5e4',
     'vocabulary_machine_name' => 'countries',
@@ -3254,6 +4148,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/taiwan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -3282,6 +4182,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/british-virgin-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -3310,6 +4216,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/senegal',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -3321,6 +4233,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 10,
     'uuid' => '5f9b854c-1c98-4967-89f4-ba88f95cf9a2',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-cropland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -3349,6 +4267,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saint-lucia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -3377,6 +4301,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/togo',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -3384,7 +4314,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Libya',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 2,
     'uuid' => '6297165a-0fc5-426d-9291-be6064ba109c',
     'vocabulary_machine_name' => 'countries',
@@ -3395,8 +4325,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'LBY',
+          'format' => NULL,
+          'safe_value' => 'LBY',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/libya',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -3425,6 +4369,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/guyana',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -3436,6 +4386,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => '68132cb3-1151-4806-9a6c-e8feade5650e',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/exchange-rates-us-dollar',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd04082fa-fc11-4af3-b45f-e029f3aa1e7a',
     ),
@@ -3464,6 +4420,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/fiji',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '407d59d0-a383-4d4b-8cad-9e2637edc416',
     ),
@@ -3475,6 +4437,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 1,
     'uuid' => '6886fed9-53a4-4acf-831e-a5e0fc1f7d02',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/long-term-government-bond-yield',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd04082fa-fc11-4af3-b45f-e029f3aa1e7a',
     ),
@@ -3503,6 +4471,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/nepal',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -3531,6 +4505,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/eritrea',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -3559,6 +4539,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/swaziland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e36e0b20-27f1-420a-baf3-a82a05910a00',
     ),
@@ -3587,6 +4573,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/nigeria',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -3615,6 +4607,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/botswana',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e36e0b20-27f1-420a-baf3-a82a05910a00',
     ),
@@ -3643,6 +4641,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/latvia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -3650,7 +4654,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'German Democratic Republic (until 1990)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => '6edfe944-fe19-413d-b93d-15b673fef089',
     'vocabulary_machine_name' => 'countries',
@@ -3663,6 +4667,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/german-democratic-republic-until-1990',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -3691,6 +4701,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/ghana',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -3719,6 +4735,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/costa-rica',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -3747,6 +4769,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/iraq',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -3775,6 +4803,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/guernsey',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -3803,6 +4837,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cayman-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -3823,6 +4863,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/eastern-asia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f148823e-438e-453f-a2e5-5b26ccd67e4a',
     ),
@@ -3830,7 +4876,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Faeroe Islands',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => '79ef8620-c43f-496e-b4fa-f021bf03fa6f',
     'vocabulary_machine_name' => 'countries',
@@ -3841,8 +4887,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'FRO',
+          'format' => NULL,
+          'safe_value' => 'FRO',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/faeroe-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -3871,6 +4931,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/turkmenistan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '52c127f7-e79c-428a-bb82-3082a2629c85',
     ),
@@ -3891,6 +4957,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/eastern-africa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '888f400f-a30c-43cc-892e-8a4e3fc7ca8e',
     ),
@@ -3919,6 +4991,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/france',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -3947,6 +5025,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/malta',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -3975,6 +5059,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/azerbaijan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -3982,7 +5072,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'China, Hong Kong Special Administrative Region',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 1,
     'uuid' => '80061b73-d096-40a5-a6bd-8dcb0d78e66d',
     'vocabulary_machine_name' => 'countries',
@@ -3993,8 +5083,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'HKG',
+          'format' => NULL,
+          'safe_value' => 'HKG',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/china-hong-kong-special-administrative-region',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -4002,7 +5106,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'New Caledonia',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 1,
     'uuid' => '80e01028-982c-4705-a44a-5ab88fb1364c',
     'vocabulary_machine_name' => 'countries',
@@ -4013,8 +5117,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'NCL',
+          'format' => NULL,
+          'safe_value' => 'NCL',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/new-caledonia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '407d59d0-a383-4d4b-8cad-9e2637edc416',
     ),
@@ -4043,6 +5161,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/greece',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -4071,6 +5195,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/czech-republic',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -4099,6 +5229,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saudi-arabia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -4106,7 +5242,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'South Sudan',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => '82ea86a0-2e61-46cd-9c6d-62acf16df2b9',
     'vocabulary_machine_name' => 'countries',
@@ -4117,8 +5253,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'SSD',
+          'format' => NULL,
+          'safe_value' => 'SSD',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/south-sudan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -4139,6 +5289,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/northern-europe',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '166e96aa-bcf6-4dfe-92d6-24a42d9e334f',
     ),
@@ -4146,7 +5302,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Sao Tome and Principe',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 8,
     'uuid' => '85917110-903b-4cbe-bfff-7580bafe2463',
     'vocabulary_machine_name' => 'countries',
@@ -4157,8 +5313,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'STP',
+          'format' => NULL,
+          'safe_value' => 'STP',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sao-tome-and-principe',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -4187,6 +5357,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/albania',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -4215,6 +5391,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cape-verde',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -4235,11 +5417,17 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/africa',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Norfolk Island',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 2,
     'uuid' => '88bff46e-7eef-417f-b98a-d744f78fed2e',
     'vocabulary_machine_name' => 'countries',
@@ -4250,8 +5438,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'NFK',
+          'format' => NULL,
+          'safe_value' => 'NFK',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/norfolk-island',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '129199ba-f4e9-43eb-891b-5581a5baf206',
     ),
@@ -4259,7 +5461,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Serbia and Montenegro (until 2006)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 14,
     'uuid' => '8970acca-81eb-40ff-8779-86a8f7a078d5',
     'vocabulary_machine_name' => 'countries',
@@ -4272,6 +5474,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/serbia-and-montenegro-until-2006',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -4279,7 +5487,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Falkland Islands (Malvinas)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 6,
     'uuid' => '8a1fafdc-8889-43d7-a7eb-cb40d66520ca',
     'vocabulary_machine_name' => 'countries',
@@ -4290,8 +5498,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'FLK',
+          'format' => NULL,
+          'safe_value' => 'FLK',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/falkland-islands-malvinas',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -4320,6 +5542,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/uganda',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -4348,6 +5576,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bahamas',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -4355,7 +5589,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Republic of Korea',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 6,
     'uuid' => '8d86c487-4ce5-4c4d-8e1d-35156afd624b',
     'vocabulary_machine_name' => 'countries',
@@ -4366,8 +5600,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'KOR',
+          'format' => NULL,
+          'safe_value' => 'KOR',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/republic-korea',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -4396,6 +5644,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/thailand',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -4403,7 +5657,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Venezuela (Bolivarian Republic of)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 13,
     'uuid' => '906848de-9634-4ebf-a31e-b3b8688466a5',
     'vocabulary_machine_name' => 'countries',
@@ -4414,8 +5668,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'VEN',
+          'format' => NULL,
+          'safe_value' => 'VEN',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/venezuela-bolivarian-republic',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -4444,6 +5712,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/greenland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '5c1b466c-e870-4c1d-8b30-e8ee03993cfe',
     ),
@@ -4472,6 +5746,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/gabon',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -4500,6 +5780,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cyprus',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -4507,7 +5793,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Mayotte',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 10,
     'uuid' => '91477858-2370-4904-81e1-587c9da0a49a',
     'vocabulary_machine_name' => 'countries',
@@ -4518,8 +5804,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MYT',
+          'format' => NULL,
+          'safe_value' => 'MYT',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/mayotte',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -4548,6 +5848,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/slovakia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -4576,6 +5882,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/marshall-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
@@ -4596,6 +5908,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/netherlands-antilles-until-2010',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -4603,7 +5921,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Guadeloupe',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 13,
     'uuid' => '9441eb6d-b363-4b14-991c-5e8f7e44abf6',
     'vocabulary_machine_name' => 'countries',
@@ -4614,8 +5932,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'GLP',
+          'format' => NULL,
+          'safe_value' => 'GLP',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/guadeloupe',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -4644,6 +5976,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/seychelles',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -4672,6 +6010,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/colombia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -4700,6 +6044,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/japan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -4707,7 +6057,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Saint-Barthélemy',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 20,
     'uuid' => '953e2ae8-a1c8-4d98-b946-4f7a2ce1da74',
     'vocabulary_machine_name' => 'countries',
@@ -4718,8 +6068,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'BLM',
+          'format' => NULL,
+          'safe_value' => 'BLM',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saint-barthélemy',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -4748,6 +6112,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/liechtenstein',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -4755,7 +6125,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Sudan (until 2011)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 6,
     'uuid' => '98da5777-f5e7-4605-80f3-17a66f7541d8',
     'vocabulary_machine_name' => 'countries',
@@ -4768,6 +6138,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sudan-until-2011',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -4796,6 +6172,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/gibraltar',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -4803,7 +6185,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Åland Islands',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 0,
     'uuid' => '9953e9c2-d35c-4423-a1d8-f35e7342ada0',
     'vocabulary_machine_name' => 'countries',
@@ -4814,8 +6196,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'ALA',
+          'format' => NULL,
+          'safe_value' => 'ALA',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/åland-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -4827,6 +6223,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 2,
     'uuid' => '99792d63-23f3-42e9-b2a4-65bc09817a37',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/polity2-index',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'ca1ce3c7-b769-4630-956c-14c85950f263',
     ),
@@ -4855,6 +6257,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/zambia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -4866,6 +6274,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 16,
     'uuid' => '9ac34a39-2031-48ce-b305-a807035b2b91',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-so2-emissions',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -4894,6 +6308,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/lebanon',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -4901,7 +6321,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Saint Helena',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 13,
     'uuid' => '9f7cb74c-8581-4cf2-a19e-527734103e3b',
     'vocabulary_machine_name' => 'countries',
@@ -4912,8 +6332,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'SHN',
+          'format' => NULL,
+          'safe_value' => 'SHN',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saint-helena',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -4942,6 +6376,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/belize',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -4970,6 +6410,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/afghanistan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -4998,6 +6444,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/pakistan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -5018,6 +6470,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/americas',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Angola',
@@ -5043,6 +6501,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/angola',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -5071,6 +6535,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/jamaica',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -5078,7 +6548,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Republic of Moldova',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 6,
     'uuid' => 'a3701bfc-c60b-4d74-b7f6-cf3c7c8c4103',
     'vocabulary_machine_name' => 'countries',
@@ -5089,8 +6559,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MDA',
+          'format' => NULL,
+          'safe_value' => 'MDA',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/republic-moldova',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -5119,6 +6603,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/united-arab-emirates',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -5147,6 +6637,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/germany',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -5154,7 +6650,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Sint Maarten (Dutch part)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 25,
     'uuid' => 'a470c196-23f8-4c54-8bd2-d0426e308575',
     'vocabulary_machine_name' => 'countries',
@@ -5165,8 +6661,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'SXM',
+          'format' => NULL,
+          'safe_value' => 'SXM',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sint-maarten-dutch-part',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -5195,6 +6705,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/india',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -5223,6 +6739,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/brazil',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -5251,6 +6773,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/syrian-arab-republic',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -5279,6 +6807,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bosnia-and-herzegovina',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -5307,6 +6841,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/papua-new-guinea',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '407d59d0-a383-4d4b-8cad-9e2637edc416',
     ),
@@ -5327,6 +6867,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/micronesia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'e142c681-c49e-41dd-8ace-8016247c8cbf',
     ),
@@ -5355,6 +6901,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/morocco',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -5362,7 +6914,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Iran (Islamic Republic of)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => 'a7abd806-590b-4600-8986-30e2b6bc2cb4',
     'vocabulary_machine_name' => 'countries',
@@ -5373,8 +6925,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'IRN',
+          'format' => NULL,
+          'safe_value' => 'IRN',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/iran-islamic-republic',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -5395,6 +6961,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/central-america',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '2fb3f46c-6a56-43eb-8b17-ac72debd1b5b',
     ),
@@ -5423,6 +6995,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saint-kitts-and-nevis',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -5451,6 +7029,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bahrain',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -5479,6 +7063,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/singapore',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -5486,7 +7076,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Svalbard and Jan Mayen Islands',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 15,
     'uuid' => 'ac7848d9-3cd4-4710-beec-59962b5f801b',
     'vocabulary_machine_name' => 'countries',
@@ -5497,8 +7087,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'SJM',
+          'format' => NULL,
+          'safe_value' => 'SJM',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/svalbard-and-jan-mayen-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -5527,6 +7131,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/el-salvador',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -5538,6 +7148,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 2,
     'uuid' => 'ad440f95-8fc0-4df6-b31f-bc5973f93ce0',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/life-expectancy-birth-total',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd144e915-85fa-4c7b-b85e-32998b5042b1',
     ),
@@ -5566,6 +7182,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/kuwait',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -5573,7 +7195,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Viet Nam',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 11,
     'uuid' => 'aee7a984-8d3e-4da4-bf1a-b3018c62e39d',
     'vocabulary_machine_name' => 'countries',
@@ -5584,8 +7206,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'VNM',
+          'format' => NULL,
+          'safe_value' => 'VNM',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/viet-nam',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -5597,6 +7233,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 2,
     'uuid' => 'b08eb97e-0b08-4557-9572-d75910290c62',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-gross-central-government-debt-percentage-gdp',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd04082fa-fc11-4af3-b45f-e029f3aa1e7a',
     ),
@@ -5608,6 +7250,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 4,
     'uuid' => 'b0938a91-f89e-4010-8a64-5ae5229627a3',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/pasture-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -5636,6 +7284,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/burundi',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -5664,6 +7318,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/yemen',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -5692,6 +7352,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/montenegro',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -5720,6 +7386,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/kazakhstan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '52c127f7-e79c-428a-bb82-3082a2629c85',
     ),
@@ -5748,6 +7420,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/anguilla',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -5776,6 +7454,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/western-sahara',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b7da9ece-6eca-4c99-a301-46bb55b1e5b5',
     ),
@@ -5804,6 +7488,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/mauritius',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -5811,7 +7501,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'USSR (until 1991)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 11,
     'uuid' => 'b77c8727-d728-482f-ae40-a6387e7974e3',
     'vocabulary_machine_name' => 'countries',
@@ -5824,6 +7514,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/ussr-until-1991',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -5852,6 +7548,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bhutan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -5872,6 +7574,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/northern-africa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '888f400f-a30c-43cc-892e-8a4e3fc7ca8e',
     ),
@@ -5900,6 +7608,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/isle-man',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -5928,6 +7642,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/mauritania',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -5948,6 +7668,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/western-asia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f148823e-438e-453f-a2e5-5b26ccd67e4a',
     ),
@@ -5959,6 +7685,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 13,
     'uuid' => 'b9ccd609-4114-4cbd-ab11-d9bc1a59331e',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/national-accounts',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Ireland',
@@ -5984,6 +7716,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/ireland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -5991,7 +7729,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Bolivia (Plurinational State of)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 1,
     'uuid' => 'bbdd5552-7c7a-4f95-a86e-90b06ce8fa4d',
     'vocabulary_machine_name' => 'countries',
@@ -6002,8 +7740,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'BOL',
+          'format' => NULL,
+          'safe_value' => 'BOL',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bolivia-plurinational-state',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -6015,6 +7767,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 1,
     'uuid' => 'bc39af45-2143-4d17-abb6-edaeb499ae7a',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/male-life-expectancy-birth',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd144e915-85fa-4c7b-b85e-32998b5042b1',
     ),
@@ -6022,7 +7780,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'American Samoa',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 0,
     'uuid' => 'bc7d7d27-721d-4c26-a56e-7418821861cd',
     'vocabulary_machine_name' => 'countries',
@@ -6033,8 +7791,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'ASM',
+          'format' => NULL,
+          'safe_value' => 'ASM',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/american-samoa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -6063,6 +7835,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/mali',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -6091,6 +7869,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/djibouti',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -6102,6 +7886,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 1,
     'uuid' => 'c03d2993-864c-4b5a-936a-6c22fd656bb8',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/educational-inequality-gini-coefficient',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'c9e47e9a-91ec-4ea9-9aea-98a1fe3d79a2',
     ),
@@ -6109,7 +7899,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Martinique',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 16,
     'uuid' => 'c0f5cf0c-cf29-436c-bc75-c71d836b7cf1',
     'vocabulary_machine_name' => 'countries',
@@ -6120,8 +7910,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MTQ ',
+          'format' => NULL,
+          'safe_value' => 'MTQ ',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/martinique',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -6150,6 +7954,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/sri-lanka',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37c6db86-5c86-4d61-ae00-b02aa9e251c5',
     ),
@@ -6178,6 +7988,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/armenia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -6206,6 +8022,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cuba',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -6234,6 +8056,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/russian-federation',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'cce97118-9554-4b55-9e13-ec2cd60b92f8',
     ),
@@ -6245,6 +8073,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => 'c4f50a10-2e4e-400f-a8a8-271de156b702',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/inflation',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'db20f7d3-b275-4b8d-913d-099b30a8ae85',
     ),
@@ -6273,6 +8107,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/guinea',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -6301,6 +8141,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/burkina-faso',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -6312,6 +8158,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => 'c779a13f-b200-4136-a7e7-e9dad4fdaa61',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/armed-conflicts-internal',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'ca1ce3c7-b769-4630-956c-14c85950f263',
     ),
@@ -6340,6 +8192,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/switzerland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -6351,6 +8209,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 7,
     'uuid' => 'c7bb73a7-6008-48cd-979b-57089f2b3121',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/sheep-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -6362,6 +8226,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 8,
     'uuid' => 'c9e47e9a-91ec-4ea9-9aea-98a1fe3d79a2',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/human-capital',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Institutions',
@@ -6370,6 +8240,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 11,
     'uuid' => 'ca1ce3c7-b769-4630-956c-14c85950f263',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/institutions',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Austria',
@@ -6395,6 +8271,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/austria',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -6423,6 +8305,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/indonesia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -6434,6 +8322,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => 'cae4b5c0-a52e-4195-984a-32da8bdc9209',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/average-years-education',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'c9e47e9a-91ec-4ea9-9aea-98a1fe3d79a2',
     ),
@@ -6462,6 +8356,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/tajikistan',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '52c127f7-e79c-428a-bb82-3082a2629c85',
     ),
@@ -6482,6 +8382,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/eastern-europe',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '166e96aa-bcf6-4dfe-92d6-24a42d9e334f',
     ),
@@ -6493,6 +8399,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 2,
     'uuid' => 'cfd3651f-c9ab-4ba2-a4db-204f1e19d3d9',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/cropland-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -6504,6 +8416,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 4,
     'uuid' => 'd04082fa-fc11-4af3-b45f-e029f3aa1e7a',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/finance',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Barbados',
@@ -6529,6 +8447,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/barbados',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -6540,6 +8464,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 2,
     'uuid' => 'd144e915-85fa-4c7b-b85e-32998b5042b1',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/demography',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Mozambique',
@@ -6565,6 +8495,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/mozambique',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -6576,6 +8512,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 1,
     'uuid' => 'd55d22b8-b5b7-4c82-851e-1b08dd1ce941',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/biological-standards-living',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Turkey',
@@ -6601,6 +8543,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/turkey',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -6629,6 +8577,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/dominica',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -6657,6 +8611,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/chad',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -6668,6 +8628,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 14,
     'uuid' => 'd6ded972-7d1c-44a0-8e8d-d863cffd21ee',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-pasture',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -6675,7 +8641,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Northern Mariana Islands',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 5,
     'uuid' => 'd6f6886b-f4ea-4b92-b61a-f424277c5c83',
     'vocabulary_machine_name' => 'countries',
@@ -6686,8 +8652,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MNP',
+          'format' => NULL,
+          'safe_value' => 'MNP',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/northern-mariana-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
@@ -6695,7 +8675,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Bonaire, Saint Eustatius and Saba',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 5,
     'uuid' => 'd827e3c0-5268-4b78-ad82-c2a14ec0323b',
     'vocabulary_machine_name' => 'countries',
@@ -6706,8 +8686,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'BES',
+          'format' => NULL,
+          'safe_value' => 'BES',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/bonaire-saint-eustatius-and-saba',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -6736,6 +8730,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/holy-see',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -6764,6 +8764,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/haiti',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -6771,7 +8777,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Democratic Yemen (until 1990)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => 'd9714a3b-833c-424b-97fe-57c3f89131a1',
     'vocabulary_machine_name' => 'countries',
@@ -6784,6 +8790,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/democratic-yemen-until-1990',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b8bdeedd-9c8d-4e0e-a626-376554215de8',
     ),
@@ -6791,7 +8803,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Central African Republic',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 2,
     'uuid' => 'd9715d92-7de3-4f28-8bc4-4a18b2ba7777',
     'vocabulary_machine_name' => 'countries',
@@ -6802,8 +8814,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'CAF',
+          'format' => NULL,
+          'safe_value' => 'CAF',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/central-african-republic',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'f69003a4-92ff-4c67-b275-f854bc831e95',
     ),
@@ -6815,6 +8841,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => 'd984a8cd-8b88-460c-8027-50c36fc2b7a9',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/gdp-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'b9ccd609-4114-4cbd-ab11-d9bc1a59331e',
     ),
@@ -6843,6 +8875,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/cambodia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -6871,6 +8909,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/benin',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '26bdac36-27ac-4933-a51c-fa8bf567373c',
     ),
@@ -6882,11 +8926,17 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 15,
     'uuid' => 'db20f7d3-b275-4b8d-913d-099b30a8ae85',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/prices-and-wages',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Saint Pierre and Miquelon',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 3,
     'uuid' => 'e1072ad7-fb07-4da3-9bda-3d9dc5047be6',
     'vocabulary_machine_name' => 'countries',
@@ -6897,8 +8947,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'SPM ',
+          'format' => NULL,
+          'safe_value' => 'SPM ',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saint-pierre-and-miquelon',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '5c1b466c-e870-4c1d-8b30-e8ee03993cfe',
     ),
@@ -6919,11 +8983,17 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/oceania',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Myanmar',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 6,
     'uuid' => 'e2c1e020-9f00-4209-a5b2-61c64458e03e',
     'vocabulary_machine_name' => 'countries',
@@ -6934,8 +9004,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MMR',
+          'format' => NULL,
+          'safe_value' => 'MMR',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/myanmar',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -6947,6 +9031,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 1,
     'uuid' => 'e2de437a-508c-4348-85dd-77188678f9ed',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/height',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'd55d22b8-b5b7-4c82-851e-1b08dd1ce941',
     ),
@@ -6967,6 +9057,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/southern-africa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '888f400f-a30c-43cc-892e-8a4e3fc7ca8e',
     ),
@@ -6995,6 +9091,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/antigua-and-barbuda',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -7023,6 +9125,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/aruba',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -7034,6 +9142,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 3,
     'uuid' => 'e64745f6-17cc-4188-9915-fe9f7b1b7078',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/goats-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -7041,7 +9155,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Channel Islands',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 1,
     'uuid' => 'e85eb6d4-21b7-45fd-ab96-c2e5b6f96635',
     'vocabulary_machine_name' => 'countries',
@@ -7054,6 +9168,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/channel-islands',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -7065,6 +9185,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 0,
     'uuid' => 'eb79fec6-c537-4958-ab1f-6ba55ffa098b',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/co2-emissions-capita',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -7076,6 +9202,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     'weight' => 11,
     'uuid' => 'ed48cf6e-4127-46a5-86d6-68cabb800e3d',
     'vocabulary_machine_name' => 'indicators',
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'indicators/total-number-goats',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '42226113-307f-448b-9095-f365e7ed4b01',
     ),
@@ -7104,6 +9236,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/belgium',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1127bc1b-9a0a-46c1-90f1-9e18309af553',
     ),
@@ -7111,7 +9249,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'The former Yugoslav Republic of Macedonia',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 18,
     'uuid' => 'f094b70a-b80c-49d4-b5af-4b243a488141',
     'vocabulary_machine_name' => 'countries',
@@ -7122,8 +9260,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'MKD',
+          'format' => NULL,
+          'safe_value' => 'MKD',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/former-yugoslav-republic-macedonia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -7131,7 +9283,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'United Republic of Tanzania',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 17,
     'uuid' => 'f10d0bd6-4234-4b81-9644-bef128a31c27',
     'vocabulary_machine_name' => 'countries',
@@ -7142,8 +9294,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'TZA',
+          'format' => NULL,
+          'safe_value' => 'TZA',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/united-republic-tanzania',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -7164,11 +9330,17 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/asia',
+        'language' => 'und',
+      ),
+    ),
   );
   $terms[] = array(
     'name' => 'Pitcairn',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 4,
     'uuid' => 'f24c07ec-dbc1-4a3f-8616-d308ae7221ed',
     'vocabulary_machine_name' => 'countries',
@@ -7179,8 +9351,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'PCN',
+          'format' => NULL,
+          'safe_value' => 'PCN',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/pitcairn',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '36f9d386-4dec-4658-97f8-daf5695fca7e',
     ),
@@ -7188,7 +9374,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Ethiopia (from 1993)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 5,
     'uuid' => 'f3a16269-86dd-4b06-b73e-f82bd6a7ef15',
     'vocabulary_machine_name' => 'countries',
@@ -7199,8 +9385,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'ETH',
+          'format' => NULL,
+          'safe_value' => 'ETH',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/ethiopia-1993',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -7229,6 +9429,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/comoros',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -7257,6 +9463,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/somalia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -7285,6 +9497,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/australia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '129199ba-f4e9-43eb-891b-5581a5baf206',
     ),
@@ -7313,6 +9531,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/nicaragua',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a980a142-49f1-4a5a-8d40-c8bb80afde3e',
     ),
@@ -7333,6 +9557,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/middle-africa',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '888f400f-a30c-43cc-892e-8a4e3fc7ca8e',
     ),
@@ -7340,7 +9570,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Indonesia (until 1999)',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 2,
     'uuid' => 'f6f78fab-7eba-4d02-af92-3af7c3b53cc2',
     'vocabulary_machine_name' => 'countries',
@@ -7353,6 +9583,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/indonesia-until-1999',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -7381,6 +9617,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/montserrat',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -7409,6 +9651,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/saint-vincent-and-grenadines',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -7437,6 +9685,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/malaysia',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '1d5d6157-0f11-4cdb-bc0a-10eef13dc13e',
     ),
@@ -7465,6 +9719,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/puerto-rico',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '0672dc20-031b-485e-8a15-762774bc6453',
     ),
@@ -7493,6 +9753,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/iceland',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '837a1bfa-c4b6-4344-adb8-084f97415e61',
     ),
@@ -7521,6 +9787,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/italy',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '37d564ff-7e51-456b-ae25-3b4558b56e43',
     ),
@@ -7541,6 +9813,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
     ),
     'field_country_code' => array(),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/south-america',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '2fb3f46c-6a56-43eb-8b17-ac72debd1b5b',
     ),
@@ -7569,6 +9847,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/palau',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
@@ -7597,6 +9881,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/french-guiana',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'fcb85f77-21a8-4f57-bf47-673051fa9309',
     ),
@@ -7604,7 +9894,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Democratic People\'s Republic of Korea',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 3,
     'uuid' => 'fd111446-8998-4a27-bbf5-16c9a983e370',
     'vocabulary_machine_name' => 'countries',
@@ -7615,8 +9905,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'PRK',
+          'format' => NULL,
+          'safe_value' => 'PRK',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/democratic-peoples-republic-korea',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '792c6f58-987d-4a82-9f78-0d5b5d853c75',
     ),
@@ -7624,7 +9928,7 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
   $terms[] = array(
     'name' => 'Réunion',
     'description' => '',
-    'format' => 'html',
+    'format' => 'plain_text',
     'weight' => 12,
     'uuid' => 'febdfb21-68ef-4788-9958-2282aea5e003',
     'vocabulary_machine_name' => 'countries',
@@ -7635,8 +9939,22 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
         ),
       ),
     ),
-    'field_country_code' => array(),
+    'field_country_code' => array(
+      'und' => array(
+        0 => array(
+          'value' => 'REU',
+          'format' => NULL,
+          'safe_value' => 'REU',
+        ),
+      ),
+    ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/réunion',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => '7bee44e5-2a84-446d-84cc-7079108912a5',
     ),
@@ -7665,6 +9983,12 @@ function clio_indicators_and_countries_uuid_features_default_terms() {
       ),
     ),
     'field_country_status' => array(),
+    'url_alias' => array(
+      0 => array(
+        'alias' => 'countries/nauru',
+        'language' => 'und',
+      ),
+    ),
     'parent' => array(
       0 => 'a70bdf91-6aeb-45bb-b11d-996df07e8442',
     ),
