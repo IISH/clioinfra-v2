@@ -31,9 +31,21 @@ function clio_statplanet_menu() {
     'description' => t('Configure Statplanet for Clio Infra'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('clio_statplanet_config_form'),
-    'access arguments' => array('administer site configuration'), // something else
+    'access arguments' => array('administer statplanet'),
   );
   return $items;
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function clio_statplanet_permission() {
+  return array(
+    'administer statplanet' => array(
+      'title' => t('Administer Clio Statplanet'),
+    ),
+  );
 }
 
 
@@ -137,7 +149,7 @@ function clio_statplanet_check_statplanet() {
 }
 
 
-function clio_statplanet_page($inline = TRUE) {
+function clio_statplanet_page($inline = FALSE) {
   if (!clio_statplanet_check_statplanet()) {
     return '';
   }
@@ -199,6 +211,7 @@ function clio_statplanet_create_settings_file() {
   $data = file_get_contents($statdir . '/settings-base.csv'); // OR error
   // Use DOS line endings.
   $rowseparator = "\r\n";
+  $enclosure = '"';
   $data .= 'NAMES';  
   // TODO Combine this into one function.
   $countries = clio_get_countries();
@@ -206,7 +219,8 @@ function clio_statplanet_create_settings_file() {
   foreach ($countries as $id => $country) {
     if (!empty($country['code'])) {
       $name = iconv("UTF-8", "ISO-8859-1", $country['name']);
-      $data .= $rowseparator . $name;
+//      $data .= $rowseparator . $enclosure . $name . $enclosure;
+      $data .= $rowseparator . preg_replace('/,/', '', $name);
     }
   }
     
