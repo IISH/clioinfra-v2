@@ -235,6 +235,8 @@ function clio_statplanet_create_settings_file() {
  * Dynamically create data (or CSV file) with links to category files. This should work in Statplanet Plus 3.1 and higher.
  * TODO cache this
  *
+ * @param $inline
+ *   A boolean indicating whether the data should be returned as a string or a path to a created/refreshed file.
  * @return
  *   A string (or path to CSV file) containing the categories and the names of the data files.
  */
@@ -247,11 +249,13 @@ function clio_statplanet_create_data_file($inline = FALSE) {
   if ($inline) {
     $rowseparator = ";";
     $data = "#". $separator . $rowseparator;
+    $enclosure = '';
   }
   else {
     // Use DOS line endings.
     $rowseparator = "\r\n";
     $data = '';
+    $enclosure = '"';
   }
   $data .= "CATEGORY". $separator ."YEAR". $separator ."INDICATOR". $separator ."SOURCE". $separator ."DESCRIPTION". $separator ."UNIT". $separator ."MAP". $separator ."GRAPH". $separator ."FILE". $separator ."OPTIONS". $separator ."TYPE";
   foreach ($countries as $code) {
@@ -261,11 +265,12 @@ function clio_statplanet_create_data_file($inline = FALSE) {
     $topicname = preg_replace('/,/', '', $topic->name);
     $filename = 'data' . $topic->tid . "." . $extension;
     $data .= $rowseparator;
-//    $data .= '"' . $topic->name . '"' . $separator . CLIO_MAX_YEAR . $separator . $separator . '"' . $filename . '"';
-    $data .= $topicname . $separator . CLIO_MAX_YEAR . $separator . $separator . $separator . $separator . $separator . $separator . $separator . $filename . $separator . $separator;
+    $data .= $enclosure . $topicname . $enclosure . $separator . CLIO_MAX_YEAR . $separator . $separator . $separator . $separator . $separator . $separator . $separator . $filename . $separator . $separator;
+    // Statplanet needs empty cells.
+    $data .= str_repeat($separator, count($countries));
     foreach (taxonomy_get_children($topic->tid) as $indicator) {
-//      $data .= $rowseparator . $separator . $separator . '"' . $indicator->name . '"' . $separator . "#";
-      $data .= $rowseparator . $separator . $separator . $indicator->name . $separator . $separator . $separator . $separator . $separator . $separator . "#" . $separator . $separator ;
+      $data .= $rowseparator . $separator . $separator . $enclosure . $indicator->name . $enclosure . $separator . $separator . $separator . $separator . $separator . $separator . "#" . $separator . $separator ;
+      $data .= str_repeat($separator, count($countries));
     }
   }
   if ($inline) {
@@ -320,12 +325,14 @@ function clio_statplanet_create_category_files($topics = NULL) {
     foreach ($years as $year) {
       if ($firstline) {
         $topicname = preg_replace('/,/', '', $topic->name);
-        $fields = array($topicname, $year); // No empty cells needed?
+        $fields = array($topicname, $year, '', '', '', '', '', '', '', '', ''); // No empty cells needed?
         $firstline = FALSE;
       }
       else {
-        $fields = array('', $year);
+        $fields = array('', $year, '', '', '', '', '', '', '', '', '');
       }
+      // Statplanet needs empty cells.
+      $fields = array_merge($fields, array_fill(0, count($countries), ''));
       fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
       foreach (taxonomy_get_children($topic->tid) as $indicator) {
         $fields = array('', '', $indicator->name, '', '', '', '', '', '', '', '');
