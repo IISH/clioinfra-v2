@@ -319,7 +319,6 @@ function clio_statplanet_create_category_files($topics = NULL) {
       if ($firstline) {
         $topicname = preg_replace('/,/', '', $topic->name);
         $fields = array($topicname, $year, '', '', '', '', '', '', '', '', ''); // No empty cells needed?
-        $firstline = FALSE;
       }
       else {
         $fields = array('', $year, '', '', '', '', '', '', '', '', '');
@@ -328,10 +327,11 @@ function clio_statplanet_create_category_files($topics = NULL) {
       $fields = array_merge($fields, array_fill(0, count($countries), ''));
       fwrite($filehandle, implode($separator, $fields) . "\r\n");
       foreach (taxonomy_get_children($topic->tid) as $indicator) {
-        $fields = array('', '', $indicator->name, '', '', '', '', '', '', '', '');
+        $unit = ($firstline) ? $values[$indicator->tid]['unit'] : '';
+        $fields = array('', '', $indicator->name, '', '', $unit, '', '', '', '', '');
         foreach ($countries as $countrycode => $countryid) {
-          if (isset($values[$indicator->tid][$year][$countryid])) {
-            array_push($fields, $values[$indicator->tid][$year][$countryid]);
+          if (isset($values[$indicator->tid]['values'][$year][$countryid])) {
+            array_push($fields, $values[$indicator->tid]['values'][$year][$countryid]);
           }
           else {
             array_push($fields, '');
@@ -339,6 +339,7 @@ function clio_statplanet_create_category_files($topics = NULL) {
         }
         fwrite($filehandle, implode($separator, $fields) . "\r\n");
       }
+      $firstline = FALSE;
     }
     $files[$topic->tid] = $filepath;
   }
@@ -374,13 +375,13 @@ function clio_statplanet_get_values($indicatortid, $years = array(), $countries 
       if ($datarow = $data->fetchAssoc()) {
         $values = array();
         // Get unit from first row.
-        // $unit = (isset($datarow['unit'])) ? $datarow['unit'] : NULL;
+        $unit = (isset($datarow['unit'])) ? $datarow['unit'] : '';
         do {
           if (isset($datarow['value'])) {
             $values[$datarow['year']][$datarow['countrycode']] = $datarow['value'];
           }
         } while ($datarow = $data->fetchAssoc());
-        return $values;
+        return array('values' => $values, 'unit' => $unit);
       }
     }
   }
