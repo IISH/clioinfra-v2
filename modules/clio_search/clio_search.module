@@ -687,6 +687,7 @@ function clio_search_convert_save_as_csv($data, $prefix = 'clio') {
 
 /*
  * Save as Excel file, unmanaged, temporary.
+ * Save as XLSX, as XLS allows no more than 256 columns.
  * TODO This takes 8 seconds per file!
  * TODO Use template?
  */
@@ -696,12 +697,11 @@ function clio_convert_save_as_xls($data, $prefix = 'clio') {
   
   $tempdir = file_directory_temp();
   $path = drupal_tempnam($tempdir, $prefix .'-');
-  if (rename($path, $path . '.xls')) {
-    $path .= '.xls';
+  if (rename($path, $path . '.xlsx')) {
+    $path .= '.xlsx';
   }
   $headers = array();
   $options = array('format' => 'xlsx', 'ignore_headers' => TRUE);
-  // TODO xls has max 256 columns!
   // TODO ignore_headers alleen als clio-format?
   $result = phpexcel_export($headers, $data, $path, $options);
   if ($result == PHPEXCEL_SUCCESS) {
@@ -715,14 +715,14 @@ function clio_convert_save_as_xls($data, $prefix = 'clio') {
     $file->uid = $user->uid;
   }
   else {
-    drupal_set_message(t("Error saving file as XLS: ") . $result, 'error');
+    drupal_set_message(t("Error saving file as XLSX: ") . $result, 'error');
     return;
   }    
   if (!empty($file)) {
 //    drupal_set_message(t('Saved file to destination %destination', array('%destination' => $filename)));
   }
   else {
-    drupal_set_message(t('Failed to save XLS file %destination', array('%destination' => $filename)), 'error');
+    drupal_set_message(t('Failed to save XLSX file %destination', array('%destination' => $filename)), 'error');
     return;
   }
 

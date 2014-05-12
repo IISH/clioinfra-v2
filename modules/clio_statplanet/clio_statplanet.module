@@ -14,6 +14,7 @@
  * Careful: Statplanet will look for a file data.csv or data.zip by default!
  * Careful: Use DOS line endings.
  * Statplanet uses ISO ALPHA-3 codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
+ *
  */
 
 /**
