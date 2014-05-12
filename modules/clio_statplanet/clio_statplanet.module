@@ -5,6 +5,7 @@
  *    settings.csv contains list of all country names (for display in country selector)
  *    set vocabulary for topics/indicators
  *    set noflash text
+ *    set custom colors
  *    zip or csv
  *    one data file or per topic
  * 
