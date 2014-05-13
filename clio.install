@@ -2,6 +2,8 @@
 /**
  * @file
  * Install, update and uninstall functions for the Clio module.
+ *
+ * TODO Move vocabularies and fields to feature. Add field_shortname.
  */
 
 /**

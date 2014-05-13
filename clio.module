@@ -67,9 +67,10 @@ function clio_get_countries() {
   $countries = array();
   foreach ($countries_tree as $country) {
     if (!empty($country->field_country_id)) {
-      $country_id = $country->field_country_id['und'][0]['value'];
-      $country_code = !empty($country->field_country_code) ? $country->field_country_code['und'][0]['value'] : '';
-      $countries[$country_id] = array('name' => $country->name, 'tid' => $country->tid, 'code' => $country_code);
+      $id = $country->field_country_id['und'][0]['value'];
+      $code = !empty($country->field_country_code) ? $country->field_country_code['und'][0]['value'] : '';
+      $shortname = !empty($country->field_shortname) ? $country->field_shortname['und'][0]['value'] : '';
+      $countries[$id] = array('name' => $country->name, 'tid' => $country->tid, 'code' => $code, 'shortname' => $shortname);
     }
   }
   return $countries;
