@@ -188,6 +188,7 @@ function clio_search_select($vocab = 'combined', $tid = NULL) {
     default:
       drupal_set_title('Combined search');
       $output = views_embed_view('data', 'page_4');
+      $output .= clio_search_select_message();
       break;
   }
   return $output;
@@ -245,12 +246,21 @@ function clio_search_select_form($form, &$form_state) {
     );
   }
 
+  $form['message'] = array(
+    '#markup' => clio_search_select_message(),
+  );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('OK'),
   );
 
   return $form;  
+}
+
+
+function clio_search_select_message() {
+  return '<div class="select-message">(' . t('Leave blank for all available data') . ')</div>';
 }
 
 
@@ -487,7 +497,8 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
   $params = clio_search_get_querystring();
   $result = clio_search_db_query($resource, $params['years'], $params['countries']);
   if ($clioformat) {
-    $rows = clio_search_convert_to_clio($result, $resource);
+    $allcountries = empty($params['countries']);
+    $rows = clio_search_convert_to_clio($result, $resource, $allcountries);
     $indicator = $rows[0][0];
   }
   else {
@@ -574,7 +585,7 @@ function clio_search_transfer($file) {
  * @return $rows
  *   Array of arrays in clio format.
  */
-function clio_search_convert_to_clio($data, $resource, $empty_years = TRUE) {
+function clio_search_convert_to_clio($data, $resource, $allcountries = FALSE, $empty_years = TRUE) {
   global $user;
   $countries = clio_get_countries();
   $rows = array();
@@ -610,6 +621,8 @@ function clio_search_convert_to_clio($data, $resource, $empty_years = TRUE) {
   // Create header row with year columns.
   $rows[] = array_merge(array('Code', 'Continent, Region, Country'), $years);
 
+  // TODO if ($allcountries) { foreach ($countries as $countrycode => $fields) }
+  // TODO else { sort? on what? }
   // Create row for each country.
   foreach ($values as $countrycode => $yearvalue) {
     // Start with country code and name.
