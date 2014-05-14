@@ -512,8 +512,12 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
   else {
     $file = clio_search_convert_save_as_csv($rows, $indicator);
   }
-  return $file->uri;
-
+  if ($file) {
+    return $file->uri;
+  }
+  else {
+    return;
+  }
 
   // TODO let convert return a string instead of a file.
   // $contents = $csv;
@@ -714,7 +718,8 @@ function clio_convert_save_as_xls($data, $prefix = 'clio') {
     $path .= '.xlsx';
   }
   $headers = array();
-  $options = array('format' => 'xlsx', 'ignore_headers' => TRUE);
+  $template = drupal_get_path('module', 'clio_search') . '/template/clio-template.xlsx';
+  $options = array('format' => 'xlsx', 'ignore_headers' => TRUE, 'template' => $template);
   // TODO ignore_headers alleen als clio-format?
   $result = phpexcel_export($headers, $data, $path, $options);
   if ($result == PHPEXCEL_SUCCESS) {
@@ -728,7 +733,7 @@ function clio_convert_save_as_xls($data, $prefix = 'clio') {
     $file->uid = $user->uid;
   }
   else {
-    drupal_set_message(t("Error saving file as XLSX: ") . $result, 'error');
+    drupal_set_message(t("Error saving file as XLSX, error code: ") . $result, 'error');
     return;
   }    
   if (!empty($file)) {
