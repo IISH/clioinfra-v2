@@ -64,12 +64,12 @@ projects[wysiwyg][version] = 2.2
 
 ; Clio site content
 
-projects[clio_site][type] = module
-projects[clio_site][subdir] = features
-projects[clio_site][version] = 1.x
-projects[clio_site][download][type] = git
-projects[clio_site][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
-projects[clio_site][download][branch] = master
+projects[clio][type] = module
+projects[clio][subdir] = features
+projects[clio][version] = 1.x
+projects[clio][download][type] = git
+projects[clio][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
+projects[clio][download][branch] = master
 
 ; Themes
 
@@ -84,9 +84,15 @@ projects[clioinfra][download][branch] = "master"
 ; Libraries
 
 libraries[phpexcel][type] = libraries
-libraries[phpexcel][download][type] = file
-libraries[phpexcel][download][url] = http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=phpexcel&DownloadId=809026&FileTime=130382506283700000&Build=20885
+libraries[phpexcel][download][type] = "git"
+libraries[phpexcel][download][url] = "git://support1.socialhistoryservices.org/phpexcel.git"
+libraries[phpexcel][download][branch] = "1.8.3"
 libraries[phpexcel][directory_name] = PHPExcel
+
+;libraries[pclzip][type] = libraries
+;libraries[pclzip][download][type] = file
+;libraries[pclzip][download][url] = http://www.phpconcept.net/download.php?file=pclzip-2-8-2.zip
+;libraries[pclzip][directory_name] = pclzip
 
 libraries[jquery.cycle][type] = libraries
 libraries[jquery.cycle][download][type] = git
