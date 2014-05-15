@@ -14,7 +14,7 @@ projects[clio][subdir] = custom
 projects[clio][version] = 1.x
 projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
-projects[clio][download][branch] = master
+projects[clio][download][branch] = test
 
 ; Clio required modules
 
@@ -64,12 +64,12 @@ projects[wysiwyg][version] = 2.2
 
 ; Clio site content
 
-projects[clio][type] = module
-projects[clio][subdir] = features
-projects[clio][version] = 1.x
-projects[clio][download][type] = git
-projects[clio][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
-projects[clio][download][branch] = master
+projects[clio_site][type] = module
+projects[clio_site][subdir] = features
+projects[clio_site][version] = 1.x
+projects[clio_site][download][type] = git
+projects[clio_site][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
+projects[clio_site][download][branch] = test
 
 ; Themes
 
@@ -78,10 +78,15 @@ projects[zen][version] = 5.1
 projects[clioinfra][type] = "theme"
 projects[clioinfra][download][type] = "git"
 projects[clioinfra][download][url] = "git://github.com/IISH/drupal-theme-clioinfra.git"
-projects[clioinfra][download][branch] = "master"
+projects[clioinfra][download][branch] = "test"
 
 
 ; Libraries
+
+;libraries[phpexcel][type] = libraries
+;libraries[phpexcel][download][type] = file
+;libraries[phpexcel][download][url] = http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=phpexcel&DownloadId=809026&FileTime=130382506283700000&Build=20885
+;libraries[phpexcel][directory_name] = PHPExcel
 
 libraries[phpexcel][type] = libraries
 libraries[phpexcel][download][type] = "git"
