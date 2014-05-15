@@ -85,7 +85,7 @@ projects[clioinfra][download][branch] = "master"
 
 libraries[phpexcel][type] = libraries
 libraries[phpexcel][download][type] = "git"
-libraries[phpexcel][download][url] = "git://support1.socialhistoryservices.org/phpexcel.git"
+libraries[phpexcel][download][url] = "git@support1.socialhistoryservices.org:phpexcel.git"
 libraries[phpexcel][download][branch] = "1.8.3"
 libraries[phpexcel][directory_name] = PHPExcel
 
