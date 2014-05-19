@@ -238,8 +238,7 @@ function clio_search_select_form($form, &$form_state) {
     );
   }
 
-  // TODO check if arg(3) exists
-  if ((arg(2) == 'country') || (arg(2) == 'topic')) {
+  if (((arg(2) == 'country') || (arg(2) == 'topic')) && (is_numeric(arg(3)))) {
     $parent = (arg(2) == 'topic') ? arg(3) : 0;
   
     $form['indicator'] = array(
@@ -330,9 +329,7 @@ function clio_search_results() {
     $query = drupal_get_query_parameters($_POST);
   }  
   // TODO beetje dubbelop hier
-
-  // TODO restrict to topic
-  $params = clio_search_get_querystring();  
+  $params = clio_search_get_params();  
   $indicators = $params['indicators'];
   
   $datasets = array();
@@ -392,14 +389,13 @@ function clio_search_results() {
  *   year[min]=1500&year[max]=2013&country[]=12&country[]=13&country[]=14&indicator[]=50
  */
 function clio_search_download() { 
-  $params = clio_search_get_querystring();  
+  $params = clio_search_get_params();  
   $indicators = $params['indicators'];
     
   // Create the result files and the list of files to be zipped.
   $files = array();
   // Create temporary files for the result set. pathnames? uri's? fids?
   // Managed or unmanaged?
-  // TODO drupal_mkdir($randomname), and use indicatornames as filenames;
   foreach ($indicators as $indicatortid) {
     $datasetnid = clio_search_get_dataset($indicatortid);
     if ($datasetnid) {
@@ -420,8 +416,8 @@ function clio_search_download() {
         ),
       'finished' => 'clio_search_finished',
       'title' => t('Creating download file'),
-      'init_message' => t('Download file creation is starting.'),
-      'progress_message' => t('Processed @current out of @total.'),
+      'init_message' => t('Starting file creation.'),
+      'progress_message' => t('Processed @current out of @total tasks.'),
       'error_message' => t('Download file creation has encountered an error.'),
     );
     batch_set($batch);
@@ -513,19 +509,19 @@ function clio_search_create_result_files($files, $dir, $xls = TRUE, $clioformat 
     $context['results']['dir'] = $dir;
   }
   
-  $uri = clio_search_create_result_file($files[$context['sandbox']['current_file']]['resource'], $dir, $xls, $clioformat);
-  if ($uri) {
-    $context['results']['files'][] = drupal_realpath($uri);
+  $uri1 = clio_search_create_result_file($files[$context['sandbox']['current_file']]['resource'], $dir, $xls, $clioformat);
+  if ($uri1) {
+    $context['results']['files'][] = drupal_realpath($uri1);
+    $uri2 = clio_search_get_working_paper($files[$context['sandbox']['current_file']]['dataset'], $dir);
+    if ($uri2) {
+      $context['results']['files'][] = drupal_realpath($uri2);
+    }
   }
-  $uri = clio_search_get_working_paper($files[$context['sandbox']['current_file']]['dataset'], $dir);
-  if ($uri) {
-    $context['results']['files'][] = drupal_realpath($uri);
-  }
-
+  
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_file']++;
-  $context['message'] = t('Now processing %uri', array('%uri' => $uri));
+  $context['message'] = t('Now processing %file', array('%file' => drupal_basename($uri1, 'xlsx')));
 
   // Inform the batch engine that we are not finished,
   // and provide an estimation of the completion level we reached.
@@ -538,11 +534,9 @@ function clio_search_create_result_files($files, $dir, $xls = TRUE, $clioformat 
 /*
  * @param $resource
  *   The nid of the resource
- *
- * TODO unset($data); or &$data
  */
 function clio_search_create_result_file($resource, $dir, $xls = TRUE, $clioformat = TRUE) {
-  $params = clio_search_get_querystring();
+  $params = clio_search_get_params();
   $result = clio_search_db_query($resource, $params['years'], $params['countries']);
   if ($clioformat) {
     $allcountries = empty($params['countries']);
@@ -622,7 +616,7 @@ function clio_search_create_zip($files, $dir = '', $filename = NULL) {
       $filename .= '.zip';
     }
   }
-  // TODO double file creation here?
+  // TODO double file creation here
   $file = file_save_data('', $filename);
   $file->status = 0;
 //  $file = file_save($tmp_file);
@@ -818,7 +812,7 @@ function clio_convert_save_as_xls($data, $prefix, $dir = '') {
   $headers = array();
   $template = drupal_get_path('module', 'clio_search') . '/template/clio-template.xlsx';
   $options = array('format' => 'xlsx', 'ignore_headers' => TRUE, 'template' => $template);
-  // TODO ignore_headers alleen als clio-format?
+  // TODO ignore_headers only if clio-format?
   $result = phpexcel_export($headers, $data, $path, $options);
   if ($result == PHPEXCEL_SUCCESS) {
     // Create a file object from temporary file.
@@ -856,7 +850,7 @@ function clio_convert_save_as_xls($data, $prefix, $dir = '') {
  * TODO input validation
  * TODO sort indicators in case of multiple parents?
  */
-function clio_search_get_querystring() {
+function clio_search_get_params() {
   $query = drupal_get_query_parameters();
   if (empty($query)) {
     $query = drupal_get_query_parameters($_POST);
@@ -867,17 +861,26 @@ function clio_search_get_querystring() {
     $indicators = $query['indicator'];
   }
   else {
-    // All indicators.
-    $indicators = array();
-    $vocab = taxonomy_vocabulary_machine_name_load('indicators');
-    $topics = taxonomy_get_tree($vocab->vid, 0, 1);
-    foreach ($topics as $topic) {
-      $children = taxonomy_get_children($topic->tid);
+    if (isset($query['topic']) && is_numeric($query['topic'])) {
+      $indicators = array();
+      $children = taxonomy_get_children($query['topic']);
       foreach ($children as $child) {
         $indicators[] = $child->tid;
       }
     }
-    $indicators = array_unique($indicators);
+    else {
+    // All indicators.
+      $indicators = array();
+      $vocab = taxonomy_vocabulary_machine_name_load('indicators');
+      $topics = taxonomy_get_tree($vocab->vid, $parent, 1);
+      foreach ($topics as $topic) {
+        $children = taxonomy_get_children($topic->tid);
+        foreach ($children as $child) {
+          $indicators[] = $child->tid;
+        }
+      }
+      $indicators = array_unique($indicators);
+    }
   }
   return array('years' => $years, 'countries' => $countries, 'indicators' => $indicators);
 }
@@ -891,7 +894,7 @@ function clio_search_get_querystring() {
  */
 function clio_search_views_query_alter(&$view, &$query) {
   if (preg_match('/feeds_datastore_dkan_file_/', $view->name) && ($view->current_display == 'page_1')) {
-    $params = clio_search_get_querystring();
+    $params = clio_search_get_params();
     $years = $params['years'];
     $countries = $params['countries'];
     if (count($years)) {

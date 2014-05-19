@@ -307,7 +307,11 @@ function clio_statplanet_create_category_files($topics = NULL) {
   $files = array();
   foreach ($topics as $topic) {
     // TODO Nicer name?
-    $filepath = drupal_tempnam($tempdir, 'stat') . '.csv';
+    $filepath = drupal_tempnam($tempdir, 'stat');
+    if (rename($filepath, $filepath . '.csv')) {
+      $filepath .= '.csv';
+    }
+
     $filehandle = fopen($filepath, 'w+');
     // Header
     $fields = array_merge(array("CATEGORY", "YEAR", "INDICATOR", "SOURCE", "DESCRIPTION", "UNIT", "MAP", "GRAPH", "FILE", "OPTIONS", "TYPE"), array_keys($countries));
