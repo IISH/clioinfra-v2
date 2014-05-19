@@ -2,6 +2,7 @@
 
 // TODO all files unmanaged, in tmp, except zip.
 // TODO clean up zip files.
+// TODO Use /clio/zip subdir for all zipfiles
 
 /*
  * Views to query the stored datasets.
@@ -34,28 +35,28 @@ function clio_search_menu() {
     'page callback'    => 'clio_search_list',
     'page arguments'   => array(1),
     'access arguments' => array('search datasets'),
-    'type'             => MENU_NORMAL_ITEM,
+    'type'             => MENU_CALLBACK,
     'weight' => 10,
   );
   $items['datasets/topics'] = array(
     'page callback'    => 'clio_search_list',
     'page arguments'   => array(1),
     'access arguments' => array('search datasets'),
-    'type'             => MENU_NORMAL_ITEM,
+    'type'             => MENU_CALLBACK,
     'weight' => 11,
   );
   $items['datasets/indicators'] = array(
     'page callback'    => 'clio_search_list',
     'page arguments'   => array(1),
     'access arguments' => array('search datasets'),
-    'type'             => MENU_NORMAL_ITEM,
+    'type'             => MENU_CALLBACK,
     'weight' => 12,
   );
   $items['datasets/combined'] = array(
     'page callback'    => 'clio_search_select',
     'page arguments'   => array(1),
     'access arguments' => array('search datasets'),
-    'type'             => MENU_NORMAL_ITEM,
+    'type'             => MENU_CALLBACK,
     'weight' => 13,
   );
   $items['datasets/select/%/%'] = array(
@@ -71,6 +72,12 @@ function clio_search_menu() {
   );
   $items['datasets/download'] = array(
     'page callback'    => 'clio_search_download',
+    'access arguments' => array('download datasets'),
+    'type'             => MENU_CALLBACK,
+  );
+  $items['datasets/transfer'] = array(
+    'page callback'    => 'clio_search_transfer',
+    'page arguments'   => array(2),
     'access arguments' => array('download datasets'),
     'type'             => MENU_CALLBACK,
   );
@@ -223,7 +230,15 @@ function clio_search_select_form($form, &$form_state) {
          '#value' => arg(3),
     );
   }
+  
+  if ((arg(2) == 'topic') && (is_numeric(arg(3)))) {
+    $form[arg(2)] = array (
+         '#type' => 'hidden',
+         '#value' => arg(3),
+    );
+  }
 
+  // TODO check if arg(3) exists
   if ((arg(2) == 'country') || (arg(2) == 'topic')) {
     $parent = (arg(2) == 'topic') ? arg(3) : 0;
   
@@ -235,7 +250,7 @@ function clio_search_select_form($form, &$form_state) {
       '#size' => 14,
     );
   }
-
+  
   if ((arg(2) == 'indicator') || (arg(2) == 'topic')) {
     $form['country'] = array(
       '#type' => 'select',
@@ -316,6 +331,7 @@ function clio_search_results() {
   }  
   // TODO beetje dubbelop hier
 
+  // TODO restrict to topic
   $params = clio_search_get_querystring();  
   $indicators = $params['indicators'];
   
@@ -376,7 +392,6 @@ function clio_search_results() {
  *   year[min]=1500&year[max]=2013&country[]=12&country[]=13&country[]=14&indicator[]=50
  */
 function clio_search_download() { 
-
   $params = clio_search_get_querystring();  
   $indicators = $params['indicators'];
     
@@ -384,32 +399,33 @@ function clio_search_download() {
   $files = array();
   // Create temporary files for the result set. pathnames? uri's? fids?
   // Managed or unmanaged?
-  $datasets = array();
   // TODO drupal_mkdir($randomname), and use indicatornames as filenames;
   foreach ($indicators as $indicatortid) {
     $datasetnid = clio_search_get_dataset($indicatortid);
     if ($datasetnid) {
       $resourcenid = clio_search_get_resource($datasetnid);
       if ($resourcenid) {
-        // TODO Are we sure the database table exists?
-        $uri  = clio_search_create_result_file($resourcenid);
-        if ($uri) {
-          $files[] = drupal_realpath($uri);
-        }
-        $uri  = clio_search_get_working_paper($datasetnid); // public://wp.doc
-        if ($uri) {
-          $files[] = drupal_realpath($uri);
-        }
+        $files[] = array('resource' => $resourcenid, 'dataset' => $datasetnid);
       }
     }
   }
 
-  if (count($files)) {
-    // Combine all files in a zip.
-    $zipfile = clio_search_create_zip($files);
-    clio_search_transfer($zipfile);
-    // TODO Werkt niet, na file_transfer stopt process. Hoeft niet want in tmp?
-    file_unmanaged_delete($zipfile);
+  if (!empty($files)) {
+
+    $dir = 'zip' . mt_rand(0, 9999999);
+    drupal_mkdir('public://clio/' . $dir);
+    $batch = array(
+      'operations' => array(
+        array('clio_search_create_result_files', array($files, $dir, TRUE, TRUE)),
+        ),
+      'finished' => 'clio_search_finished',
+      'title' => t('Creating download file'),
+      'init_message' => t('Download file creation is starting.'),
+      'progress_message' => t('Processed @current out of @total.'),
+      'error_message' => t('Download file creation has encountered an error.'),
+    );
+    batch_set($batch);
+    batch_process('datasets/transfer/' . $dir);
   }
 }
 
@@ -487,13 +503,45 @@ function clio_search_get_working_paper($nid) {
 
 
 /*
+ * Process one resource file and working paper per batch step.
+ */
+function clio_search_create_result_files($files, $dir, $xls = TRUE, $clioformat = TRUE,  &$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['current_file'] = 0;
+    $context['sandbox']['max'] = count($files);
+    $context['results']['dir'] = $dir;
+  }
+  
+  $uri = clio_search_create_result_file($files[$context['sandbox']['current_file']]['resource'], $dir, $xls, $clioformat);
+  if ($uri) {
+    $context['results']['files'][] = drupal_realpath($uri);
+  }
+  $uri = clio_search_get_working_paper($files[$context['sandbox']['current_file']]['dataset'], $dir);
+  if ($uri) {
+    $context['results']['files'][] = drupal_realpath($uri);
+  }
+
+  // Update our progress information.
+  $context['sandbox']['progress']++;
+  $context['sandbox']['current_file']++;
+  $context['message'] = t('Now processing %uri', array('%uri' => $uri));
+
+  // Inform the batch engine that we are not finished,
+  // and provide an estimation of the completion level we reached.
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+
+/*
  * @param $resource
  *   The nid of the resource
  *
- * TODO values 0 or empty?
  * TODO unset($data); or &$data
  */
-function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TRUE) {
+function clio_search_create_result_file($resource, $dir, $xls = TRUE, $clioformat = TRUE) {
   $params = clio_search_get_querystring();
   $result = clio_search_db_query($resource, $params['years'], $params['countries']);
   if ($clioformat) {
@@ -507,10 +555,10 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
   }
   // TODO replace spaces in $indicator?
   if ($xls) {
-    $file = clio_convert_save_as_xls($rows, $indicator);
+    $file = clio_convert_save_as_xls($rows, $indicator, $dir);
   }
   else {
-    $file = clio_search_convert_save_as_csv($rows, $indicator);
+    $file = clio_search_convert_save_as_csv($rows, $indicator, $dir);
   }
   if ($file) {
     return $file->uri;
@@ -530,6 +578,28 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
 }
 
 
+
+/**
+* Batch 'finished' callback
+*/
+function clio_search_finished($success, $results, $operations) {
+  if ($success) {
+    if (count($results['files'])) {
+      // Combine all files in a zip.
+      $zipfile = clio_search_create_zip($results['files'], $results['dir']);
+//      clio_search_transfer($zipfile);
+    }
+  }
+  else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    $message = t('An error occurred while processing %error_operation with arguments: @arguments', array('%error_operation' => $error_operation[0], '@arguments' => print_r($error_operation[1], TRUE)));
+    drupal_set_message($message, 'error');
+  }
+}
+
+
 /* 
  * Create zip archive, managed, temporary
  *
@@ -538,26 +608,30 @@ function clio_search_create_result_file($resource, $xls = TRUE, $clioformat = TR
  * @return
  *  A zip file object.
  */
-function clio_search_create_zip($files, $filename = NULL) {
+function clio_search_create_zip($files, $dir = '', $filename = NULL) {
   $path = drupal_get_path('module', 'clio_search') . '/pclzip';
   require_once $path . '/pclzip.lib.php';
-  
-  if (!($filename)) {
+
+  if ($dir) {
+    $filename = 'public://clio/' . $dir . '/data.zip';
+  }
+  // TODO if filename
+  else {
     $filename = drupal_tempnam('temporary://', 'data_');
     if (rename($filename, $filename . '.zip')) {
       $filename .= '.zip';
     }
   }
-  $tmp_file = file_save_data('', $filename);
-  $tmp_file->status = 0;
-  $file = file_save($tmp_file);
+  // TODO double file creation here?
+  $file = file_save_data('', $filename);
+  $file->status = 0;
+//  $file = file_save($tmp_file);
   $archive = new PclZip(drupal_realpath($file->uri));
   $archive->add($files, PCLZIP_OPT_REMOVE_ALL_PATH);
-
+  
   // TODO error check: what if file does not exist?
   // TODO file replace should work.
   
-  // TODO move to public (/clio/zip), in case transfer won't work.
   // TODO delete source files: file_unmanaged_delete_recursive($path)
   // TODO unmanaged?
   // $ = file_unmanaged_save_data($zip , 'public://output.zip', FILE_EXISTS_REPLACE);
@@ -565,15 +639,26 @@ function clio_search_create_zip($files, $filename = NULL) {
 }
 
 
-function clio_search_transfer($file) {
+function clio_search_transfer($dir) {
+  // TODO cleaner
+  $file = '/sites/default/files/clio/' . $dir . '/data.zip';
+  drupal_add_js('jQuery(document).ready(function () { window.location.assign(\'' . $file . '\'); });',
+    array('type' => 'inline', 'scope' => 'footer')
+  );
+  return '<p>Problems with the download? Please use this <a href="javascript:void(0);" name="Download dataset" title="Dataset" onClick=window.open("' . $file . '","Dataset","width=0,height=0,0,status=0")>direct link</a>.</p>';
+
+/*
   // send the archive
-//  module_invoke("pclzip", 'send_file', $filename);
   // This from download module.
   header("Content-Type: application/force-download");
   header('Content-Description: File Transfer');
-  header('Content-Disposition: inline; filename=' . $file->filename);
-  readfile(drupal_realpath($file->uri));
+  header('Content-Disposition: inline; filename=data.zip');
+  $filesdir = variable_get('file_public_path', conf_path() . '/files');
+  $path = $filesdir . '/clio/' . $dir . '/data.zip';
+  readfile($path);
   exit();  
+*/
+
 }
   
   
@@ -666,8 +751,9 @@ function clio_search_convert_to_rows($data, $resource) {
 
 /*
  * Save as CSV, unmanaged, temporary.
+ * TODO Use $dir
  */
-function clio_search_convert_save_as_csv($data, $prefix = 'clio') {
+function clio_search_convert_save_as_csv($data, $prefix = 'clio', $dir = '') {
   global $user;
   // Create a temporary file.
   $tempdir = file_directory_temp();
@@ -706,17 +792,29 @@ function clio_search_convert_save_as_csv($data, $prefix = 'clio') {
  * Save as Excel file, unmanaged, temporary.
  * Save as XLSX, as XLS allows no more than 256 columns.
  * TODO This takes 8 seconds per file!
- * TODO Use template?
+ * TODO Fix prefix name
  */
-function clio_convert_save_as_xls($data, $prefix = 'clio') {
+function clio_convert_save_as_xls($data, $prefix, $dir = '') {
   global $user;
   module_load_include('inc', 'phpexcel');
   
-  $tempdir = file_directory_temp();
-  $path = drupal_tempnam($tempdir, $prefix .'-');
-  if (rename($path, $path . '.xlsx')) {
-    $path .= '.xlsx';
+  if ($prefix) {
+    // prefix = indicatorname
+    $filesdir = variable_get('file_public_path', conf_path() . '/files');
+    $filename = $prefix . '.xlsx';
+    $path = $filesdir . '/clio/' . $dir . '/' . $filename;
+    $uri = 'public://clio/' . $dir . '/' . $filename;
   }
+  else {
+    $tempdir = file_directory_temp();
+    $path = drupal_tempnam($tempdir . '/' . $dir, $prefix .'-');
+    if (rename($path, $path . '.xlsx')) {
+      $path .= '.xlsx';
+    }
+    $filename = drupal_basename($path);
+    $uri = 'temporary://'. $filename;
+  }
+
   $headers = array();
   $template = drupal_get_path('module', 'clio_search') . '/template/clio-template.xlsx';
   $options = array('format' => 'xlsx', 'ignore_headers' => TRUE, 'template' => $template);
@@ -724,10 +822,10 @@ function clio_convert_save_as_xls($data, $prefix = 'clio') {
   $result = phpexcel_export($headers, $data, $path, $options);
   if ($result == PHPEXCEL_SUCCESS) {
     // Create a file object from temporary file.
-    $filename = drupal_basename($path);
+    $filename = $filename;
     $file = new stdClass();
     $file->fid = NULL;
-    $file->uri = 'temporary://'. $filename;
+    $file->uri = $uri;
     $file->filename = $filename;
     $file->filemime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     $file->uid = $user->uid;
