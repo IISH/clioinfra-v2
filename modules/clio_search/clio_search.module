@@ -421,6 +421,7 @@ function clio_search_download() {
       'error_message' => t('Download file creation has encountered an error.'),
     );
     batch_set($batch);
+    // TODO On error do not transfer the zip file.
     batch_process('datasets/transfer/' . $dir);
   }
 }
@@ -872,7 +873,7 @@ function clio_search_get_params() {
     // All indicators.
       $indicators = array();
       $vocab = taxonomy_vocabulary_machine_name_load('indicators');
-      $topics = taxonomy_get_tree($vocab->vid, $parent, 1);
+      $topics = taxonomy_get_tree($vocab->vid, 0, 1);
       foreach ($topics as $topic) {
         $children = taxonomy_get_children($topic->tid);
         foreach ($children as $child) {

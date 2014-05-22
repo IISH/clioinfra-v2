@@ -26,6 +26,7 @@ projects[dkan_datastore][subdir] = contrib
 projects[dkan_datastore][version] = 1.0-beta1
 projects[phpexcel][subdir] = contrib 
 projects[phpexcel][version] = 3.7
+projects[phpexcel][patch][2243117] = https://drupal.org/files/issues/phpexcel-2243117.patch
 projects[swfembed][subdir] = contrib 
 projects[swfembed][version] = 1.4
 projects[term_reference_tree][subdir] = contrib 

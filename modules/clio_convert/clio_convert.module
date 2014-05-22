@@ -184,17 +184,15 @@ function clio_convert_to_row_based($data, $indicator_tid) {
   fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
 
   // Write the values[countrycode] = array[2..]
-  // $values = array();
   foreach ($data as $row) {
     if (isset($row) && ($row[0] != '')) {
       $countrycode = $row[0];
       $countryname = $row[1];
-      $values = array_slice($row, 2);
       foreach ($years as $key => $year) {
         // TODO what if #years does not match #values?
-        $value = trim($values[$key]);
-        // Skip NULL or empty string, zeros are okay.
-        if (isset($value) && ($value != '')) {
+        // Skip NULL, blank or empty string, zeros are okay.
+        $value = (isset($row[$key+2])) ? trim($row[$key+2]) : '';
+        if ($value != '') {
           if (($value > CLIO_MAX_VALUE) or (preg_match('/' . CLIO_VALUE_REPLACE . '/i', $value))) {
             // or in_array($value, $array)?
             $value = CLIO_MAX_VALUE;
@@ -277,7 +275,14 @@ function clio_convert_get_indicator(&$data, $tid) {
  * Validate unit and remove from data array.
  */
 function clio_convert_get_unit(&$data) {
-  // First cell on second line should contain unit.
+  // First cell on second line may contain unit.
+  // If setIterateOnlyExistingCells is set to TRUE in PHPExcel, the unit line may be missing,
+  // and we'll already be on the Code line.
+  // TODO So unit cannot contain "Code"?
+  if (preg_match('/Code/i', $data[0][0])) {
+    drupal_set_message(t('No unit found.'), 'warning');
+    return;
+  }
   $row = array_shift($data);
   if (is_null($row)) {
     // TODO Message is not displayed.
@@ -403,8 +408,9 @@ function clio_convert_read_csv($csvfile, $delimiter = ',', $enclosure = '"') {
 function clio_convert_read_excel($filename) {
   module_load_include('inc', 'phpexcel');
 
+  // TODO Keep decimal precision of numbers?
   $result = phpexcel_import($filename, FALSE, FALSE, array('setReadDataOnly' => array(TRUE)));
-  // $cells->setIterateOnlyExistingCells(TRUE); ?
+  // $cells->setIterateOnlyExistingCells(TRUE); ? see https://drupal.org/node/2243117
   if (is_array($result)) {
     return $result[0];
   }
