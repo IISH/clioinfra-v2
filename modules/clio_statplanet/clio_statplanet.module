@@ -335,9 +335,15 @@ function clio_statplanet_create_category_files($topics = NULL) {
       $fields = array_merge($fields, array_fill(0, count($countries), ''));
       fwrite($filehandle, implode($separator, $fields) . "\r\n");
       foreach (taxonomy_get_children($topic->tid) as $indicator) {
-        $unit = ($firstline) ? $values[$indicator->tid]['unit'] : '';
-        $indicatorname = !empty($indicator->field_shortname) ? $indicator->field_shortname['und'][0]['value'] : $indicator->name;
-        $indicatorname = preg_replace('/,/', '', $indicatorname);
+        if ($firstline) {
+          $unit = $values[$indicator->tid]['unit'];
+          $indicatorname = !empty($indicator->field_shortname) ? $indicator->field_shortname['und'][0]['value'] : $indicator->name;
+          $indicatorname = preg_replace('/,/', '', $indicatorname);
+        }
+        else {
+          $unit = '';
+          $indicatorname = '-';
+        }
         $fields = array('', '', $indicatorname, '', '', $unit, '', '', '', '', '');
         foreach ($countries as $countrycode => $countryid) {
           if (isset($values[$indicator->tid]['values'][$year][$countryid])) {
