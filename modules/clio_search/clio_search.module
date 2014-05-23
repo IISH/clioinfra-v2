@@ -410,6 +410,11 @@ function clio_search_download() {
 
     $dir = 'zip' . mt_rand(0, 9999999);
     drupal_mkdir('public://clio/' . $dir);
+    // TODO Store in separate database table.
+    $oldfiles = variable_get('clio_search_zipfiles', array());
+    $oldfiles[$dir] = time();
+    variable_set('clio_search_zipfiles', $oldfiles);
+    
     $batch = array(
       'operations' => array(
         array('clio_search_create_result_files', array($files, $dir, TRUE, TRUE)),
@@ -424,6 +429,27 @@ function clio_search_download() {
     // TODO On error do not transfer the zip file.
     batch_process('datasets/transfer/' . $dir);
   }
+}
+
+
+/*
+ * Delete expired zip file directories.
+ */
+function clio_statplanet_cron() {
+  $oldfiles = variable_get('clio_search_zipfiles', array());
+  $filesdir = variable_get('file_public_path', conf_path() . '/files');
+  foreach ($oldfiles as $dir => $time) {
+    if (time() - $time > 86400) {
+      // Delete after one day.
+      if (file_unmanaged_delete_recursive($filesdir . '/clio/' . $dir)) {
+        unset($oldfiles[$dir]);
+      }
+      else {
+        watchdog('clio_search', 'Could not delete directory %dir', array('%dir' => $dir), WATCHDOG_ERROR);
+      }
+    }
+  }
+  variable_set('clio_search_zipfiles', $oldfiles);
 }
 
 
