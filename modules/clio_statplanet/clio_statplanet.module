@@ -364,13 +364,15 @@ function clio_statplanet_create_category_files($topics = NULL) {
     $destination = $datadir . '/data' . $tid . '.zip';
     // TODO managed?
     // Move file from temp to public.
-    if ($uri = file_unmanaged_move($zipfile->uri, $destination, FILE_EXISTS_REPLACE)) {
+    if ($uri = file_unmanaged_move($zipfile, $destination, FILE_EXISTS_REPLACE)) {
       $zipfiles[] = drupal_realpath($uri);
     }
     else {
       drupal_set_message(t('Failed to save ZIP file'), 'error');
       return;
     }
+    // Cleanup.
+    file_unmanaged_delete($path);
   }
   return $zipfiles;
 }

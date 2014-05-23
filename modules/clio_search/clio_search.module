@@ -626,37 +626,29 @@ function clio_search_finished($success, $results, $operations) {
  *
  * @param $files
  *  An array of file paths.
+ * @param $dir
+ *  A subdirectory of the Clio files directory in which to place the zip file.
  * @return
- *  A zip file object.
+ *  A zip file uri.
  */
-function clio_search_create_zip($files, $dir = '', $filename = NULL) {
+function clio_search_create_zip($files, $dir = '') {
   $path = drupal_get_path('module', 'clio_search') . '/pclzip';
   require_once $path . '/pclzip.lib.php';
 
   if ($dir) {
     $filename = 'public://clio/' . $dir . '/data.zip';
   }
-  // TODO if filename
   else {
     $filename = drupal_tempnam('temporary://', 'data_');
     if (rename($filename, $filename . '.zip')) {
       $filename .= '.zip';
     }
   }
-  // TODO double file creation here
-  $file = file_save_data('', $filename);
-  $file->status = 0;
-//  $file = file_save($tmp_file);
-  $archive = new PclZip(drupal_realpath($file->uri));
+  $archive = new PclZip(drupal_realpath($filename));
   $archive->add($files, PCLZIP_OPT_REMOVE_ALL_PATH);
   
   // TODO error check: what if file does not exist?
-  // TODO file replace should work.
-  
-  // TODO delete source files: file_unmanaged_delete_recursive($path)
-  // TODO unmanaged?
-  // $ = file_unmanaged_save_data($zip , 'public://output.zip', FILE_EXISTS_REPLACE);
-  return $file;
+  return $filename;
 }
 
 
