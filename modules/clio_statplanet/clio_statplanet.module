@@ -7,10 +7,8 @@
  *    set noflash text
  *    set custom colors
  *    zip or csv
- *    one data file or per topic
  * 
  * TODO use hook from clio_convert to set refresh when dataset file changes.
- * TODO remove config for directory statplanet
  *
  * Please note: 
  *    Statplanet will look for a file data.csv or data.zip by default!
@@ -82,14 +80,6 @@ function clio_statplanet_config_form($form, &$form_state) {
     '#description' => t('The height of the flash canvas.'),
     '#default_value' => variable_get('clio_statplanet_height', 640),
   );
-  $form['clio_statplanet_path'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Subdirectory'),
-    '#default_value' => variable_get('clio_statplanet_path', 'statplanet'),
-    '#maxlength' => 255,
-    '#description' => t('A subdirectory of the public file directory where Statplanet files will be stored.'), // which files?
-    '#after_build' => array('clio_statplanet_check_directory'),
-  );
   return system_settings_form($form);
 }
 
@@ -146,6 +136,10 @@ function clio_statplanet_check_statplanet() {
   // The file content.swf needs to reside in the flash base directory, next to the data files.
   else if (!is_file($datadir . '/content.swf') && !copy($statdir . '/content.swf', $datadir . '/content.swf')) {
     drupal_set_message(t('The Statplanet flash file could not be copied.'), 'error');
+    return;
+  }
+  else if (!is_file($datadir . '/logo.png') && !copy($statdir . '/logo.png', $datadir . '/logo.png')) {
+    drupal_set_message(t('The logo file could not be copied.'), 'error');
     return;
   }
   return TRUE;
@@ -293,6 +287,7 @@ function clio_statplanet_create_data_file($inline = FALSE) {
  */
 function clio_statplanet_create_category_files($topics = NULL) {
   global $user;
+  $indicatormap = clio_statplanet_indicator_settings();
 
   if (!$topics) {
     $topics_vocab = taxonomy_vocabulary_machine_name_load('indicators');
@@ -336,15 +331,17 @@ function clio_statplanet_create_category_files($topics = NULL) {
       fwrite($filehandle, implode($separator, $fields) . "\r\n");
       foreach (taxonomy_get_children($topic->tid) as $indicator) {
         if ($firstline) {
-          $unit = $values[$indicator->tid]['unit'];
+          $unit = '"' . $values[$indicator->tid]['unit'] . '"';
           $indicatorname = !empty($indicator->field_shortname) ? $indicator->field_shortname['und'][0]['value'] : $indicator->name;
           $indicatorname = preg_replace('/,/', '', $indicatorname);
+          $map = (!empty($indicatormap[$indicator->tid])) ? $indicatormap[$indicator->tid] : '';
         }
         else {
           $unit = '';
           $indicatorname = '-';
+          $map = '';
         }
-        $fields = array('', '', $indicatorname, '', '', $unit, '', '', '', '', '');
+        $fields = array('', '', $indicatorname, '', '', $unit, $map, '', '', '', '');
         foreach ($countries as $countrycode => $countryid) {
           if (isset($values[$indicator->tid]['values'][$year][$countryid])) {
             array_push($fields, $values[$indicator->tid]['values'][$year][$countryid]);
@@ -376,6 +373,27 @@ function clio_statplanet_create_category_files($topics = NULL) {
     }
   }
   return $zipfiles;
+}
+
+
+/*
+ * map.csv contains a list of indicator settings for the MAP column.
+ * CSV columns: indicatortid, indicatorname, map settings string, comments
+ * Returns an empty array if the file does not exist or is empty.
+ */
+function clio_statplanet_indicator_settings() {
+  $statdir = drupal_get_path('module', 'clio_statplanet') . '/map';
+  $file = $statdir . '/map.csv';
+  $map = array();
+  if (file_exists($file) && (($handle = fopen($file, "r")) !== FALSE)) {
+    while (($data = fgetcsv($handle)) !== FALSE) {
+      if ($data) {
+        $map[$data[0]] = $data[2];
+      }
+    }
+    fclose($handle);
+  }
+  return $map;
 }
 
 
@@ -462,15 +480,12 @@ function clio_statplanet_get_categories() {
  * Get the directory where Statplanet data files are stored.
  */
 function clio_statplanet_get_dir($uri = TRUE) {
-  $subdir = variable_get('clio_statplanet_path', 'statplanet');
   if ($uri) {
-    $dir = 'public://' . $subdir;
+    $dir = 'public://statplanet';
   }
   else {
     $dir = variable_get('file_public_path', conf_path() . '/files');
-    if ($subdir) {
-      $dir .= '/' . $subdir;
-    }
+    $dir .= '/statplanet';
   }
   return $dir;
 }
