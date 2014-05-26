@@ -159,9 +159,9 @@ function clio_statplanet_page($inline = FALSE) {
       ->param('devicefont','false')
       ->param('salign','')
       ->param('allowscriptaccess','sameDomain')
-      ->param('base', $datapath)
+      ->param('base', $statpath)
       ->flashVar('settings', $datapath . '/settings.csv')
-      ->flashVar('data', $data)
+      ->flashVar('data', '../' . $data)
       // ->flashVar('location', $indicator) // open at indicator
       ->height(variable_get('clio_statplanet_height', 640))
       ->width(variable_get('clio_statplanet_width', 940))
@@ -231,7 +231,7 @@ function clio_statplanet_create_data_file($inline = FALSE) {
   foreach ($topics as $topic) {
     $topicname = !empty($topic->field_shortname) ? $topic->field_shortname['und'][0]['value'] : $topic->name;
     $topicname = preg_replace('/,/', '', $topicname);
-    $filename = 'data' . $topic->tid . "." . $extension;
+    $filename = '../data' . $topic->tid . "." . $extension;
     $data .= $rowseparator;
     $data .= $topicname . $separator . CLIO_MAX_YEAR . $separator . $separator . $separator . $separator . $separator . $separator . $separator . $filename . $separator . $separator;
     // Statplanet needs empty cells.
