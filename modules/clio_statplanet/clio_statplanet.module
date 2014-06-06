@@ -383,16 +383,18 @@ function clio_statplanet_get_values($indicatortid, $years = array(), $countries 
     $resourcenid = clio_search_get_resource($datasetnid);
     if ($resourcenid) {
       $data  = clio_search_db_query($resourcenid, $years, $countries);
-      if ($datarow = $data->fetchAssoc()) {
-        $values = array();
-        // Get unit from first row.
-        $unit = (isset($datarow['unit'])) ? $datarow['unit'] : '';
-        do {
-          if (isset($datarow['value'])) {
-            $values[$datarow['year']][$datarow['countrycode']] = $datarow['value'];
-          }
-        } while ($datarow = $data->fetchAssoc());
-        return array('values' => $values, 'unit' => $unit);
+      if ($data) {
+        if ($datarow = $data->fetchAssoc()) {
+          $values = array();
+          // Get unit from first row.
+          $unit = (isset($datarow['unit'])) ? $datarow['unit'] : '';
+          do {
+            if (isset($datarow['value'])) {
+              $values[$datarow['year']][$datarow['countrycode']] = $datarow['value'];
+            }
+          } while ($datarow = $data->fetchAssoc());
+          return array('values' => $values, 'unit' => $unit);
+        }
       }
     }
   }
