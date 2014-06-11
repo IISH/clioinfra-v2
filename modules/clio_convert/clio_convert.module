@@ -185,21 +185,29 @@ function clio_convert_to_row_based($data, $indicator_tid) {
 
   // Write the values[countrycode] = array[2..]
   foreach ($data as $row) {
-    if (isset($row) && ($row[0] != '')) {
-      $countrycode = $row[0];
-      $countryname = $row[1];
-      foreach ($years as $key => $year) {
-        // TODO what if #years does not match #values?
-        // Skip NULL, blank or empty string, zeros are okay.
-        $value = (isset($row[$key+2])) ? trim($row[$key+2]) : '';
-        if ($value != '') {
-          if (($value > CLIO_MAX_VALUE) or (preg_match('/' . CLIO_VALUE_REPLACE . '/i', $value))) {
-            // or in_array($value, $array)?
-            $value = CLIO_MAX_VALUE;
+    if (isset($row)) {
+      if (isset($row[0]) && ($row[0] != '')) {
+        $countrycode = $row[0];
+        $countryname = $row[1];
+        foreach ($years as $key => $year) {
+          // TODO what if #years does not match #values?
+          // Skip NULL, blank or empty string; zeros are okay.
+          $value = (isset($row[$key+2])) ? trim($row[$key+2]) : '';
+          if ($value != '') {
+            if (($value > CLIO_MAX_VALUE) or (preg_match('/' . CLIO_VALUE_REPLACE . '/i', $value))) {
+              // or in_array($value, $array)?
+              $value = CLIO_MAX_VALUE;
+            }
+            $fields = array($indicator, $indicator_tid, $unit, $countrycode, $countries[$countrycode]['tid'], $year, $value);
+            fputcsv($filehandle, $fields, CLIO_DELIMITER, $enclosure);
           }
-          $fields = array($indicator, $indicator_tid, $unit, $countrycode, $countries[$countrycode]['tid'], $year, $value);
-          fputcsv($filehandle, $fields, CLIO_DELIMITER, $enclosure);
         }
+      }
+      else {
+        // Non-empty row without country code.
+        drupal_set_message(t('A row contains values but no country code. Perhaps some cells are shifted?'), 'error');
+        file_unmanaged_delete($filepath);
+        return;
       }
     }
   }

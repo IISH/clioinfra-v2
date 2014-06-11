@@ -417,7 +417,7 @@ function clio_search_download() {
     
     $batch = array(
       'operations' => array(
-        array('clio_search_create_result_files', array($files, $dir, TRUE, TRUE)),
+        array('clio_search_create_result_files', array($params, $files, $dir, TRUE, TRUE)),
         ),
       'finished' => 'clio_search_finished',
       'title' => t('Creating download file'),
@@ -528,7 +528,7 @@ function clio_search_get_working_paper($nid) {
 /*
  * Process one resource file and working paper per batch step.
  */
-function clio_search_create_result_files($files, $dir, $xls = TRUE, $clioformat = TRUE,  &$context) {
+function clio_search_create_result_files($params, $files, $dir, $xls = TRUE, $clioformat = TRUE,  &$context) {
   if (!isset($context['sandbox']['progress'])) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['current_file'] = 0;
@@ -536,7 +536,7 @@ function clio_search_create_result_files($files, $dir, $xls = TRUE, $clioformat 
     $context['results']['dir'] = $dir;
   }
   
-  $uri1 = clio_search_create_result_file($files[$context['sandbox']['current_file']]['resource'], $dir, $xls, $clioformat);
+  $uri1 = clio_search_create_result_file($params, $files[$context['sandbox']['current_file']]['resource'], $dir, $xls, $clioformat);
   if ($uri1) {
     $context['results']['files'][] = drupal_realpath($uri1);
     $uri2 = clio_search_get_working_paper($files[$context['sandbox']['current_file']]['dataset'], $dir);
@@ -562,27 +562,31 @@ function clio_search_create_result_files($files, $dir, $xls = TRUE, $clioformat 
  * @param $resource
  *   The nid of the resource
  */
-function clio_search_create_result_file($resource, $dir, $xls = TRUE, $clioformat = TRUE) {
-  $params = clio_search_get_params();
+function clio_search_create_result_file($params, $resource, $dir, $xls = TRUE, $clioformat = TRUE) {
   $result = clio_search_db_query($resource, $params['years'], $params['countries']);
-  if ($clioformat) {
-    $allcountries = empty($params['countries']);
-    $rows = clio_search_convert_to_clio($result, $resource, $allcountries);
-    $indicator = $rows[0][0];
-  }
-  else {
-    $rows = clio_search_convert_to_rows($result, $resource);
-    $indicator = $rows[5][0];
-  }
-  // TODO replace spaces in $indicator?
-  if ($xls) {
-    $file = clio_convert_save_as_xls($rows, $indicator, $dir);
-  }
-  else {
-    $file = clio_search_convert_save_as_csv($rows, $indicator, $dir);
-  }
-  if ($file) {
-    return $file->uri;
+  if ($result) {
+    if ($clioformat) {
+      $allcountries = empty($params['countries']);
+      $rows = clio_search_convert_to_clio($result, $resource, $allcountries);
+      $indicator = $rows[0][0];
+    }
+    else {
+      $rows = clio_search_convert_to_rows($result, $resource);
+      $indicator = $rows[5][0];
+    }
+    // TODO replace spaces in $indicator?
+    if ($xls) {
+      $file = clio_convert_save_as_xls($rows, $indicator, $dir);
+    }
+    else {
+      $file = clio_search_convert_save_as_csv($rows, $indicator, $dir);
+    }
+    if ($file) {
+      return $file->uri;
+    }
+    else {
+      return;
+    }
   }
   else {
     return;
@@ -864,9 +868,9 @@ function clio_convert_save_as_xls($data, $prefix, $dir = '') {
 
 /*
  * Get years, countries and indicators from the querystring.
+ * Make sure all values are numeric.
  * If no indicators are specified all available indicators will be returned.
  *
- * TODO input validation
  * TODO sort indicators in case of multiple parents?
  */
 function clio_search_get_params() {
@@ -874,10 +878,10 @@ function clio_search_get_params() {
   if (empty($query)) {
     $query = drupal_get_query_parameters($_POST);
   }
-  $years = isset($query['year']) ? $query['year'] : array();
-  $countries = isset($query['country']) ? $query['country'] : array();
+  $years = isset($query['year']) ? array_filter($query['year'], 'is_numeric') : array();
+  $countries = isset($query['country']) ? array_filter($query['country'], 'is_numeric') : array();
   if (isset($query['indicator'])) {
-    $indicators = $query['indicator'];
+    $indicators = array_filter($query['indicator'], 'is_numeric');
   }
   else {
     if (isset($query['topic']) && is_numeric($query['topic'])) {
@@ -961,11 +965,18 @@ function clio_search_query($resourcenid, $items = 10000) {
  * Alternative, direct database query implementation.
  */
 function clio_search_db_query($resourcenid, $years = array(), $countries = array(), $items = 0) {
-  $tablename = 'dkan_file_' . $resourcenid;
-  $viewname  = 'feeds_datastore_' . $tablename;
+  $tablename = 'feeds_datastore_dkan_file_' . $resourcenid;
+  
+  global $databases;
+  $db = $databases['default']['default']['database'];
+  $exists = db_query('SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = :db AND table_name = :table', array(':db' => $db, ':table' => $tablename))->fetchField();
+  if ($exists == FALSE) {
+    watchdog('clio_search', t("Table does not exists: %table"), array('%table' => $tablename), WATCHDOG_WARNING);
+    return;
+  }
 
   // TODO add mapping to indicatortid and countrytid here, instead of in convert
-  $query = db_select($viewname, 't')
+  $query = db_select($tablename, 't')
     ->fields('t', array('indicator', 'unit', 'value', 'countrycode', 'year'));
   if ($items) {
     $query->range(0, $items);

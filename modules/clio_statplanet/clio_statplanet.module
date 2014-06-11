@@ -100,46 +100,21 @@ function clio_statplanet_refresh_submit(&$form_state) {
 }
 
 
-/**
- * Checks the existence of the directory specified in $form_element.
- *
- * @param $form_element
- *   The form element containing the name of the directory to check.
- * TODO check ook ctools met ctools subdir.
- */
-function clio_statplanet_check_directory($form_element) {
-  $directory = $form_element['#value'];
-  if (strlen($directory) == 0) {
-    return $form_element;
-  }
-  $directory = variable_get('file_public_path', conf_path() . '/files') . '/' . $directory;
-
-  if (!is_dir($directory) && !drupal_mkdir($directory, NULL, TRUE)) {
-    form_set_error($form_element['#parents'][0], t('The directory %directory does not exist and could not be created.', array('%directory' => $directory)));
-    watchdog('file system', 'The directory %directory does not exist and could not be created.', array('%directory' => $directory), WATCHDOG_ERROR);
-  }
-  return $form_element;
-}
-
-
 /*
  * Check if Statplanet flash files are present.
  */
 function clio_statplanet_check_statplanet() {
-  $datadir = clio_statplanet_get_dir(FALSE);
-  $statdir = drupal_get_path('module', 'clio_statplanet') . '/map';
+  $datadir = DRUPAL_ROOT . '/' . clio_statplanet_get_dir(FALSE);
+  $statdir = DRUPAL_ROOT . '/' . drupal_get_path('module', 'clio_statplanet') . '/map';
 
   if (!is_file($statdir . '/StatPlanet.swf') || !is_file($statdir . '/content.swf')) {
     drupal_set_message(t('The Statplanet flash files are not present.'), 'error');
     return;
   }
-  // The file content.swf needs to reside in the flash base directory, next to the data files.
-  else if (!is_file($datadir . '/content.swf') && !copy($statdir . '/content.swf', $datadir . '/content.swf')) {
-    drupal_set_message(t('The Statplanet flash file could not be copied.'), 'error');
-    return;
-  }
-  else if (!is_file($datadir . '/logo.png') && !copy($statdir . '/logo.png', $datadir . '/logo.png')) {
-    drupal_set_message(t('The logo file could not be copied.'), 'error');
+  // Both the data files and the flash files like content.swf need to reside in the flash base directory.
+  // Therefore we create a symlink from the statplanet directory in the public files directory to the module directory.
+  else if (!(is_link($datadir . '/map') || symlink($statdir, $datadir . '/map'))) {
+    drupal_set_message(t('The Statplanet data files are not available.'), 'error');
     return;
   }
   return TRUE;
@@ -150,8 +125,8 @@ function clio_statplanet_page($inline = FALSE) {
   if (!clio_statplanet_check_statplanet()) {
     return '';
   }
-  $statpath = '/' . drupal_get_path('module', 'clio_statplanet') . '/map';
   $datapath = '/' . clio_statplanet_get_dir(FALSE);
+  $statpath = '/' . clio_statplanet_get_dir(FALSE) . '/map';
 
   if (variable_get('clio_statplanet_refresh', TRUE)) {
     $file = clio_statplanet_create_settings_file();
@@ -184,9 +159,9 @@ function clio_statplanet_page($inline = FALSE) {
       ->param('devicefont','false')
       ->param('salign','')
       ->param('allowscriptaccess','sameDomain')
-      ->param('base', $datapath)
+      ->param('base', $statpath)
       ->flashVar('settings', $datapath . '/settings.csv')
-      ->flashVar('data', $data)
+      ->flashVar('data', '../' . $data)
       // ->flashVar('location', $indicator) // open at indicator
       ->height(variable_get('clio_statplanet_height', 640))
       ->width(variable_get('clio_statplanet_width', 940))
@@ -256,7 +231,7 @@ function clio_statplanet_create_data_file($inline = FALSE) {
   foreach ($topics as $topic) {
     $topicname = !empty($topic->field_shortname) ? $topic->field_shortname['und'][0]['value'] : $topic->name;
     $topicname = preg_replace('/,/', '', $topicname);
-    $filename = 'data' . $topic->tid . "." . $extension;
+    $filename = '../data' . $topic->tid . "." . $extension;
     $data .= $rowseparator;
     $data .= $topicname . $separator . CLIO_MAX_YEAR . $separator . $separator . $separator . $separator . $separator . $separator . $separator . $filename . $separator . $separator;
     // Statplanet needs empty cells.
@@ -408,16 +383,18 @@ function clio_statplanet_get_values($indicatortid, $years = array(), $countries 
     $resourcenid = clio_search_get_resource($datasetnid);
     if ($resourcenid) {
       $data  = clio_search_db_query($resourcenid, $years, $countries);
-      if ($datarow = $data->fetchAssoc()) {
-        $values = array();
-        // Get unit from first row.
-        $unit = (isset($datarow['unit'])) ? $datarow['unit'] : '';
-        do {
-          if (isset($datarow['value'])) {
-            $values[$datarow['year']][$datarow['countrycode']] = $datarow['value'];
-          }
-        } while ($datarow = $data->fetchAssoc());
-        return array('values' => $values, 'unit' => $unit);
+      if ($data) {
+        if ($datarow = $data->fetchAssoc()) {
+          $values = array();
+          // Get unit from first row.
+          $unit = (isset($datarow['unit'])) ? $datarow['unit'] : '';
+          do {
+            if (isset($datarow['value'])) {
+              $values[$datarow['year']][$datarow['countrycode']] = $datarow['value'];
+            }
+          } while ($datarow = $data->fetchAssoc());
+          return array('values' => $values, 'unit' => $unit);
+        }
       }
     }
   }
