@@ -16,6 +16,10 @@ projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
 projects[clio][download][branch] = test
 
+; Clio dev modules
+
+projects[xhprof][subdir] = dev
+
 ; Clio required modules
 
 projects[better_exposed_filters][subdir] = contrib 
