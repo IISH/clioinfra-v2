@@ -691,7 +691,7 @@ function clio_search_transfer($dir) {
  * @return $rows
  *   Array of arrays in clio format.
  */
-function clio_search_convert_to_clio($data, $resource, $allcountries = FALSE, $empty_years = TRUE) {
+function clio_search_convert_to_clio($data, $resource, $allcountries = FALSE, $empty_years = FALSE) {
   global $user;
   $countries = clio_get_countries();
   $rows = array();
