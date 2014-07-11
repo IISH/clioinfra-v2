@@ -490,7 +490,7 @@ function clio_search_get_resource($nid) {
     foreach ($node->field_resources['und'] as $resource) {
       $r = node_load($resource['target_id']);
       // TODO This should be cleaner.
-      if (preg_match('/(converted)/', $r->title)) {
+      if (preg_match('/(generic)/', $r->title)) {
         return $r->nid;
       }
     }

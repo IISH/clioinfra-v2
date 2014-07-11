@@ -386,7 +386,7 @@ function clio_convert_create_resource($node, $file) {
   // Assign defaults for node object
   node_object_prepare($newnode); 
   // Replace title and file
-  $newnode->title = $node->title .' (converted)';
+  $newnode->title = $node->title .' (generic)';
   // Tag with csv
   $tid = clio_convert_tag_csv('csv', 'format');
   $newnode->field_format[$language][0]['tid'] = $tid; 
