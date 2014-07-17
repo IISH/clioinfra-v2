@@ -11,10 +11,6 @@
 
 // Clio Infra will show data from 1500 to this year.
 define('CLIO_MAX_YEAR', 2013);
-// The maximum value from a CSV allowed in the database.
-define('CLIO_MAX_VALUE', 32000);
-// This will be replaced by the maximum value.
-define('CLIO_VALUE_REPLACE', 'hyperinflation');
 // CSV delimiter.
 define('CLIO_DELIMITER', ',');
 

@@ -486,7 +486,7 @@ function clio_search_get_dataset($tid) {
 function clio_search_get_resource($nid) {
   $node = node_load($nid);
   if (!(empty($node->field_resources))) {
-    // The book children of the node. We need to find the generic file.
+    // The book children of the node. We need to find the converted file.
     foreach ($node->field_resources['und'] as $resource) {
       $r = node_load($resource['target_id']);
       // TODO This should be cleaner.
@@ -691,7 +691,7 @@ function clio_search_transfer($dir) {
  * @return $rows
  *   Array of arrays in clio format.
  */
-function clio_search_convert_to_clio($data, $resource, $allcountries = FALSE, $empty_years = TRUE) {
+function clio_search_convert_to_clio($data, $resource, $allcountries = FALSE, $empty_years = FALSE) {
   global $user;
   $countries = clio_get_countries();
   $rows = array();

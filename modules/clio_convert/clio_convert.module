@@ -175,10 +175,11 @@ function clio_convert_to_row_based($data, $indicator_tid) {
   
   // First create a temporary file.
   $tempdir = file_directory_temp();
-  $filepath = drupal_tempnam($tempdir, 'clio');
-
+  // TODO check filename?
+  $filepath = file_create_filename($indicator . '.csv', $tempdir);
+  
   // Write the header with field names.
-  $filehandle = fopen($filepath, 'w+');
+  $filehandle = fopen($filepath, 'x+');
   $enclosure = '"';
   $fields = array('indicator', 'indicatortid', 'unit', 'countrycode', 'countrytid', 'year', 'value');
   fputcsv ($filehandle, $fields, CLIO_DELIMITER, $enclosure);
@@ -194,12 +195,15 @@ function clio_convert_to_row_based($data, $indicator_tid) {
           // Skip NULL, blank or empty string; zeros are okay.
           $value = (isset($row[$key+2])) ? trim($row[$key+2]) : '';
           if ($value != '') {
-            if (($value > CLIO_MAX_VALUE) or (preg_match('/' . CLIO_VALUE_REPLACE . '/i', $value))) {
-              // or in_array($value, $array)?
-              $value = CLIO_MAX_VALUE;
+            if (is_numeric($value)) {
+              $fields = array($indicator, $indicator_tid, $unit, $countrycode, $countries[$countrycode]['tid'], $year, $value);
+              fputcsv($filehandle, $fields, CLIO_DELIMITER, $enclosure);
             }
-            $fields = array($indicator, $indicator_tid, $unit, $countrycode, $countries[$countrycode]['tid'], $year, $value);
-            fputcsv($filehandle, $fields, CLIO_DELIMITER, $enclosure);
+            else {
+              drupal_set_message(t('Only numeric values are allowed. Found: %value', array('%value' => $value)), 'error');
+              file_unmanaged_delete($filepath);
+              return;
+            }
           }
         }
       }
@@ -214,7 +218,7 @@ function clio_convert_to_row_based($data, $indicator_tid) {
   
   // Move file to Clio data directory.
   $filename = drupal_basename($filepath);
-  $destination = 'public://clio/data/'. $filename .'.csv';
+  $destination = 'public://clio/data/'. $filename;
   if ($uri = file_unmanaged_move($filepath, $destination)) {
 
     // Create a file object and save in database.
@@ -228,7 +232,7 @@ function clio_convert_to_row_based($data, $indicator_tid) {
     $file_object = file_save($file);
   }
   if (!empty($file_object)) {
-    drupal_set_message(t('Saved CSV file as %destination', array('%destination' => $filename . '.csv')));
+    drupal_set_message(t('Saved CSV file as %destination', array('%destination' => $filename)));
   }
   else {
     drupal_set_message(t('Failed to save CSV file'), 'error');

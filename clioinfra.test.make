@@ -16,6 +16,10 @@ projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
 projects[clio][download][branch] = test
 
+; Clio dev modules
+
+projects[xhprof][subdir] = dev
+
 ; Clio required modules
 
 projects[better_exposed_filters][subdir] = contrib 
@@ -91,7 +95,7 @@ projects[clioinfra][download][branch] = "test"
 
 libraries[phpexcel][type] = libraries
 libraries[phpexcel][download][type] = "git"
-libraries[phpexcel][download][url] = "git@support1.socialhistoryservices.org:phpexcel.git"
+libraries[phpexcel][download][url] = "git@atlassian-bamboo-be0.socialhistoryservices.org:phpexcel.git"
 libraries[phpexcel][download][branch] = "1.8.3"
 libraries[phpexcel][directory_name] = PHPExcel
 
