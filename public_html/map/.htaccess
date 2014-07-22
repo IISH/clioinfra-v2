@@ -1,0 +1,10 @@
+RewriteEngine on
+RewriteBase /map/
+# Follow symbolic links in this directory.
+Options +FollowSymLinks
+#^index\.html$  welcome.html 
+RewriteRule ^topic\_(.+)\_(\d+)\.html$ /cgi-bin/visualize/db2map.cgi?indicator=$1&topic=$2
+RewriteRule ^file\_(.+)\.html$ /cgi-bin/visualize/db2map.cgi?file=$1
+RewriteRule ^all$ /cgi-bin/visualize/db2map.cgi?file=alldatasets
+RewriteRule ^datasets$ /cgi-bin/visualize/db2map.cgi?file=datasets
+#/index.php?cat=$1&subcat=$2 [L]

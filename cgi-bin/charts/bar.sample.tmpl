@@ -1,0 +1,19 @@
+        <head>
+                <script type="text/javascript" src="/charts/swfobject.js"></script>
+                <script type="text/javascript">
+
+                        swfobject.embedSWF(
+                        "/charts/open-flash-chart.swf", "my_chart%%ID%%",
+                        "100%", "250", "9.0.0", "/charts/expressInstall.swf",
+                        {"data-file":"%%csvfile%%"} );
+
+                </script>
+        </head>
+
+        <body>
+		<center>
+		<h2>%%Indicator%%</h2>
+		</center>
+                <object style="visibility: visible;" id="my_chart%%ID%%" data="/charts/open-flash-chart.swf" type="application/x-shockwave-flash" height="200" width="300"></object>
+        </body>
+

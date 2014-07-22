@@ -1,0 +1,28 @@
+{
+	"elements":[
+			%%block%%
+	],
+	"title":{
+		"text":"%%title%%",
+		"style":"{font-size:12px;padding-bottom:10px;text-align:left;color:#999999;}"
+	},
+	"y_axis":{
+		"stroke":1,
+		"colour":"#c6d9fd",
+		"grid-colour":"#dddddd",
+		"min":0,
+		"max":%%max%%,
+		"steps":5
+	},
+	"x_axis":{
+		"offset":false,
+		"stroke":1,
+		"colour":"#c6d9fd",
+		"grid-colour":"#dddddd",
+		"labels":{
+			"labels":[%%years%%]
+			}
+		},
+	"bg_colour":"#ffffff"
+}
+

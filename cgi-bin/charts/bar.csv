@@ -1,0 +1,33 @@
+{
+    "elements":[
+      {
+        "type":      "bar",
+        "alpha":     10,
+        "colour":    "#ffffff",
+        "font-size": 10,
+ 	"values" :   [%%values%%]
+      }
+    ],
+  
+    "x_axis":{
+      "stroke":1,
+      "tick_height":200,
+      "colour":"#A6C603",
+      "grid_colour":"#00ff00",
+      "offset":      50,
+      "labels": {
+       "labels": [%%years%%]
+       },
+     },
+  
+    "y_axis":{
+      "colour":      "#ffffff",
+      "grid_colour": "#ffffff",
+      "offset":      0,
+      "max":         %%max%%,
+ 	"steps": 500
+    }
+ }
+  
+ 
+

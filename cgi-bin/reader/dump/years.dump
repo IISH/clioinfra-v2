@@ -1,0 +1,46 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: years; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+DROP TABLE years;
+CREATE SEQUENCE years_id_seq;
+CREATE TABLE years (
+    year_id integer NOT NULL default nextval('years_id_seq'),
+    year_value integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.years OWNER TO postgres;
+
+--
+-- Data for Name: years; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+--
+-- Name: idx_years; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_years ON years USING btree (year_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

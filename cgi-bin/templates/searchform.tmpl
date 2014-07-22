@@ -1,0 +1,559 @@
+<div class="wrapper row3">
+  <div class="rnd">
+
+<div id="container" class="clear">
+<table style="background-color:#A6C603" width=100% height=50px>
+<tr>
+        <td>
+        <font color=#FFFFFF size=+1>&nbsp;Search Datasets</font>
+        </td>
+</tr>
+<div id="container">
+<div id="homeinnercontainer">
+<div id="space">
+<!--start Title template--> 
+
+<a name="d.en.21642"></a>  
+  <form action="displayByRow.cfm" id="mainForm" name="mainForm" method="post">
+  
+  
+  <input value="" name="selectedCountries" id="selectedCountries" type="hidden">
+  <input value="" name="selectedIndicators" id="selectedIndicators" type="hidden">
+  <input value="" name="selectedYears" id="selectedYears" type="hidden">
+  <input name="language" id="language" value="en" type="hidden">
+
+  <table id="mainTable" style="width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody><tr>
+    <td style="width: 40%; padding-left: 10px;"><p>&nbsp;</p>
+      <h2>1. Select countries</h2></td>
+    <td style="width: 20%; padding: 10px; text-align: center;" align="center">&nbsp;</td>
+    <td style="width: 40%; text-align: right; padding-left: 10px;">&nbsp;</td>
+  </tr>
+  <tr>
+
+  <td style="width: 40%; padding-left: 10px;">
+  <a onclick="selectAllCountries()"> Select all</a>
+  <div style="width: 100%; height: 400px; overflow-y: auto; border: 1px solid gray;">
+  	<table class="strippedTable" id="countriesTable" style="height: 400px; width: 100%;">
+    
+    
+    	<tbody>
+	%%countriesblock%%
+        </tbody></table> 
+    </div> 	
+  </td>
+  <td style="width: 20%; padding: 10px; text-align: center; vertical-align: middle ! important;" align="center">
+
+<p onclick="selectCountries()" style="margin: auto; padding-top: 10px; cursor: pointer; height: 25px; width: 120px; color: #FFFFFF; background-color: #95BC13; text-align: center; "> Select</p>
+  </td>
+  <td style="width: 40%; text-align: right; padding-right: 10px;">
+  	<a onclick="clearSelectedCountries()"> Remove all</a>
+    <div style="width: 100%; height: 400px; overflow-y: auto; border: 1px solid gray;">
+  	<table style="width: 100%;" class="strippedTable" id="tablepreselectedCountries">
+    		<tbody><tr class="alt"><td></td></tr>
+
+    </tbody></table>
+    </div>
+  </td>
+  </tr>
+  <tr>
+    <td style="width: 40%; padding-left: 10px;"><p>&nbsp;</p>
+      <h2>2. Select indicators</h2></td>
+    <td style="width: 20%; padding: 10px; text-align: center;" align="center">&nbsp;</td>
+
+    <td style="width: 40%; text-align: right; padding-left: 10px;">&nbsp;</td>
+  </tr>
+  <tr>
+  <td style="width: 40%; padding-left: 10px;">
+  
+  <div style="width: 100%; height: 400px; overflow-y: auto; border: 1px solid gray;">
+  	<table class="strippedTable" id="indicatorsTable" style="height: 400px; width: 100%;">
+    
+    
+    	<tbody>
+	%%indicatorsblock%%
+    	</tbody></table> 
+    </div> 	
+  </td>
+  <td style="width: 20%; padding: 10px; text-align: center; vertical-align: middle ! important;" align="center">
+	<p onclick="selectIndicators()" style="padding-top:10px; cursor: pointer; margin: auto; height: 25px; width: 120px; color: #FFFFFF; background-color: #95BC13; text-align: center; vertical-align: middle; "> Select</p>
+  </td>
+
+  <td style="width: 40%; text-align: right; padding-right: 10px;">
+  <a onclick="clearSelectedIndicators()"> Remove all</a>
+    <div style="width: 100%; height: 400px; overflow-y: auto; border: 1px solid gray;">
+  	<table style="width: 100%;" class="strippedTable" id="tablepreselectedIndicators">
+    		<tbody><tr class="alt"><td></td></tr>
+
+    </tbody></table>
+    </div>
+  </td>
+  </tr>
+  <tr>
+    <td style="width: 40%; padding-left: 10px;"><p>&nbsp;</p>
+      <h2>3. Select years</h2></td>
+    <td style="width: 20%; padding: 10px; text-align: center;" align="center">&nbsp;</td>
+
+    <td style="width: 40%; text-align: right; padding-left: 10px;">&nbsp;</td>
+  </tr>
+  <tr style="border-top: 1px solid rgb(231, 235, 239) ! important;">
+  <td style="width: 40%; padding-left: 10px;">
+  <a onclick="selectAllYears()"> Select all</a>
+  <div style="width: 100%; height: 200px; overflow-y: auto; border: 1px solid gray;">
+  	<table class="strippedTable" id="yearsTable" style="width: 100%;">
+    
+    
+    	<tbody>
+	%%yearsblock%%
+        </tbody></table> 
+    </div> 	
+  </td>
+  <td style="width: 20%; padding: 10px; text-align: center; vertical-align: middle ! important;" align="center">
+ <p onclick="selectYears()" style="padding-top: 10px; cursor: pointer; height: 25px; margin: auto; width: 120px; color: #FFFFFF; background-color: #95BC13; text-align: center; vertical-align: middle; "> Select</p>
+
+  </td>
+  <td style="width: 40%; text-align: right; padding-right: 10px;">
+  <a onclick="clearSelectedYears()"> Remove all</a>
+    <div style="width: 100%; height: 200px; overflow-y: auto; border: 1px solid gray;">
+  	<table style="width: 100%;" class="strippedTable" id="tablepreselectedYears">
+    		<tbody><tr class="alt"><td></td></tr>
+
+    </tbody></table>
+    </div>
+  </td>
+  </tr>
+
+  <tr>
+    <td colspan="3" style="padding: 10px; vertical-align: middle; text-align: right ! important;" align="right" valign="middle">
+    <input value="submit" id="dummySubmit" style="display: none;" onclick="location.reload()" type="submit">
+    <table style="margin: auto;" cellpadding="1">
+        <tbody><tr>
+            
+            <td style="cursor: pointer; height: 25px; width: 120px; color: white; text-align: center; vertical-align: middle; background-image: url(&quot;http://hdrstats.undp.org/images/buildtables/submit.png&quot;);" onclick="if (!validateAndCompleteForm()) return false; document.mainForm.submit(); setTimeout(function(){resetSelection()},1000)"> 
+            	Download data
+            </td>
+            <td>&nbsp;You can download all the data as .ZIP file&nbsp;&nbsp;&nbsp;</td>
+            <td style="cursor: pointer; height: 25px; width: 120px; color: white; text-align: center; vertical-align: middle; background-image: url(&quot;http://hdrstats.undp.org/images/buildtables/submit.png&quot;);" onclick="resetSelection()">
+
+               Reset selection
+            </td>
+        </tr>
+    </tbody></table>
+     </td>
+  </tr>
+  
+  </tbody></table>
+  </form>
+  
+  
+  
+
+  <script type="text/javascript">
+  
+  
+  preselectedCountries=[];
+  selectedCountries=[];
+  preselectedIndicators=[];
+  selectedIndicators=[];
+  preselectedYears=[];
+  selectedYears=[];
+  
+  function resetSelection()
+  	{
+	clearSelectedCountries();clearSelectedIndicators();clearSelectedYears();
+	$("#selectedCountries").attr("value","");
+	$("#selectedIndicators").attr("value","");
+	$("#selectedYears").attr("value",""); 
+	}
+  
+  //Initialize jQuery
+  $(document).ready(
+  	function(){
+		
+	//on DOM ready, clear selected items and form hidden fields	
+	resetSelection();
+		
+	$(".strippedTable tr:even").addClass("alt");
+	
+	//Adds a click handler to the countries table
+	$("#countriesTable tr").click(function(){
+				if ( $.inArray($(this).attr("id"),preselectedCountries) == -1)
+					{
+						$(this).addClass("selected");
+						preselectedCountries.push($(this).attr("id"));
+					}
+					else
+					{
+						$(this).removeClass("selected");
+						preselectedCountries.splice($.inArray($(this).attr("id"),preselectedCountries),1);
+					}
+				});
+				
+	//Adds a click handler to the indicators table
+	$("#indicatorsTable tr").click(function(){
+				if ( $.inArray($(this).attr("id"),preselectedIndicators) == -1)
+					{
+						$(this).addClass("selected");
+						preselectedIndicators.push($(this).attr("id"));
+					}
+					else
+					{
+						$(this).removeClass("selected");
+						preselectedIndicators.splice($.inArray($(this).attr("id"),preselectedIndicators),1);
+					}
+				})
+				
+				
+	//Adds a click handler to the years table
+	$("#yearsTable tr").click(function(){
+				if ( $.inArray($(this).attr("id"),preselectedYears) == -1)
+					{
+						$(this).addClass("selected");
+						preselectedYears.push($(this).attr("id"));
+					}
+					else
+					{
+						$(this).removeClass("selected");
+						preselectedYears.splice($.inArray($(this).attr("id"),preselectedYears),1);
+					}
+				})
+	});
+	</script>
+
+	
+
+<script type="text/javascript">
+	
+	//add selected countries to the selected countries table
+	function selectCountries()
+	{
+		$.each(preselectedCountries, function(index, countryID) { 
+		countryName = $("#"+countryID+" > td").html();
+		
+		//check if country is not already selected
+		if ($.inArray(countryID,selectedCountries) == -1)
+			{	
+				selectCountry(countryID, countryName);
+			}
+			else
+			{
+			alert(countryName + " is already selected");	
+			}
+		});
+		
+		//rebuild table stripped style
+		$("#tablepreselectedCountries tr:odd").removeClass("alt")	
+		$("#tablepreselectedCountries tr:even").addClass("alt");
+		
+		//clear all highlighted items style from the countries table
+		$("#countriesTable tr").removeClass("selected");
+		
+		//clear preselected countries array
+		preselectedCountries.splice(0,preselectedCountries.length )	
+	}
+	
+	function selectCountry(countryID, countryName)
+	{
+		//writes country name on the selected countries table
+		$("#tablepreselectedCountries tr:last").after('<tr id=selected'+ countryID +'><td style=\'padding:2px; width:90%\'>' + countryName + '</td><td style=\'width:10%;text-align:right\'><a onclick=\'removeThisCountry(' + countryID + ')\'>remove</a></td></tr>');
+		
+		//add country to the selected countries array
+		selectedCountries.push(countryID);	
+	}
+	
+	
+	
+	//Removes one country from the selected countries list and array
+	function removeThisCountry(countryID)
+	{
+		selectedCountries.splice($.inArray(countryID+"",selectedCountries),1);
+		$("#selected"+countryID).remove();
+	}
+	
+	
+	
+	
+	//remove all selected countries from table and array
+	function clearSelectedCountries()
+	{
+		tempSelectedCountries = []
+		$.each(selectedCountries,function(index,countryID){tempSelectedCountries.push(countryID)});
+		$.each(tempSelectedCountries,function(index,countryID){removeThisCountry(countryID)});
+		tempSelectedCountries = null;	
+	}
+	
+	
+	
+	
+	//selects all countries
+	function selectAllCountries()
+	{
+		//clear selection
+		clearSelectedCountries();
+		$("#countriesTable tr").each(function(index){
+			countryID = $(this).attr("id");
+			countryName = $("#"+countryID+" > td").html();
+			selectCountry(countryID, countryName);
+			});	
+		
+		//rebuild table stripped style	
+		$("#tablepreselectedCountries tr:even").addClass("alt");
+		
+		//clear all highlighted items style from the countries table
+		$("#countriesTable tr").removeClass("selected");
+		
+		//clear preselected countries array
+		preselectedCountries.splice(0,preselectedCountries.length )	
+	}
+	
+	</script>
+    
+
+<script type="text/javascript">
+		
+	//add selected indicators to the selected indicators table
+	function selectIndicators()
+	{
+		$.each(preselectedIndicators, function(index, indicatorID) { 
+		indicatorName = $("#"+indicatorID+" > td").html();
+		
+		//limit to 5 indicators
+		if(selectedIndicators.length < 10)
+		{
+			//check if indicator is not already selected
+			if ($.inArray(indicatorID,selectedIndicators) == -1)
+				{	
+					selectIndicator(indicatorID, indicatorName)
+				}
+				else
+				{
+				alert(indicatorName + " is already selected");	
+				}
+		}
+		else
+		{
+			jAlert("You can select up to 10 indicators");
+			return false;
+		}
+			});
+		
+		
+		//rebuild table stripped style	
+		$("#tablepreselectedIndicators tr:odd").removeClass("alt");
+		$("#tablepreselectedIndicators tr:even").addClass("alt");
+		
+		//clear all highlighted items style from the indicators table
+		$("#indicatorsTable tr").removeClass("selected");
+		
+		//clear preselected indicators array
+		preselectedIndicators.splice(0,preselectedIndicators.length )	
+	}
+	
+	
+	
+	
+	//Removes one indicator from the selected indicators list and array
+	function removeThisIndicator(indicatorID)
+	{
+		selectedIndicators.splice($.inArray(indicatorID+"",selectedIndicators),1);
+		$("#selected"+indicatorID).remove();
+	}
+	
+	
+	
+	
+	
+	//remove all selected indicators from table and array
+	function clearSelectedIndicators()
+	{	
+		tempSelectedIndicators = [];
+		$.each(selectedIndicators,function(index,indicatorID){tempSelectedIndicators.push(indicatorID)});
+		$.each(tempSelectedIndicators,function(index,indicatorID){removeThisIndicator(indicatorID)});
+		tempSelectedIndicators = null;	
+	}
+	
+	
+	
+	
+	function selectIndicator(indicatorID, indicatorName)
+	{	//limit to 5 indicators
+		
+			//writes indicator name on the selected indicators table
+			$("#tablepreselectedIndicators tr:last").after('<tr id=selected'+ indicatorID +'><td style=\'padding:2px; width:90%\'>' + indicatorName + '</td><td style=\'width:10%;text-align:right\'><a onclick=\'removeThisIndicator(' + indicatorID + ')\'>remove</a></td></tr>');
+			
+			//add indicator to the selected indicators array
+			selectedIndicators.push(indicatorID);	
+		
+	}
+	
+	
+	
+	
+	//selects all indicators
+	function selectAllIndicators()
+	{
+		//clear selection
+		clearSelectedIndicators();
+		$("#indicatorsTable tr").each(function(index){
+			indicatorID = $(this).attr("id");
+			indicatorName = $("#"+indicatorID+" > td").html();
+			selectIndicator(indicatorID, indicatorName);
+			});	
+		
+		//rebuild table stripped style	
+		$("#tablepreselectedIndicators tr:even").addClass("alt");
+		
+		//clear all highlighted items style from the indicators table
+		$("#indicatorsTable tr").removeClass("selected");
+
+		//clear preselected indicators array
+		preselectedIndicators.splice(0,preselectedIndicators.length )	
+	}
+	</script>
+	
+
+<script type="text/javascript">
+    //add selected years to the selected years table
+	function selectYears()
+	{
+		$.each(preselectedYears, function(index, yearID) { 
+		yearName = $("#"+yearID+" > td").html();
+		
+		//check if year is not already selected
+		if ($.inArray(yearID,selectedYears) == -1)
+			{	
+				selectYear(yearID, yearName)
+			}
+			else
+			{
+			alert(yearName + " is already selected");	
+			//preselectedYears.splice($.inArray(countryID,selectedYears),1);
+			}
+		});
+		
+		//rebuild table stripped style	
+		$("#tablepreselectedYears tr:odd").removeClass("alt");
+		$("#tablepreselectedYears tr:even").addClass("alt");
+		
+		//clear all highlighted items style from the years table
+		$("#yearsTable tr").removeClass("selected");
+		
+		//clear preselected years array
+		preselectedYears.splice(0,preselectedYears.length )	
+	}
+	
+	
+	
+	
+	//Removes one year from the selected years list and array
+	function removeThisYear(yearID)
+	{
+		selectedYears.splice($.inArray(yearID+"",selectedYears),1);
+		$("#selected"+yearID).remove();
+	}
+	
+	
+	
+	
+	
+	//remove all selected years from table and array
+	function clearSelectedYears()
+	{	
+		tempSelectedYears = [];
+		$.each(selectedYears,function(index,yearID){tempSelectedYears.push(yearID)});
+		$.each(tempSelectedYears,function(index,yearID){removeThisYear(yearID)});
+		tempSelectedYears = null;	
+	}
+	
+	
+	
+	
+	function selectYear(yearID, yearName)
+	{
+		//writes year name on the selected years table
+		$("#tablepreselectedYears tr:last").after('<tr id=selected'+ yearID +'><td style=\'padding:2px; width:90%\'>' + yearName + '</td><td style=\'width:10%;text-align:right\'><a onclick=\'removeThisYear(' + yearID + ')\'>remove</a></td></tr>');
+		
+		//add year to the selected years array
+		selectedYears.push(yearID);	
+	}
+	
+	
+	//selects all years
+	function selectAllYears()
+	{
+		//clear selection
+		clearSelectedYears();
+		$("#yearsTable tr").each(function(index){
+			yearID = $(this).attr("id");
+			yearName = $("#"+yearID+" > td").html();
+			selectYear(yearID, yearName);
+			});	
+		
+		//rebuild table stripped style	
+		$("#tablepreselectedYears tr:even").addClass("alt");
+		
+		//clear all highlighted items style from the years table
+		$("#yearsTable tr").removeClass("selected");
+
+		//clear preselected years array
+		preselectedYears.splice(0,preselectedYears.length )	
+	}	
+  </script>
+  
+  
+
+
+<script type="text/javascript">
+  		//validates and writes selected countries/indicators arrays into form
+	function validateAndCompleteForm()
+	{
+	//validate form
+	if (selectedCountries.length == 0 || selectedIndicators.length == 0 || selectedYears.length == 0 || $("input[name='displayIn']:checked").val() == undefined)
+		{
+			errorText = "";
+		if (selectedCountries.length == 0 ) errorText+= " Select a country\n";
+		if (selectedIndicators.length == 0 ) errorText+= " Select an indicator\n";
+		if (selectedYears.length == 0 ) errorText+= " Select a year\n";
+		if ( $("input[name='displayIn']:checked").val() == undefined) errorText+= " Select a display option\n";
+		
+		jAlert(errorText,"Information");
+		return false;	
+		};
+		
+		
+		
+	$.each(selectedCountries, function(index,countryID){
+		document.getElementById("selectedCountries").value = document.getElementById("selectedCountries").value + countryID + ","
+			});	
+		
+	$.each(selectedIndicators, function(index,indicatorID){
+		document.getElementById("selectedIndicators").value = document.getElementById("selectedIndicators").value + indicatorID + ","
+		});	
+		
+	$.each(selectedYears, function(index,year){
+		document.getElementById("selectedYears").value = document.getElementById("selectedYears").value + year + ","
+		});	
+		
+	//Submit the form to the appropriate page
+	if ($("input[name='displayIn']:checked").val()=="row")
+		document.getElementById("mainForm").action="displayByRow.cfm"
+			else
+		document.getElementById("mainForm").action="displayByColumn.cfm";
+	
+	
+	
+	return true
+		
+	}
+</script>
+
+</div>
+
+</div>
+<!-- end homeinnercontainer--> 
+<!-- end of header -->
+
+</div>
+</div>
+</div></div>
+

@@ -1,0 +1,7 @@
+name = Clio-Infra datasets
+description = Upload and search datasets for Clio-Infra.
+package = Clio-Infra
+dependencies[] = ctools_automodal
+core = 7.x
+version = 7.x-1.x-dev
+

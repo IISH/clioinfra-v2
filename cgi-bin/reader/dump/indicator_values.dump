@@ -1,0 +1,89 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: indicator_values; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+DROP TABLE indicator_values;
+CREATE SEQUENCE indicatorval_id_seq;
+
+CREATE TABLE indicator_values (
+    id integer NOT NULL default nextval('indicatorval_id_seq'),
+    ind_id integer DEFAULT 0 NOT NULL,
+    year_id integer DEFAULT 0 NOT NULL,
+    country_id integer DEFAULT 0 NOT NULL,
+    region_id integer DEFAULT 0 NOT NULL,
+    dataset_id integer DEFAULT 0 NOT NULL,
+    ind_value_int integer DEFAULT 0 NOT NULL,
+    ind_value_float double precision DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.indicator_values OWNER TO postgres;
+
+--
+-- Data for Name: indicator_values; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+--
+-- Name: indicator_cidx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX indicator_cidx ON indicator_values USING btree (country_id);
+
+
+--
+-- Name: indicator_didx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX indicator_didx ON indicator_values USING btree (dataset_id);
+
+
+--
+-- Name: indicator_iidx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX indicator_iidx ON indicator_values USING btree (ind_id);
+
+
+--
+-- Name: indicator_ridx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX indicator_ridx ON indicator_values USING btree (region_id);
+
+
+--
+-- Name: indicator_vidx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX indicator_vidx ON indicator_values USING btree (id);
+
+
+--
+-- Name: indicator_yidx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX indicator_yidx ON indicator_values USING btree (year_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
