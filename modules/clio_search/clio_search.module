@@ -1,9 +1,5 @@
 <?php
 
-// TODO all files unmanaged, in tmp, except zip.
-// TODO clean up zip files.
-// TODO Use /clio/zip subdir for all zipfiles
-
 /*
  * Views to query the stored datasets.
  */
@@ -70,11 +66,6 @@ function clio_search_menu() {
     'access arguments' => array('search datasets'),
     'type'             => MENU_CALLBACK,
   );
-  $items['datasets/download'] = array(
-    'page callback'    => 'clio_search_download',
-    'access arguments' => array('download datasets'),
-    'type'             => MENU_CALLBACK,
-  );
   $items['datasets/transfer'] = array(
     'page callback'    => 'clio_search_transfer',
     'page arguments'   => array(2),
@@ -113,14 +104,13 @@ function datasets_intro() {
  * @param $vocab
  *   Vocabulary name
  * @return
- *   Themed list with links e.g. /clio/datasets/select/country/12
+ *   Themed list with links e.g. /datasets/select/country/12
  */
 function clio_search_list($vocab) {
   switch ($vocab) {
     case 'countries':
       drupal_set_title('Countries');
-//      $output = views_embed_view('countries', 'page');
-      $output = clio_search_list_terms('countries');
+      $output = clio_search_list_terms('countries', 'country');
       break;
     case 'topics':
       drupal_set_title('Topics');
@@ -137,9 +127,15 @@ function clio_search_list($vocab) {
 
 
 /*
- * TODO Use theme_list.
+ * Show a list of terms, grouped by first letter.
+ * TODO Use theme_item_list, adjust for topics and indicators.
+ *
+ * @param $vocab_name
+ *   Vocabulary name
+ * @return
+ *   Themed list with links e.g. /datasets/select/country/12
  */
-function clio_search_list_terms($vocab_name) {
+function clio_search_list_terms($vocab_name, $path) {
   $term_list = clio_search_taxonomy_get_leaves($vocab_name);
   $output = '<ul class="country-list">';
   $char = 'A';
@@ -150,7 +146,7 @@ function clio_search_list_terms($vocab_name) {
       $char = mb_substr($name, 0, 1);
       $output .= '</ul><li class="startletter">' . $char . '</li><ul>';          
     }
-    $output .= '<li class="country"><a href="/datasets/select/country/' . $tid . '">' . $name . '</a></li>';
+    $output .= '<li class="country"><a href="/datasets/select/' . $path . '/' . $tid . '">' . $name . '</a></li>';
   }
   $output .= '</ul></ul>';
   return $output;
@@ -163,7 +159,6 @@ function clio_search_list_terms($vocab_name) {
  *
  * Feature clio_datapoint_and_data_views bevat o.a. view met exposed filters + argument
  * Year (from, to), indicators, countries
- * TODO: change country to countries, topics to topic etc.
  *
  * @param $vocab
  *   Vocabulary name
@@ -171,7 +166,7 @@ function clio_search_list_terms($vocab_name) {
  *   Term ID
  * @return
  *   Themed list with links, e.g.
- *   /clio/datasets/searchresults?year[min]=1500&year[max]=1800&indicator[]=113&indicator[]=304&indicator[]=83
+ *   /datasets/searchresults?year[min]=1500&year[max]=1800&indicator[]=113&indicator[]=304&indicator[]=83
  */
 function clio_search_select($vocab = 'combined', $tid = NULL) {
   $term = (arg(3) && is_numeric(arg(3))) ? taxonomy_term_load(arg(3)) : NULL;
@@ -202,6 +197,10 @@ function clio_search_select($vocab = 'combined', $tid = NULL) {
 }
 
 
+/*
+ * Show a filter form with years and countries and/or indicators,
+ * depending on the arguments.
+ */
 function clio_search_select_form($form, &$form_state) {
   $form['#action'] = url('datasets/searchresults');
   $form['year'] = array (
@@ -261,7 +260,9 @@ function clio_search_select_form($form, &$form_state) {
   }
 
   $form['message'] = array(
-    '#markup' => clio_search_select_message(),
+    '#prefix' => '<div class="select-message">(',
+    '#markup' => t('Leave blank for all available data'),
+    '#suffix' => ')</div>',
   );
 
   $form['submit'] = array(
@@ -270,11 +271,6 @@ function clio_search_select_form($form, &$form_state) {
   );
 
   return $form;  
-}
-
-
-function clio_search_select_message() {
-  return '<div class="select-message">(' . t('Leave blank for all available data') . ')</div>';
 }
 
 
@@ -304,33 +300,17 @@ function clio_search_form_views_exposed_form_alter(&$form, &$form_state, $form_i
 
 
 /*
- * Show table of available indicators based on query
- * with link to download all result files in zip.
- *
- * Module met DB query
- * Alleen query naar dat wat nodig is? indicatorname, topic, provider, version
- * Query per tabel
- * Maak een array van indicators/datasets/tabellen
- * Resultaat hoeft alleen lijst indicators te zijn.
- * Per resource een row
- * TODO theme function
- *
- * TODO If from combined: no indicator/country selected means all
+ * Show table of available indicators/datasets based on query
+ * with button to download all result files in zip.
  *
  * @param querystring
- *   ?year[min]=1500&year[max]=2013&country[]=12&country[]=13&country[]=14&indicator[]=50
+ *   E.g. year[min]=1500&year[max]=2013&country[]=12&country[]=13&country[]=14&indicator[]=50
  * @return
- *   link to /clio/datasets/download with same querystring
+ *   link to /datasets/download with same querystring
  */
 function clio_search_results() {
-
-  $query = drupal_get_query_parameters();
-  if (empty($query)) {
-    $query = drupal_get_query_parameters($_POST);
-  }  
-  // TODO beetje dubbelop hier
   $params = clio_search_get_params();  
-  $indicators = $params['indicators'];
+  $indicators = $params['indicator'];
   
   $datasets = array();
   foreach ($indicators as $indicatortid) {
@@ -339,8 +319,8 @@ function clio_search_results() {
       $resourcenid = clio_search_get_resource($datasetnid);
       if ($resourcenid) {
 
-        $result = clio_search_query($resourcenid, 1);
-        if (count($result)) {
+        $result = clio_search_db_query($resourcenid, $params['year'], $params['country'], 1);
+        if ($result->rowCount()) {
 
           $indicator = taxonomy_term_load($indicatortid);
           $topics = taxonomy_get_parents($indicatortid);
@@ -359,22 +339,54 @@ function clio_search_results() {
   }
   
   if (count($datasets)) {
-    $content = '<div class="searchresults"><table>';
-    $content .= '<tr><th>Indicator</th><th>Topic</th><th>Provider</th><th>Version</th></tr>';
+    // The table with results.
+    $header = array(t('Indicator'), t('Topic'), t('Provider'), t('Version'));
+    $rows = array();
     foreach ($datasets as $tid => $info) {
-      $content .= '<tr><td>' . $info['indicator'] . '</td><td>' . $info['topic'] . '</td>';
-      $content .= '<td>IISG</td><td>1.0</td>';
-      $content .= '</td></tr>';
+      $rows[] = array($info['indicator'], $info['topic'], 'IISG', '1.0');
     }
-    $content .= '</table></div>';
-    // TODO Create form, use POST.
-    $content .= '<div class="search-submit">'. l('Ok', 'datasets/download', array('query' => $query)) . '</div>';
+    $content = '<div class="searchresults">';
+    $content .= theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE));
+    $content .= '</div>';
+    
+    // The download button.
+    $downloadform = drupal_get_form('clio_search_download_form', $params);
+    $content .= drupal_render($downloadform);
   }
   else {
     $content = "No results";
   }
   drupal_set_title("Search results");
   return $content;
+}
+
+
+/*
+ *  Create download button.
+ *
+ * @param $params
+ *   The search parameters (year, topic, indicator, country).
+ */
+function clio_search_download_form($form, &$form_state, $params) {
+  foreach ($params as $field => $values) {
+    $form[$field] = array(
+      '#type' => 'value',
+      '#tree' => TRUE,
+    );
+    foreach ($values as $key => $value) {
+      $form[$field][$key] = array(
+        '#type' => 'hidden', // Cannot be value as we need it in the params.
+        '#value' => $value,
+      );
+    }
+  }
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Ok'),
+    '#prefix' => '<div class="search-submit">',
+    '#suffix' => '</div>',
+  );
+  return $form;
 }
 
 
@@ -388,14 +400,11 @@ function clio_search_results() {
  * querystring is:
  *   year[min]=1500&year[max]=2013&country[]=12&country[]=13&country[]=14&indicator[]=50
  */
-function clio_search_download() { 
+function clio_search_download_form_submit() { 
   $params = clio_search_get_params();  
-  $indicators = $params['indicators'];
-    
-  // Create the result files and the list of files to be zipped.
-  $files = array();
-  // Create temporary files for the result set. pathnames? uri's? fids?
-  // Managed or unmanaged?
+  $indicators = $params['indicator'];
+
+  $files = array(); // The list of files to be created.
   foreach ($indicators as $indicatortid) {
     $datasetnid = clio_search_get_dataset($indicatortid);
     if ($datasetnid) {
@@ -407,10 +416,10 @@ function clio_search_download() {
   }
 
   if (!empty($files)) {
-
+    // Create a temporary directory for the resulting zip file.
     $dir = 'zip' . mt_rand(0, 9999999);
     drupal_mkdir('public://clio/' . $dir);
-    // TODO Store in separate database table.
+    // TODO Store in separate database table instead of variable.
     $oldfiles = variable_get('clio_search_zipfiles', array());
     $oldfiles[$dir] = time();
     variable_set('clio_search_zipfiles', $oldfiles);
@@ -426,7 +435,6 @@ function clio_search_download() {
       'error_message' => t('Download file creation has encountered an error.'),
     );
     batch_set($batch);
-    // TODO On error do not transfer the zip file.
     batch_process('datasets/transfer/' . $dir);
   }
 }
@@ -466,7 +474,7 @@ function clio_search_get_dataset($tid) {
       return $nids[0];
     }
     else {
-      // What to do if there are several datasets connected to an indicator???
+      // TODO What to do if there are several datasets linked to one indicator?
       return $nids[0];
     }
   }
@@ -513,10 +521,11 @@ function clio_search_get_resource($nid) {
 /*
  * @param $nid
  *   The nid of a dataset node.
+ * @return
+ *   The $uri of the working paper.
  */
 function clio_search_get_working_paper($nid) {
   $node = node_load($nid);
-  // $file = drupal_realpath($uri); werkt niet voor remote files!
   $uri = '';
   if (isset($node->field_working_paper)) {
     $uri = $node->field_working_paper['und'][0]['uri'];
@@ -527,8 +536,20 @@ function clio_search_get_working_paper($nid) {
 
 /*
  * Process one resource file and working paper per batch step.
+ *
+ * @param $params
+ *   Array with query parameters.
+ * @param $files
+ *   Array with the list of files to create.
+ * @param $dir
+ *   Directory to save the files in.
+ * @param $xls
+ *   Boolean indicating whether to save as CSV or XLSX.
+ * @param $clioformat
+ *   Boolean indicating whether to save in row-based or clio format.
  */
 function clio_search_create_result_files($params, $files, $dir, $xls = TRUE, $clioformat = TRUE,  &$context) {
+
   if (!isset($context['sandbox']['progress'])) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['current_file'] = 0;
@@ -541,11 +562,12 @@ function clio_search_create_result_files($params, $files, $dir, $xls = TRUE, $cl
     $context['results']['files'][] = drupal_realpath($uri1);
     $uri2 = clio_search_get_working_paper($files[$context['sandbox']['current_file']]['dataset'], $dir);
     if ($uri2) {
+      // N.B. drupal_realpath($uri) werkt niet voor remote files!
       $context['results']['files'][] = drupal_realpath($uri2);
     }
   }
   
-  // Update our progress information.
+  // Update progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_file']++;
   $context['message'] = t('Now processing %file', array('%file' => drupal_basename($uri1, 'xlsx')));
@@ -559,14 +581,24 @@ function clio_search_create_result_files($params, $files, $dir, $xls = TRUE, $cl
 
 
 /*
+ * Based on a resource and the query, create a result file.
+ *
+ * @param $params
+ *   Array with query parameters.
  * @param $resource
- *   The nid of the resource
+ *   The nid of the resource.
+ * @param $dir
+ *   Directory to save the files in.
+ * @param $xls
+ *   Boolean indicating whether to save as CSV or XLSX.
+ * @param $clioformat
+ *   Boolean indicatting whether to save in row-based or clio format.
  */
 function clio_search_create_result_file($params, $resource, $dir, $xls = TRUE, $clioformat = TRUE) {
-  $result = clio_search_db_query($resource, $params['years'], $params['countries']);
-  if ($result) {
+  $result = clio_search_db_query($resource, $params['year'], $params['country']);
+  if ($result->rowCount()) {
     if ($clioformat) {
-      $allcountries = empty($params['countries']);
+      $allcountries = empty($params['country']);
       $rows = clio_search_convert_to_clio($result, $resource, $allcountries);
       $indicator = $rows[0][0];
     }
@@ -574,7 +606,7 @@ function clio_search_create_result_file($params, $resource, $dir, $xls = TRUE, $
       $rows = clio_search_convert_to_rows($result, $resource);
       $indicator = $rows[5][0];
     }
-    // TODO replace spaces in $indicator?
+    // Note: spaces in $indicator could be replaced to create safer filename.
     if ($xls) {
       $file = clio_convert_save_as_xls($rows, $indicator, $dir);
     }
@@ -592,8 +624,7 @@ function clio_search_create_result_file($params, $resource, $dir, $xls = TRUE, $
     return;
   }
 
-  // TODO let convert return a string instead of a file.
-  // $contents = $csv;
+  // Note: we could let convert return a CSV string instead of a file.
   $temp_name = drupal_tempnam('temporary://', 'file'); 
   if (file_put_contents($temp_name, $contents) === FALSE) {
     drupal_set_message(t('The file could not be created.'), 'error');
@@ -601,7 +632,6 @@ function clio_search_create_result_file($params, $resource, $dir, $xls = TRUE, $
   }
   return $temp_name;
 }
-
 
 
 /**
@@ -612,7 +642,6 @@ function clio_search_finished($success, $results, $operations) {
     if (count($results['files'])) {
       // Combine all files in a zip.
       $zipfile = clio_search_create_zip($results['files'], $results['dir']);
-//      clio_search_transfer($zipfile);
     }
   }
   else {
@@ -648,45 +677,48 @@ function clio_search_create_zip($files, $dir = '') {
       $filename .= '.zip';
     }
   }
-  $archive = new PclZip(drupal_realpath($filename));
+  $filepath = drupal_realpath($filename);
+  $archive = new PclZip($filepath);
   $archive->add($files, PCLZIP_OPT_REMOVE_ALL_PATH);
-  
-  // TODO error check: what if file does not exist?
-  return $filename;
+  if (file_exists($filepath)) {  
+    return $filename;
+  }
 }
 
-
-function clio_search_transfer($dir) {
-  // TODO cleaner
-  $file = '/sites/default/files/clio/' . $dir . '/data.zip';
-  drupal_add_js('jQuery(document).ready(function () { window.location.assign(\'' . $file . '\'); });',
-    array('type' => 'inline', 'scope' => 'footer')
-  );
-  return '<p>Problems with the download? Please use this <a href="javascript:void(0);" name="Download dataset" title="Dataset" onClick=window.open("' . $file . '","Dataset","width=0,height=0,0,status=0")>direct link</a>.</p>';
 
 /*
-  // send the archive
-  // This from download module.
-  header("Content-Type: application/force-download");
-  header('Content-Description: File Transfer');
-  header('Content-Disposition: inline; filename=data.zip');
-  $filesdir = variable_get('file_public_path', conf_path() . '/files');
-  $path = $filesdir . '/clio/' . $dir . '/data.zip';
-  readfile($path);
-  exit();  
-*/
-
+ * Transfer the created zip file to the client.
+ *
+ * @param $dir
+ *  A subdirectory of the Clio files directory in which the zip file is available.
+ */
+function clio_search_transfer($dir) {
+  $file = variable_get('file_public_path', conf_path() . '/files') . '/clio/' . $dir . '/data.zip';
+  if (file_exists(drupal_realpath($file))) {
+    drupal_add_js('jQuery(document).ready(function () { window.location.assign(\'/' . $file . '\'); });',
+      array('type' => 'inline', 'scope' => 'footer')
+    );
+    return '<p>Problems with the download? Please use this <a href="javascript:void(0);" name="Download dataset" title="Dataset" onClick=window.open("/' . $file . '","Dataset","width=0,height=0,0,status=0")>direct link</a>.</p>';
+  }
+  else {
+    // The error message from the batch finished callback should be available as well.
+    drupal_set_message('An error occurred while creating the download file.', 'error');
+    drupal_goto('/datasets');
+  }
 }
   
-  
+
 /**
  * Convert data from row-based to clio formatted data.
  *
  * @param $data
  *   Array of arrays, representing the spreadsheet cells.
  * @param $resource
+ *   The resource nid.
  * @param $empty_years
  *   If TRUE columns for all years will be specified, even if there are no values.
+ * @param $allcountries
+ *   Boolean.
  *
  * @return $rows
  *   Array of arrays in clio format.
@@ -719,8 +751,7 @@ function clio_search_convert_to_clio($data, $resource, $allcountries = FALSE, $e
     } while ($datarow = $data->fetchAssoc());
   }
   if (!($empty_years)) {
-    // TODO sort earlier, in the view?
-    ksort($years); 
+    // ksort($years); Already sorted in db query.
     $years = array_keys($years);
   }
 
@@ -743,6 +774,17 @@ function clio_search_convert_to_clio($data, $resource, $allcountries = FALSE, $e
 }
 
 
+/**
+ * Provide data in row-based format with header.
+ *
+ * @param $data
+ *   Array of arrays, representing the spreadsheet cells.
+ * @param $resource
+ *   The resource nid.
+ *
+ * @return $rows
+ *   Array of arrays.
+ */
 function clio_search_convert_to_rows($data, $resource) {
   global $user;
   $countries = clio_get_countries();
@@ -767,8 +809,14 @@ function clio_search_convert_to_rows($data, $resource) {
 
 
 /*
- * Save as CSV, unmanaged, temporary.
+ * Save data as CSV, unmanaged, temporary.
  * TODO Use $dir
+ * 
+ * @param $data
+ *   Array of arrays, representing the spreadsheet cells.
+ *
+ * @return
+ *   A file object.
  */
 function clio_search_convert_save_as_csv($data, $prefix = 'clio', $dir = '') {
   global $user;
@@ -792,15 +840,6 @@ function clio_search_convert_save_as_csv($data, $prefix = 'clio', $dir = '') {
   $file->filemime = 'text/csv';
   $file->uid = $user->uid;
 
-  // TODO Without a save this check seems unnecessary.
-  if (!empty($file)) {
-//    drupal_set_message(t('Saved CSV file to destination %destination', array('%destination' => $filename)));
-  }
-  else {
-    drupal_set_message(t('Failed to save CSV file'), 'error');
-    return;
-  }
-
   return $file;
 }
 
@@ -808,8 +847,13 @@ function clio_search_convert_save_as_csv($data, $prefix = 'clio', $dir = '') {
 /*
  * Save as Excel file, unmanaged, temporary.
  * Save as XLSX, as XLS allows no more than 256 columns.
- * TODO This takes 8 seconds per file!
  * TODO Fix prefix name
+ * 
+ * @param $data
+ *   Array of arrays, representing the spreadsheet cells.
+ *
+ * @return
+ *   A file object.
  */
 function clio_convert_save_as_xls($data, $prefix, $dir = '') {
   global $user;
@@ -851,19 +895,12 @@ function clio_convert_save_as_xls($data, $prefix, $dir = '') {
     drupal_set_message(t("Error saving file as XLSX, error code: ") . $result, 'error');
     return;
   }    
-  if (!empty($file)) {
-//    drupal_set_message(t('Saved file to destination %destination', array('%destination' => $filename)));
-  }
-  else {
+  if (empty($file)) {
     drupal_set_message(t('Failed to save XLSX file %destination', array('%destination' => $filename)), 'error');
     return;
   }
-
   return $file;
 }
-
-
-
 
 
 /*
@@ -871,7 +908,10 @@ function clio_convert_save_as_xls($data, $prefix, $dir = '') {
  * Make sure all values are numeric.
  * If no indicators are specified all available indicators will be returned.
  *
- * TODO sort indicators in case of multiple parents?
+ * TODO Sort indicators in case of multiple parents?
+ *
+ * @return
+ *   An array of arrays containing year, country and indicator.
  */
 function clio_search_get_params() {
   $query = drupal_get_query_parameters();
@@ -905,12 +945,13 @@ function clio_search_get_params() {
       $indicators = array_unique($indicators);
     }
   }
-  return array('years' => $years, 'countries' => $countries, 'indicators' => $indicators);
+  return array('year' => $years, 'country' => $countries, 'indicator' => $indicators);
 }
 
 
 /*
  * Add a where clause to the query based on the query string.
+ * TODO Do we still need this?
  * TODO match whole viewname
  * TODO add mapping to indicatortid and countrytid here, instead of in convert
  * We need just a subset: indicator, unit, countrycode, year, value (indicatortid, countrytid)
@@ -918,8 +959,8 @@ function clio_search_get_params() {
 function clio_search_views_query_alter(&$view, &$query) {
   if (preg_match('/feeds_datastore_dkan_file_/', $view->name) && ($view->current_display == 'page_1')) {
     $params = clio_search_get_params();
-    $years = $params['years'];
-    $countries = $params['countries'];
+    $years = $params['year'];
+    $countries = $params['country'];
     if (count($years)) {
       if (!empty($years['min'])) {
         $view->query->add_where(0, db_and()->condition($view->name . '.year', $years['min'], '>='));
@@ -935,6 +976,9 @@ function clio_search_views_query_alter(&$view, &$query) {
 }
 
 
+/*
+ * Return anything except these fields.
+ */
 function clio_search_views_pre_build(&$view) {
   if (preg_match('/feeds_datastore_dkan_file_/', $view->name) && ($view->current_display == 'page_1')) {
     unset($view->field['indicatortid']);
@@ -947,26 +991,20 @@ function clio_search_views_pre_build(&$view) {
 
 
 /*
- * TODO This should be paged/batched. See views_data_export.
- */
-function clio_search_query($resourcenid, $items = 10000) {
-  $tablename = 'dkan_file_' . $resourcenid;
-  $viewname  = 'feeds_datastore_' . $tablename;
-  $view = views_get_view($viewname);
-  $view->set_display('page_1');
-  $view->set_items_per_page($items); // Return all if 0.
-  $view->pre_execute();
-  $view->execute();
-  return $view->result;
-}
-
-
-/*
- * Alternative, direct database query implementation.
+ * Query the database table for the resource.
+ *
+ * @param $resourcenid
+ * @param $years
+ * @param $countries
+ * @param $items
+ *   The number of items to return.
+ *
+ * @return
+ *   A database result set.
  */
 function clio_search_db_query($resourcenid, $years = array(), $countries = array(), $items = 0) {
   $tablename = 'feeds_datastore_dkan_file_' . $resourcenid;
-  
+
   global $databases;
   $db = $databases['default']['default']['database'];
   $exists = db_query('SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = :db AND table_name = :table', array(':db' => $db, ':table' => $tablename))->fetchField();
@@ -995,13 +1033,22 @@ function clio_search_db_query($resourcenid, $years = array(), $countries = array
   if (count($countries)) {
     $query->condition('t.countrytid', $countries, 'IN');
   }
+  $query->orderBy('t.year', 'ASC');
   $result = $query->execute();
   return $result;
 }
 
 
 /*
+ * Get only the leaves of a term tree.
  *
+ * @param $machine_name
+ *   A vocabulary machine name.
+ * @param $parent
+ *   The parent tid to start from.
+ *
+ * @return
+ *   An array of term names keyed by tid, sorted by name.
  */
 function clio_search_taxonomy_get_leaves($machine_name, $parent = 0) {
   $v = taxonomy_vocabulary_machine_name_load($machine_name);
