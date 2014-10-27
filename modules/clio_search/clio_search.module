@@ -189,8 +189,10 @@ function clio_search_select($vocab = 'combined', $tid = NULL) {
     case 'combined':
     default:
       drupal_set_title('Combined search');
-      $output = views_embed_view('data', 'page_4');
-      $output .= clio_search_select_message();
+      $output  = views_embed_view('data', 'page_4');
+      $output .= '<div class="select-message">(';
+      $output .= t('Leave blank for all available data');
+      $output .= ')</div>';
       break;
   }
   return $output;
