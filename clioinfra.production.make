@@ -5,7 +5,7 @@ api = 2
 ; Core
 
 projects[drupal][type] = core
-projects[drupal][version] = 7.26
+projects[drupal][version] = 7.32
 
 ; Clio custom modules
 
@@ -74,7 +74,7 @@ projects[clio_site][download][branch] = master
 
 ; Themes
 
-projects[zen][version] = 5.1
+projects[zen][version] = 5.5
 
 projects[clioinfra][type] = "theme"
 projects[clioinfra][download][type] = "git"
