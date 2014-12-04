@@ -494,29 +494,10 @@ function clio_search_get_dataset($tid) {
  *   The nid of the row-based resource referenced by the dataset.
  */
 function clio_search_get_resource($nid) {
-  $node = node_load($nid);
-  if (!(empty($node->field_resources))) {
-    // The book children of the node. We need to find the converted file.
-    foreach ($node->field_resources['und'] as $resource) {
-      $r = node_load($resource['target_id']);
-      // TODO This should be cleaner.
-      if (preg_match('/(generic)/', $r->title)) {
-        return $r->nid;
-      }
-    }
+  $result = db_query("SELECT cnid FROM {clio} WHERE dnid = :dnid", array(':dnid' => $nid));
+  if ($result && ($row = $result->fetchAssoc()) && $row['cnid']) {
+    return $row['cnid'];
   }
-  /*  
-      // See Dataset.inc and dkan_dataset_api.inc
-
-      $resources = array();
-      foreach($node->field_resources['und'] as $key => $resource){
-        $resources[] = $resource['target_id'];
-      }
-      $resources = node_load_multiple($resources);
-      $row = new stdClass();
-      $row->resources = dkan_open_data_build_dataset_resources($resources);
-      $row->num_resources = count($resources);
-  */
 }
 
 
@@ -527,10 +508,12 @@ function clio_search_get_resource($nid) {
  *   The $uri of the working paper.
  */
 function clio_search_get_working_paper($nid) {
-  $node = node_load($nid);
   $uri = '';
-  if (isset($node->field_working_paper)) {
-    $uri = $node->field_working_paper['und'][0]['uri'];
+  $result = db_query("SELECT print_name FROM {clio} WHERE dnid = :dnid", array(':dnid' => $nid));
+  if ($result && $row = $result->fetchAssoc()) {
+    if ($row['print_name']) {
+      $uri = $row['print_name'];
+    }
   }
   return $uri;
 }

@@ -1,15 +1,15 @@
 <?php
 
 /*
- * Stap 0
- * Vocabularies, vocabulary term values en content-types.
- *
- * In install-file.
- * Feature clio_indicators_and_countries bevat vocabularies,
- * clio_datapoint_and_data_views bevat o.a. content-type datapoint
+ * Base module for Clio Infra. Depends on clio_dataset.
+ * 
+ * Vocabularies, vocabulary term values and content-types:
+ * Feature clio_indicators_and_countries contains terms for these vocabularies,
+ * clio_datapoint_and_data_views contains content-type datapoint.
  */
 
 // Clio Infra will show data from 1500 to this year.
+// TODO Make MIN and MAX admin configurable.
 define('CLIO_MAX_YEAR', 2013);
 // CSV delimiter.
 define('CLIO_DELIMITER', ',');
@@ -34,7 +34,7 @@ function clio_menu() {
     'position' => 'left',
     'weight' => -10,
     'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer clioinfra'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
   );

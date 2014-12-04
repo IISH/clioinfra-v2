@@ -51,16 +51,30 @@ function clio_convert_permission() {
 /**
  * Access callback for convert tab.
  * Show tab only on uploaded (or linked) xsl, xlsx or csv files.
+ * Do not show the tab if the resource is already converted and up-to-date.
  */
-// TODO if (clio-format) and (not yet converted: link to row-based CSV is empty)
 function clio_convert_convert_access($node) {
-  if (user_access('convert clio to csv') && ($file = dkan_datastore_file_field($node))) { 
+  if (node_access('view', $node) && user_access('convert clio to csv')
+      && ($file = dkan_datastore_file_field($node))) { 
     if (in_array($file->filemime, 
           array('text/csv', 
                 'application/vnd.ms-excel', 
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-               ))) {
-      return node_access('view', $node);
+               ))
+       ) {
+      $result = db_query("SELECT cnid FROM {clio} WHERE cnid = :cnid", array(':cnid' => $node->nid));
+      if ($result && $result->fetchAssoc()) {
+        // This is a converted resource itself.
+        return FALSE;
+      }
+      $result = db_query("SELECT rnid, upload_time, convert_time FROM {clio} WHERE rnid = :rnid", array(':rnid' => $node->nid));
+      if ($result && $row = $result->fetchAssoc()) {
+        if ($row['convert_time'] && ($row['convert_time'] > $row['upload_time'])) {
+          // Converted resource exists and is up-to-date.
+          return FALSE;
+        }
+      }
+      return TRUE;
     }
   }
   return FALSE;
@@ -156,6 +170,7 @@ function clio_convert_convert($node) {
  * @return $file_object
  *   A newly created file on disk.
  */
+ // TODO Overwrite file if it's just an update?
 function clio_convert_to_row_based($data, $indicator_tid) {
   global $user;
   // TODO Clean output strings.
@@ -375,27 +390,47 @@ function clio_convert_validate_countries($data) {
 
 
 /*
- * Create a new resource, cloning the existing one.
+ * If a converted resource already exist, overwrite it.
+ * If not create a new resource, cloning the existing one.
+ *
+ * @param $node
+ *   The original resource which has been converted.
+ *
+ * @param $file
+ *   The converted file.
  */
 function clio_convert_create_resource($node, $file) {
-  $language = $node->language;
-  // Create a new resource.
-  $newnode = new stdClass();
-  $newnode->type = 'resource';
-  $newnode->language = $language;
-  // Assign defaults for node object
-  node_object_prepare($newnode); 
-  // Replace title and file
-  $newnode->title = $node->title .' (generic)';
-  // Tag with csv
-  $tid = clio_convert_tag_csv('csv', 'format');
-  $newnode->field_format[$language][0]['tid'] = $tid; 
-  $newnode->field_dataset_ref[$language][0]['target_id'] = $node->field_dataset_ref[$language][0]['target_id'];
-  // TODO Copy more fields? og? recline?
-  $newnode->field_upload[$language][0] = (array)$file;
-  node_save($newnode);
-  // TODO check success
-  $nid = $newnode->nid;
+  $result = db_query("SELECT cnid FROM {clio} WHERE rnid = :rnid", array(':rnid' => $node->nid));
+  if ($result && ($row = $result->fetchAssoc()) && $row['cnid']) {
+    // A converted resource exists.
+    $converted_node = node_load($row['cnid']);
+    $language = $converted_node->language;
+    $converted_node->field_upload[$language][0] = (array)$file;
+    $converted_node->revision = 1;
+    node_save($converted_node);
+    $nid = $converted_node->nid;
+  }
+  else {
+    // Create a new node.
+    $language = $node->language;
+    // Create a new resource.
+    $newnode = new stdClass();
+    $newnode->type = 'resource';
+    $newnode->language = $language;
+    // Assign defaults for node object
+    node_object_prepare($newnode); 
+    // Replace title and file
+    $newnode->title = $node->title .' (converted)';
+    // Tag with csv
+    $tid = clio_convert_tag_csv('csv', 'format');
+    $newnode->field_format[$language][0]['tid'] = $tid; 
+    $newnode->field_dataset_ref[$language][0]['target_id'] = $node->field_dataset_ref[$language][0]['target_id'];
+    // TODO Copy more fields? og? recline?
+    $newnode->field_upload[$language][0] = (array)$file;
+    node_save($newnode);
+    // TODO check success
+    $nid = $newnode->nid;
+  }
   return $nid;
 }
 
@@ -428,9 +463,9 @@ function clio_convert_read_excel($filename) {
   }
   // TODO On errors this should return an empty array.
   else {
-    drupal_set_message(t("Error converting file: ") . $result, 'error');
+    // TODO interpret error codes, see phpexcel.inc.
+    drupal_set_message(t("There was an error while converting the file: ") . $result, 'error');
   }
-
 }
 
 
