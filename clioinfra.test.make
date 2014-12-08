@@ -45,6 +45,9 @@ projects[views_tree][version] = 2.0
 projects[print][subdir] = contrib
 projects[print][version] = 2.0
 
+projects[features_override][subdir] = contrib
+projects[features_override][version] = 2.0-rc2
+
 ; Clio site
 
 projects[ctools_automodal][subdir] = contrib 
