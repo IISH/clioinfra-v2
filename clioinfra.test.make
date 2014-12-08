@@ -115,6 +115,17 @@ libraries[jquery.cycle][download][type] = git
 libraries[jquery.cycle][download][url] = https://github.com/malsup/cycle.git
 libraries[jquery.cycle][directory_name] = jquery.cycle
 
+libraries[ckeditor][type] = libraries
+libraries[ckeditor][download][type] = git
+libraries[ckeditor][download][url] = https://github.com/ckeditor/ckeditor-releases.git
+libraries[ckeditor][download][branch] = "4.4.x"
+libraries[ckeditor][directory_name] = ckeditor
+
+libraries[tcpdf][type] = libraries
+libraries[tcpdf][download][type] = "git"
+libraries[tcpdf][download][url] = "git@atlassian-bamboo-be0.socialhistoryservices.org:tcpdf.git"
+libraries[tcpdf][download][branch] = "6.1.0"
+libraries[tcpdf][directory_name] = tcpdf
 
 ; overwrite
 
