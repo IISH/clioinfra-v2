@@ -3,7 +3,7 @@
  * @file
  * Install, update and uninstall functions for the Clio module.
  *
- * TODO Move vocabularies and fields to feature. Add field_shortname.
+ * TODO Move vocabularies and fields to feature.
  */
 
 /**
@@ -24,6 +24,10 @@ function clio_requirements($phase) {
       $requirements['clio_data_dir']['severity'] = REQUIREMENT_ERROR;
       $requirements['clio_data_dir']['value'] = t('Unable to create');
     }
+    else {
+      $path = 'public://clio/metadata';
+      file_prepare_directory($path, FILE_CREATE_DIRECTORY);
+    }
   }
   return $requirements;
 }
@@ -35,18 +39,35 @@ function clio_requirements($phase) {
  */
 function clio_install() {
 
-  // Create a vocabulary named "Indicators", enabled for the 'dataset' content type.
-  if (!taxonomy_vocabulary_machine_name_load('indicators')) {
+  // Create a vocabulary "Indicators", with field Short name.
 
-    $description = t('Indicators.');
     $vocabulary = (object) array(
       'name' => t('Indicators'),
-      'description' => $description,
+      'description' => t('Indicators.'),
       'machine_name' => 'indicators',
       'hierarchy' => 1,
     );
     taxonomy_vocabulary_save($vocabulary);
 
+    field_create_field(array(
+      'field_name' => 'field_shortname',
+      'type' => 'text',
+      'entity_types' => array('taxonomy_term'),
+    ));
+
+    field_create_instance(array(
+      'field_name' => 'field_shortname',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'indicators',
+      'label' => "Short name",
+      'description' => t('An alternative, short name for display in e.g. select boxes.'),
+      'widget' => array(
+        'type' => 'text_textfield',
+      ),
+    ));
+
+    // Enable Indicators for the 'dataset' content type.
+    
     $field = array(
       'field_name' => 'field_indicator',
       'type' => 'taxonomy_term_reference',
@@ -55,7 +76,6 @@ function clio_install() {
           array(
             'vocabulary' => $vocabulary->machine_name,
             'parent' => 0,
-            // TODO No topics, allow only child terms.
           ),
         ),
       ),
@@ -67,10 +87,9 @@ function clio_install() {
       'entity_type' => 'node',
       'label' => 'Indicator',
       'bundle' => 'dataset',
-      'description' => $description,
+      'description' => t('Indicators.'),
       'required' => TRUE,
       'widget' => array(
-//        'type' => 'taxonomy_autocomplete',
         'type' => 'options_select',
         'weight' => -4,
       ),
@@ -87,15 +106,11 @@ function clio_install() {
     );
     field_create_instance($instance);
 
-  }
+  // Create a vocabulary "Countries", with fields ID, Code, Status and Short name.
 
-  // Create a vocabulary named "Countries", with fields ID, Code and Status.
-  if (!taxonomy_vocabulary_machine_name_load('countries')) {
-
-    $description = t('Countries.');
     $vocabulary = (object) array(
       'name' => t('Countries'),
-      'description' => $description,
+      'description' => t('Countries.'),
       'machine_name' => 'countries',
     );
     taxonomy_vocabulary_save($vocabulary);
@@ -163,11 +178,16 @@ function clio_install() {
       ),
     ));
     
-  }
-
-
-  // TODO Resource fields: link naar row-based CSV
-
+    field_create_instance(array(
+      'field_name' => 'field_shortname',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'countries',
+      'label' => "Short name",
+      'description' => t('An alternative, short name for display in e.g. select boxes.'),
+      'widget' => array(
+        'type' => 'text_textfield',
+      ),
+    ));
 }
 
 /**
@@ -180,35 +200,5 @@ function clio_uninstall() {
     field_attach_delete_bundle('taxonomy_term', $vocabulary);
   }
   // Vocabularies themselves are not deleted.
-}
-
-
-function clio_update_7000() {
-  $field = array(
-    'field_name' => 'field_country_id',
-    'settings' => array(
-      'max_length' => 10,
-    ),
-  );
-  field_update_field($field);
-
-  $field = array(
-    'field_name' => 'field_country_status',
-    'settings' => array(
-      'max_length' => 10,
-    ),
-  );
-  field_update_field($field);
-}
-
-
-function clio_update_7002() {
-  $instance_info = field_info_instance('taxonomy_term', 'field_country_id', 'countries');
-  $instance_info['settings']['text_processing'] = 0;
-  field_update_instance($instance_info);
-
-  $instance_info = field_info_instance('taxonomy_term', 'field_country_status', 'countries');
-  $instance_info['settings']['text_processing'] = 0;
-  field_update_instance($instance_info);
 }
 

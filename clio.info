@@ -3,4 +3,5 @@ description = Base module for Clio Infra, defining fields, views and vocabularie
 core = 7.x
 package = Clio Infra
 version = 7.x-1.0
+dependencies[] = clio_dataset
 

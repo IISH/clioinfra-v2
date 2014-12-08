@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Clio Resource Overrides feature.
+ */
+
+include_once 'clio_resource_overrides.features.inc';

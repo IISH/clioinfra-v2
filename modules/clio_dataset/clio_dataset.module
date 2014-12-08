@@ -1,0 +1,595 @@
+<?php
+
+/**
+ * This module provides all functions related to dataset and resource management.
+ */
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Make sure this is executed after dkan_dataset.
+ */
+function clio_dataset_module_implements_alter(&$implementations, $hook) {
+  if ($hook = 'form_alter') {
+    if (isset($implementations['clio_dataset'])) {
+      $group = $implementations['clio_dataset'];
+      unset($implementations['clio_dataset']);
+      $implementations['clio_dataset'] = $group;
+    }
+  }
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function clio_dataset_menu() {
+  $items['admin/config/clio/manage'] = array(
+    'title' => 'Clio Infra management',
+    'description' => t('Manage Clio Infra indicators, datasets and resources'),
+    'page callback' => 'clio_dataset_management_page',
+    'access arguments' => array('administer clioinfra'),
+  );
+  $items['admin/config/clio/manage/load'] = array(
+    'title' => 'Load indicators',
+    'description' => t('Load Clio Infra indicators in management table.'),
+    'page callback' => 'clio_dataset_load_indicators',
+    'access arguments' => array('administer clioinfra'),
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function clio_dataset_permission() {
+  return array(
+    'administer clioinfra' => array(
+      'title' => t('Administer Clio Infra indicators, datasets and resources'),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Autofill title with indicator name from querystring if available.
+ * Change the indicator selector for datasets:
+ *   Allow one dataset per indicator.
+ *   Do not allow topics, only indicators (child terms).
+ */
+function clio_dataset_form_dataset_node_form_alter(&$form, $form_state, $form_id) {
+  // Fix and hide an already chosen indicator, and fix the title.
+  if (!empty($form['field_indicator']['und']['#default_value'])) {
+    if (($tid = $form['field_indicator']['und']['#default_value'][0]) && is_numeric($tid)) {
+      $form['field_indicator']['und']['#type'] = 'value';
+      $form['field_indicator']['und']['#value'] = $tid;
+      $form['title']['#disabled'] = TRUE;
+      return;
+    }
+  }
+  // Find the available indicators.
+  $options = clio_dataset_get_indicator_selectlist();
+  if ($query = drupal_get_query_parameters()) {
+    if (isset($query['indicator']) && is_numeric($query['indicator'])) {
+      $tid = $query['indicator'];
+      $name = '';
+      foreach ($options as $children) {
+        // Term is indicator and not taken.
+        if (isset($children[$tid])) {
+          $name = $children[$tid];
+          break;
+        }
+      }
+      if ($name) {
+        // Autofill the title with the name of the indicator from the querystring.
+        $form['title']['#default_value'] = $name;
+        $form['title']['#disabled'] = TRUE;
+        // Hide the chosen indicator.
+        $form['field_indicator']['und']['#type'] = 'value';
+        $form['field_indicator']['und']['#value'] = $tid;
+        return;
+      }
+    }
+  }
+  // Let the user choose from the available indicators.
+  $form['field_indicator']['und']['#options'] = $options;
+  $form['field_indicator']['und']['#empty_option'] = "- Select -";
+}
+
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Simplify the resource edit form.
+ */
+function clio_dataset_form_resource_node_form_alter(&$form, $form_state, $form_id) {
+  // Remove recline views, delimiter and embed options.
+  unset($form['field_upload']['und'][0]['view']);
+  unset($form['field_upload']['und'][0]['embed']);
+  unset($form['field_upload']['und'][0]['delimiter']);
+  // Move Upload tab to the front.
+  $form['#fieldgroups']['group_upload']->weight    = 1;
+  $form['#fieldgroups']['group_link_file']->weight = 2;
+  $form['#fieldgroups']['group_link_api']->weight  = 3;
+  // TODO Make Upload default.
+
+  // Remove the Add another resource button.
+  unset($form['actions']['another']);
+
+  // If a resource is being created from the dataset form:
+  if (($dataset_nid = $form['field_dataset_ref']['und']['#default_value']) && is_numeric($dataset_nid)) {
+    // Auto fill title with name of dataset.
+    $node = node_load($dataset_nid);
+    $form['title']['#default_value'] = $node->title;
+    /* The following does not work after a file upload (which is ajaxified by dkan_forms.js). 
+     * Title and dataset_ref will be empty.
+     * Related? https://www.drupal.org/node/410926
+    $form['title']['#disabled'] = TRUE;
+    // Hide dataset_ref.
+    $form['field_dataset_ref']['und']['#type'] = 'value';
+    $form['field_dataset_ref']['und']['#value'] = $dataset_nid;
+    */
+  }
+  elseif (isset($form['field_dataset_ref']['und']['#default_value'][0])) {
+    // Existing resource with chosen dataset:
+    if (($dataset_nid = $form['field_dataset_ref']['und']['#default_value'][0]) && is_numeric($dataset_nid)) {
+      $form['title']['#disabled'] = TRUE;
+      // Hide dataset_ref.
+      $form['field_dataset_ref']['und']['#type'] = 'value';
+      $form['field_dataset_ref']['und']['#value'] = $dataset_nid;
+    }
+  }
+}
+
+
+/**
+ * Implements hook_taxonomy_term_insert.
+ *
+ * When creating a new indicator add a corresponding row to the clio table.
+ */
+function clio_dataset_taxonomy_term_insert($term) {
+  $vocab = taxonomy_vocabulary_machine_name_load('indicators');
+  if ($term->vid == $vocab->vid) {
+    if (!isset($term->parent[0])) { // This is an indicator (not a topic).
+      $row = new stdClass();
+      $row->itid = $term->tid;
+      $row->iname = $term->name;
+      drupal_write_record('clio', $row);
+      watchdog('clio', 'Indicator %name added to the Clio Infra management table.', array('%name' => $term->name));
+    }
+  }
+}
+
+
+/**
+ * Implements hook_taxonomy_term_delete.
+ *
+ * When deleting an indicator delete all corresponding clio nodes,
+ * and delete the corresponding row from the clio table.
+ */
+function clio_dataset_taxonomy_term_delete($term) {
+  $vocab = taxonomy_vocabulary_machine_name_load('indicators');
+  if ($term->vid == $vocab->vid) {
+    $result = db_query("SELECT itid FROM {clio} WHERE itid = :itid", array(':itid' => $term->tid));
+    if ($result && ($row = $result->fetchAssoc()) && $row['itid']) {
+      // Delete all corresponding nodes if necessary.
+      clio_dataset_delete($term->tid, 'indicator');
+    }
+  }
+}
+
+
+/*
+//  TODO Compute these fields :
+//    Version                  = version number, calculated from revision
+//    Variable group(s)        = topic, computed from indicator
+//    Variable(s)              = field_indicator (Indicator)
+function clio_dataset_node_view($node, $view_mode, $langcode) {
+  if ($view_mode == 'full') { // print?
+    if ($node->type == 'dataset') {
+      $node->content['version_number'] = array(
+        "#markup" => '<div>Version number</div>',
+        "#weight" => 100
+      );  
+    }
+    elseif ($node->type == 'resource') {
+      // display version number (count number of revisions?) or date?
+    }
+  }    
+}
+*/
+
+
+
+/**
+ * Implements hook_node_insert.
+ */
+function clio_dataset_node_insert($node) {
+  // Update the management table.
+  clio_dataset_update_table($node);
+}
+
+
+/**
+ * Implements hook_node_update.
+ */
+function clio_dataset_node_update($node) {
+  // Update the management table.
+  clio_dataset_update_table($node);
+}
+
+
+/**
+ * Update the management table.
+ *
+ * @param $node
+ *   A node object.
+ */
+function clio_dataset_update_table($node) {
+  if ($node->type == 'dataset') {
+    if (!empty($node->field_indicator['und'])) {
+    // Create or update PDF version.
+    $filepath = clio_dataset_create_working_paper($node); // URI
+    // Update PDF filename and timestamp.
+      $query = db_update('clio')->condition('itid', $node->field_indicator['und'][0]['tid']);
+      $query->fields(array('dnid' => $node->nid, 'print_time' => $node->changed, 'print_name' => $filepath));
+      $query->execute();
+    // TODO What if the indicator changes? What happens to the resources?
+    }
+  }
+  elseif ($node->type == 'resource') {
+    if (!empty($node->field_dataset_ref['und'])) {
+      $dnid = $node->field_dataset_ref['und'][0]['target_id'];
+      $result = db_query("SELECT * FROM {clio} WHERE dnid = :dnid", array(':dnid' => $dnid));
+      if ($result) {
+        $row = $result->fetchAssoc();
+        if (!isset($row['rnid']) || ($node->nid == $row['rnid'])) {
+          // New resource or update of original resource.
+          $query = db_update('clio')->condition('dnid', $dnid);
+          $query->fields(array('rnid' => $node->nid, 'upload_time' => $node->changed));
+          $query->execute();
+        }
+        elseif (!isset($row['cnid']) || ($node->nid == $row['cnid'])) {
+          // New converted resource or update of converted resource.
+          $query = db_update('clio')->condition('dnid', $dnid);
+          $query->fields(array('cnid' => $node->nid, 'convert_time' => $node->changed));
+          $query->execute();
+        }
+      }
+    }
+  }
+}
+
+
+// TODO What to do with revisions?
+
+
+/**
+ * Delete datastore table, if present.
+ *
+ * See DkanDatastore->dropForm
+ */
+function clio_dataset_datastore_delete($nid) {
+// TODO feeds will delete the config from feeds_source before we can do anything.
+/*
+  $node = node_load($nid);
+  $datastore = dkan_datastore_go($node->uuid);
+  if ($datastore && $datastore->importerId) {
+    $source = $datastore->source;
+    drupal_set_message('Source id: '. $source->id);
+    $table_name = feeds_flatstore_processor_table_name($source->id, $source->feed_nid);
+    $table = data_get_table($table_name);
+    if ($table) {
+      $table->drop();
+    }
+    elseif (db_table_exists($table_name)) {
+      db_drop_table($table_name);
+    }
+  }
+*/
+}
+
+
+/**
+ * Implements hook_entity_delete.
+ */
+function clio_dataset_entity_delete($entity, $type) {
+  if ($type == 'node') {
+    if ($entity->type == 'dataset') {
+      clio_dataset_delete($entity->nid, 'dataset');
+    }
+    elseif ($entity->type == 'resource') {
+      clio_dataset_delete($entity->nid, 'resource_or_convert');
+    }
+  }
+}
+
+
+/**
+ * Delete all clio nodes corresponding to an indicator, dataset or resource,
+ * and delete all values in the corresponding row from the clio table.
+ *
+ * @param $id
+ *   A nid or tid, depending on $level.
+ * @param $level
+ *   String specifying from which level down entities should be deleted.
+ */
+function clio_dataset_delete($id, $level) {
+  $query = db_select('clio', 'c');
+  $query->fields('c');
+  switch ($level) {
+    case 'indicator':
+      $query->condition('c.itid', $id, '=');
+      break;
+    case 'dataset':
+      $query->condition('c.dnid', $id, '=');
+      break;
+    case 'resource_or_convert':
+      // We don't know yet if this is an original or converted resource.
+      $query->condition(db_or()->condition('c.rnid', $id, '=')->condition('c.cnid', $id, '=') );
+      break;
+  }
+  $result = $query->execute();
+  if ($row = $result->fetchAssoc()) {
+    if ($level == 'resource_or_convert') {
+      $level = ($row['rnid'] == $id) ? 'resource' : 'convert';
+    }
+    clio_dataset_delete_entity($row, $level);
+  }
+  else {
+    // entity not related.
+  }
+}
+
+
+/**
+ * Delete underlying entities and management table fields.
+ * Order: indicator > dataset > resource > converted resource > imported datastore table
+ *
+ * @param $row
+ *   A row array cotaining values from the clio management table.
+ * @param $level
+ *   String specifying from which level down entities should be deleted.
+ */
+function clio_dataset_delete_entity($row, $level) {
+  $query = db_update('clio')->condition('itid', $row['itid']);
+  switch ($level) {
+    case 'indicator':
+      if (isset($row['dnid'])) {
+        // Delete dataset.
+        node_delete($row['dnid']);
+      }
+      // Delete whole row.
+      db_delete('clio')->condition('itid', $row['itid'])->execute();
+      watchdog('clio', 'Indicator %name deleted from the Clio Infra management table.', array('%name' => $row['itid']));
+      break;
+    case 'dataset':
+      if (isset($row['rnid'])) {
+        // Delete resource.
+        node_delete($row['rnid']);
+      }
+      // Delete PDF.
+      file_unmanaged_delete($row['print_name']);
+      $query->fields(array('dnid' => NULL, 'print_time' => NULL, 'print_name' => NULL))->execute();
+      break;
+    case 'resource':
+      if (isset($row['cnid'])) {
+        // Delete converted resource.
+        node_delete($row['cnid']);
+      }
+      $query->fields(array('rnid' => NULL, 'upload_time' => NULL))->execute();
+      break;
+    case 'convert':
+      // Delete datastore table if necessary.
+      clio_dataset_datastore_delete($row['cnid']);
+      $query->fields(array('cnid' => NULL, 'convert_time' => NULL))->execute();
+      break;
+  }
+}
+
+
+/**
+ * Show the Clio Infra management page.
+ *
+ * Dataset  = metadata
+ * Resource = XLS
+ * Convert  = CSV
+ * Import   = datastore
+ */
+function clio_dataset_management_page() {
+  $rows = array();
+  $result = db_query("SELECT * FROM {clio} ORDER BY iname ASC");
+  if ($result) {
+    while ($row = $result->fetchAssoc()) {
+      // Indicator.
+      $indicator = l($row['iname'], 'taxonomy/term/' . $row['itid']);
+      // Dataset.
+      if (isset($row['dnid'])) {
+        $dataset = l(t('Edit'), 'node/' . $row['dnid'] . '/edit');
+      }
+      else {
+        $dataset = l(t('Add dataset'), 'node/add/dataset', array('query' => array('indicator' => $row['itid'])));
+      }
+      // Resource.
+      $resource = NULL;
+      if (isset($row['rnid'])) {
+        $resource = l(t('Edit'), 'node/' . $row['rnid'] . '/edit', array('query' => array('destination' => 'admin/config/clio/manage')));
+      }
+      elseif (isset($row['dnid'])) {
+        $resource = l(t('Add resource'), 'node/add/resource', array('query' => array('dataset' => $row['dnid'], 'destination' => 'admin/config/clio/manage')));      
+      }
+      // Convert resource.
+      $convert = NULL;
+      if (isset($row['cnid'])) {
+        if ($row['convert_time'] > $row['upload_time']) {
+          $convert = 'ok';
+        }
+        else {
+          $convert = l(t('Update'), 'node/' . $row['rnid'] . '/clio', array('query' => array('destination' => 'admin/config/clio/manage')));
+        }
+      }
+      elseif (isset($row['rnid'])) {
+        $node = node_load($row['rnid']);
+        if (clio_convert_convert_access($node)) {
+          $convert = l(t('Convert'), 'node/' . $row['rnid'] . '/clio', array('query' => array('destination' => 'admin/config/clio/manage')));
+        }
+      }
+      // Import resource.
+      $import = NULL;
+      $import_time = NULL;
+      if (isset($row['cnid'])) {
+        $import_time = db_query("SELECT imported FROM {feeds_source} WHERE feed_nid = :nid", array(':nid' => $row['cnid']))->fetchField();
+      }
+      if (!empty($import_time)) {
+        if ($import_time > $row['convert_time']) {
+          $import = 'ok';
+        }
+        else {
+          $import = l(t('Update'), 'node/' . $row['cnid'] . '/datastore/import', array('query' => array('destination' => 'admin/config/clio/manage')));
+        }
+      }
+      elseif (isset($row['cnid'])) {
+        $node = node_load($row['cnid']);
+        if (dkan_datastore_feeds_access('import', $node)) {
+          $import = l(t('Import'), 'node/' . $row['cnid'] . '/datastore/import', array('query' => array('destination' => 'admin/config/clio/manage')));
+        }
+      }
+      $rows[] = array(
+        $indicator,
+        $dataset,
+        $resource, 
+        $convert, 
+        $import, 
+      );
+    }
+  }
+  $variables = array();
+  $variables['header'] = array('Indicator', 'Metadata', 'Data file', 'Convert', 'Import');
+  $variables['rows'] = $rows;
+  $variables['empty'] = t('No indicators available.');    
+  $table = theme('table', $variables);
+  $link = l(t('Add indicator'), 'admin/structure/taxonomy/indicators/add', array('query' => array('destination' => 'admin/config/clio/manage')));
+  return $table . $link;
+}
+
+
+/**
+ * Helper function to insert all (newly) available indicators into the management table.
+ */
+function clio_dataset_load_indicators() {
+  $itids = array();
+  $result = db_query("SELECT * FROM {clio}");
+  if ($result) {
+    while ($row = $result->fetchAssoc()) {
+      $itids[$row['itid']] = TRUE;
+    }
+  }
+  $vocabulary = taxonomy_vocabulary_machine_name_load('indicators');
+  $tree = taxonomy_get_tree($vocabulary->vid);
+  foreach ($tree as $term) {
+    if (!array_key_exists($term->tid, $itids)) {
+      if ($term->depth > 0) { // This is an indicator (not a topic).
+        $row = new stdClass();
+        $row->itid = $term->tid;
+        $row->iname = $term->name;
+        drupal_write_record('clio', $row);
+        watchdog('clio', 'Indicator %name added to the Clio Infra management table.', array('%name' => $term->name));
+        $itids[$term->tid] = TRUE;
+      }
+    }
+  }
+  return "Done. " . l(t('Back to management page'), 'admin/config/clio/manage');
+}
+
+
+/**
+ * Remove a few elements from the printed PDF.
+ */
+function clio_dataset_process_print(&$variables) {
+  $variables['print_logo'] = NULL;
+  $variables['print_published'] = NULL;
+  $variables['sourceurl_enabled'] = FALSE;
+}
+
+
+/**
+ * Save a PDF version of a dataset node as file.
+ *
+ * @param $node
+ *   A node object.
+ *
+ * @return
+ *  The file uri.
+ */
+function clio_dataset_create_working_paper($node) {
+  // Call print_pdf function to generate PDF content string.
+  module_load_include('inc', 'print_pdf', 'print_pdf.pages');
+  // Content will be cached, max 7 days.
+  if ($data = print_pdf_generate_path($node->nid)) {
+    $title = (function_exists('transliteration_clean_filename')) ? transliteration_clean_filename($node->title) : $node->title;
+    $destination = 'public://clio/metadata/' . $title . '.pdf';
+    return file_unmanaged_save_data($data, $destination, FILE_EXISTS_REPLACE);
+  }
+  else {
+    drupal_set_message(t('The PDF version of this dataset could not be generated.'), 'error');
+    watchdog('clio', 'The PDF version of dataset %nid could not be generated.', array('%nid' => $node->nid), WATCHDOG_ERROR);
+  }
+}
+
+
+/**
+ * Get indicators in a hierarchical array, so we can show the topics as (non-selectable) optgroups.
+ */
+function clio_dataset_get_indicator_selectlist() {
+  $options = array();
+  $vocabulary = taxonomy_vocabulary_machine_name_load('indicators');
+  $tree = _taxonomy_get_nested_tree($vocabulary->vid);
+  foreach ($tree as $item) {
+    if ($item->children) {
+      $options_children = array();
+      foreach ($item->children as $child_item) {
+        // N.B. This will select all nodetypes, not just datasets:
+        $term_taken = taxonomy_select_nodes($child_item->tid, TRUE, 1);
+        if (!$term_taken) {
+          $options_children[$child_item->tid] = $child_item->name;
+        }
+      }
+      if ($options_children) {
+        // Show topic as optgroup.
+        $options[$item->name] = $options_children;
+      }
+    }
+  }
+  return $options;
+}
+
+
+/**
+ * Get a vocabulary as a hierarchical array.
+ * https://api.drupal.org/comment/50023#comment-50023
+ */
+function _taxonomy_get_nested_tree($vid_or_terms, $max_depth = NULL, $parent = 0, $parents_index = array(), $depth = 0) {
+  if (!is_array($vid_or_terms)) {
+    $vid_or_terms = taxonomy_get_tree($vid_or_terms);
+  }
+  foreach ($vid_or_terms as $term) {
+    foreach ($term->parents as $term_parent) {
+      if ($term_parent == $parent) {
+        $return[$term->tid] = $term;
+      }
+      else {
+        $parents_index[$term_parent][$term->tid] = $term;
+      }
+    }
+  }
+  foreach ($return as &$term) {
+    if (isset($parents_index[$term->tid]) && (is_null($max_depth) || $depth < $max_depth)) {
+      $term->children = _taxonomy_get_nested_tree($parents_index[$term->tid], $max_depth, $term->tid, $parents_index, $depth + 1);
+    }
+  }
+  return $return;
+}
+
