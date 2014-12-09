@@ -131,4 +131,12 @@ libraries[tcpdf][directory_name] = tcpdf
 
 projects[schema][subdir] = contrib
 
+; until the pull request is accepted, see https://github.com/NuCivic/feeds_flatstore_processor/pull/2
+projects[feeds_flatstore_processor][download][type] = git
+projects[feeds_flatstore_processor][download][url] = "https://github.com/eindgebruiker/feeds_flatstore_processor.git"
+projects[feeds_flatstore_processor][download][branch] = master
+projects[feeds_flatstore_processor][subdir] = contrib
+projects[feeds_flatstore_processor][type] = module
+
+
 
