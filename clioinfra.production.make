@@ -5,7 +5,8 @@ api = 2
 ; Core
 
 projects[drupal][type] = core
-projects[drupal][version] = 7.x
+; the latest release
+projects[drupal][version] = 7.34
 
 ; Clio custom modules
 
@@ -16,6 +17,10 @@ projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/clioinfra-v2.git
 projects[clio][download][branch] = master
 
+; Clio dev modules
+;
+;projects[xhprof][subdir] = dev
+;
 ; Clio required modules
 
 projects[better_exposed_filters][subdir] = contrib 
@@ -34,7 +39,7 @@ projects[term_reference_tree][version] = 1.10
 projects[uuid_features][subdir] = contrib 
 projects[uuid_features][version] = 1.0-alpha4
 projects[views_expost][subdir] = contrib 
-projects[views_expost][version] = 1.1
+projects[views_expost][version] = 1.3
 projects[views_tree][subdir] = contrib 
 projects[views_tree][version] = 2.0
 
@@ -57,7 +62,7 @@ projects[google_analytics][version] = 1.4
 projects[login_destination][subdir] = contrib 
 projects[login_destination][version] = 1.1
 projects[menu_block][subdir] = contrib 
-projects[menu_block][version] = 2.3
+projects[menu_block][version] = 2.4
 projects[menu_trail_by_path][subdir] = contrib 
 projects[menu_trail_by_path][version] = 2.0
 projects[pathauto][subdir] = contrib 
@@ -111,9 +116,29 @@ libraries[jquery.cycle][download][type] = git
 libraries[jquery.cycle][download][url] = https://github.com/malsup/cycle.git
 libraries[jquery.cycle][directory_name] = jquery.cycle
 
+libraries[ckeditor][type] = libraries
+libraries[ckeditor][download][type] = git
+libraries[ckeditor][download][url] = https://github.com/ckeditor/ckeditor-releases.git
+libraries[ckeditor][download][branch] = "4.4.x"
+libraries[ckeditor][directory_name] = ckeditor
 
-; overwrite
+libraries[tcpdf][type] = libraries
+libraries[tcpdf][download][type] = "git"
+libraries[tcpdf][download][url] = "git@atlassian-bamboo-be0.socialhistoryservices.org:tcpdf.git"
+libraries[tcpdf][download][branch] = "6.1.0"
+libraries[tcpdf][directory_name] = tcpdf
 
+; Overwrites
+
+; until schema 1.2 is included in dkan_datastore.make
 projects[schema][subdir] = contrib
+
+; until the pull request is accepted, see https://github.com/NuCivic/feeds_flatstore_processor/pull/2
+projects[feeds_flatstore_processor][download][type] = git
+projects[feeds_flatstore_processor][download][url] = "https://github.com/eindgebruiker/feeds_flatstore_processor.git"
+projects[feeds_flatstore_processor][download][branch] = master
+projects[feeds_flatstore_processor][subdir] = contrib
+projects[feeds_flatstore_processor][type] = module
+
 
 
