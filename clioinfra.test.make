@@ -6,7 +6,7 @@ api = 2
 
 projects[drupal][type] = core
 ; the latest release
-projects[drupal][version] = ~
+projects[drupal][version] = 7.34
 
 ; Clio custom modules
 
