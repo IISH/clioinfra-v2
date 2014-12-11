@@ -18,8 +18,8 @@ function clio_convert_menu() {
   // Add tab to resource.
   $items['node/%node/clio'] = array(
     'title' => 'Convert',
-    'page callback' => 'clio_convert_page',
-    'page arguments' => array(1),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clio_convert_form', 1),
     'access callback' => 'clio_convert_convert_access',
     'access arguments' => array(1),
     'weight' => '14', // Before datastore tab.
@@ -104,13 +104,17 @@ function clio_convert_status($node) {
 
 
 /*
- * TODO Check arg input
- * TODO Theme page
- *
+ * Show the convert action.
  */
-function clio_convert_page($node) {
-  return l(t('Convert'), 'node/' . $node->nid . '/clio/convert');
+function clio_convert_form($form, &$form_state, $node) {
+  $form['#action'] = url('node/' . $node->nid . '/clio/convert');
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Convert'),
+  );
+  return $form;
 }
+
 
 /**
  * Convert and create a new resource.
