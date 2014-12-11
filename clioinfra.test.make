@@ -5,7 +5,8 @@ api = 2
 ; Core
 
 projects[drupal][type] = core
-projects[drupal][version] = 7.x
+; the latest release
+projects[drupal][version] = ~
 
 ; Clio custom modules
 
@@ -38,7 +39,7 @@ projects[term_reference_tree][version] = 1.10
 projects[uuid_features][subdir] = contrib 
 projects[uuid_features][version] = 1.0-alpha4
 projects[views_expost][subdir] = contrib 
-projects[views_expost][version] = 1.1
+projects[views_expost][version] = 1.3
 projects[views_tree][subdir] = contrib 
 projects[views_tree][version] = 2.0
 
@@ -61,7 +62,7 @@ projects[google_analytics][version] = 1.4
 projects[login_destination][subdir] = contrib 
 projects[login_destination][version] = 1.1
 projects[menu_block][subdir] = contrib 
-projects[menu_block][version] = 2.3
+projects[menu_block][version] = 2.4
 projects[menu_trail_by_path][subdir] = contrib 
 projects[menu_trail_by_path][version] = 2.0
 projects[pathauto][subdir] = contrib 
@@ -127,8 +128,9 @@ libraries[tcpdf][download][url] = "git@atlassian-bamboo-be0.socialhistoryservice
 libraries[tcpdf][download][branch] = "6.1.0"
 libraries[tcpdf][directory_name] = tcpdf
 
-; overwrite
+; Overwrites
 
+; until schema 1.2 is included in dkan_datastore.make
 projects[schema][subdir] = contrib
 
 ; until the pull request is accepted, see https://github.com/NuCivic/feeds_flatstore_processor/pull/2
