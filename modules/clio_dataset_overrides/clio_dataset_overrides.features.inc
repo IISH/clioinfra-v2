@@ -128,13 +128,3 @@ function clio_dataset_overrides_field_default_field_instances_alter(&$data) {
     $data['node-dataset-field_temporal_coverage']['widget']['weight'] = 11; /* WAS: 15 */
   }
 }
-
-/**
- * Implements hook_strongarm_alter().
- */
-function clio_dataset_overrides_strongarm_alter(&$data) {
-  if (isset($data['field_bundle_settings_node__dataset'])) {
-    $data['field_bundle_settings_node__dataset']->value['extra_fields']['display']['identifier']['default']['weight'] = 8; /* WAS: 9 */
-    $data['field_bundle_settings_node__dataset']->value['extra_fields']['form']['title']['weight'] = 6; /* WAS: 1 */
-  }
-}

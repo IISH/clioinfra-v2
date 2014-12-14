@@ -79,9 +79,5 @@ function clio_dataset_overrides_features_override_default_overrides() {
   $overrides["field_instance.node-dataset-field_temporal_coverage.widget|type"] = 'date_text';
   $overrides["field_instance.node-dataset-field_temporal_coverage.widget|weight"] = 11;
 
-  // Exported overrides for: variable
-  $overrides["variable.field_bundle_settings_node__dataset.value|extra_fields|display|identifier|default|weight"] = 8;
-  $overrides["variable.field_bundle_settings_node__dataset.value|extra_fields|form|title|weight"] = 6;
-
  return $overrides;
 }
