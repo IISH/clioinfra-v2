@@ -24,7 +24,7 @@ projects[clio][download][branch] = master
 ; Clio required modules
 
 projects[better_exposed_filters][subdir] = contrib 
-projects[better_exposed_filters][version] = 3.0-beta4
+projects[better_exposed_filters][version] = 3.0
 projects[dkan_dataset][subdir] = contrib 
 projects[dkan_dataset][version] = 1.5
 projects[dkan_datastore][subdir] = contrib 
@@ -139,6 +139,3 @@ projects[feeds_flatstore_processor][download][url] = "https://github.com/eindgeb
 projects[feeds_flatstore_processor][download][branch] = master
 projects[feeds_flatstore_processor][subdir] = contrib
 projects[feeds_flatstore_processor][type] = module
-
-
-
