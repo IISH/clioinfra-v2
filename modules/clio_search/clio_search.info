@@ -1,7 +1,0 @@
-name = Clio Search
-description = Search and download Clio Infra datasets
-core = 7.x
-package = Clio Infra
-version = 7.x-1.0
-dependencies[] = clio
-

@@ -9,8 +9,8 @@ set -e
 
 instance=$1
 if [ -z "$instance" ] ; then
-	echo "Need a name of the project build."
-	exit -1
+	instance="clioinfra"
+	echo "Default instance ${instance}"
 fi
 
 version=$2
@@ -32,10 +32,10 @@ if [ -d target ] ; then
 fi
 
 drush make --tar $makefile ./$target
+
 if [ -f $expect ] ; then
 	echo "Done."
 	exit 0
 else
-	echo "Build failed. No file found at $target."
-	exit -1
+	echo -e "Build failed. No file found at $target."
 fi
