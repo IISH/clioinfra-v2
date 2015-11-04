@@ -133,8 +133,8 @@ libraries[jquery.typeahead][directory_name] = jquery.typeahead
 
 libraries[jsonpath][type] = libraries
 libraries[jsonpath][download][type] = file
-libraries[jsonpaths][download][url] = https://jsonpath.googlecode.com/svn/trunk/src/php/jsonpath.php
-libraries[jsonpaths][download][filename] = jsonpath.php
+libraries[jsonpath][download][url] = https://jsonpath.googlecode.com/svn/trunk/src/php/jsonpath.php
+libraries[jsonpath][download][filename] = "jsonpath.php"
 libraries[jsonpath][directory_name] = jsonpath
 
 libraries[multiselect.js][type] = libraries
