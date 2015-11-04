@@ -6,7 +6,7 @@ api = 2
 
 projects[drupal][type] = core
 ; the latest release
-projects[drupal][version] = 7.39
+projects[drupal][version] = 7.41
 
 ; Clio custom modules
 
@@ -24,7 +24,7 @@ projects[ctools][version] = 1.9
 projects[entity][subdir] = contrib
 projects[entity][version] = 1.6
 projects[features][subdir] = contrib
-projects[features][version] = 2.6
+projects[features][version] = 2.7
 projects[feeds][subdir] = contrib 
 projects[feeds][version] = 2.x-dev
 projects[feeds_tamper][subdir] = contrib 
@@ -34,13 +34,13 @@ projects[feeds_ex][version] = 1.0-beta2
 projects[job_scheduler][subdir] = contrib
 projects[job_scheduler][version] = 2.0-alpha3
 projects[jquery_update][subdir] = contrib 
-projects[jquery_update][version] = 3.0-alpha2
+projects[jquery_update][version] = 3.0-alpha3
 projects[libraries][subdir] = contrib 
 projects[libraries][version] = 2.2
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = 2.0
 projects[uuid][subdir] = contrib 
-projects[uuid][version] = 1.0-alpha6
+projects[uuid][version] = 1.0-beta1
 projects[uuid_features][subdir] = contrib 
 projects[uuid_features][version] = 1.0-alpha4
 projects[views][subdir] = contrib
@@ -52,6 +52,8 @@ projects[backup_migrate][subdir] = contrib
 projects[backup_migrate][version] = 3.1
 projects[features_extra][subdir] = contrib 
 projects[features_extra][version] = 1.0-beta1
+projects[features_override][subdir] = contrib 
+projects[features_override][version] = 2.0-rc3
 projects[fontyourface][subdir] = contrib 
 projects[fontyourface][version] = 2.8
 projects[google_analytics][subdir] = contrib 
@@ -63,7 +65,7 @@ projects[menu_block][version] = 2.4
 projects[menu_trail_by_path][subdir] = contrib 
 projects[menu_trail_by_path][version] = 2.0
 projects[pathauto][subdir] = contrib 
-projects[pathauto][version] = 1.2
+projects[pathauto][version] = 1.3
 projects[token][subdir] = contrib
 projects[token][version] = 1.6
 projects[transliteration][subdir] = contrib 
