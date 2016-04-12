@@ -14,7 +14,7 @@ projects[clio][subdir] = custom
 projects[clio][version] = 4.x
 projects[clio][download][type] = git
 projects[clio][download][url] = git://github.com/IISH/drupal-module-clioinfra.git
-projects[clio][download][branch] = test
+projects[clio][download][branch] = master
 
 ; Clio required modules
 
