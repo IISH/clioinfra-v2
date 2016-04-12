@@ -81,7 +81,7 @@ projects[clio_site][subdir] = features
 projects[clio_site][version] = 1.4
 projects[clio_site][download][type] = git
 projects[clio_site][download][url] = git://github.com/IISH/drupal-feature-clioinfra.git
-projects[clio_site][download][branch] = master
+projects[clio_site][download][branch] = "test"
 
 ; Themes
 
@@ -90,7 +90,7 @@ projects[zen][version] = 5.5
 projects[clioinfra][type] = "theme"
 projects[clioinfra][download][type] = "git"
 projects[clioinfra][download][url] = "git://github.com/IISH/drupal-theme-clioinfra.git"
-projects[clioinfra][download][branch] = "master"
+projects[clioinfra][download][branch] = "test"
 
 ; Libraries
 
